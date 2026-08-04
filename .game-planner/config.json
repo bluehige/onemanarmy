@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "project_slug": "onemanarmy",
+  "game_title": "일인합격진: 검관을 끄는 남자",
+  "engine": "Godot 4.6.3",
+  "platforms": [
+    "Windows PC"
+  ],
+  "genre": "Cinematic Tactical Visual Novel / Hard-boiled Wuxia",
+  "created_at": "2026-08-05",
+  "current_phase": "FOUNDATION_APPROVAL_AND_PROTOTYPE_PREPARATION",
+  "canonical_documents": {
+    "game_contract": "docs/foundation/GAME_CONTRACT.md",
+    "risk_register": "docs/foundation/RISK_REGISTER.md",
+    "prototype_brief": "docs/foundation/PROTOTYPE_BRIEF.md",
+    "game_design_spec": "docs/design/GAME_DESIGN_SPEC.md",
+    "story_routes": "docs/design/STORY_ROUTE_ARCHITECTURE.md",
+    "formation": "docs/design/FORMATION_COMBAT_AND_CINEMATICS.md",
+    "ui_ux": "docs/ui/UI_UX_SPEC.md",
+    "technical": "docs/technical/GODOT_4_6_3_TECHNICAL_PLAN.md",
+    "production": "docs/production/VERTICAL_SLICE_PLAN.md"
+  },
+  "project_skills": [
+    "onemanarmy-production-router",
+    "onemanarmy-foundation",
+    "onemanarmy-story-route-director",
+    "onemanarmy-formation-director",
+    "onemanarmy-ui-ux",
+    "onemanarmy-godot-director"
+  ],
+  "planned_validation_commands": [
+    "${GODOT_BIN} --headless --editor --path . --quit-after 2",
+    "${GODOT_BIN} --headless --path . --script res://tests/test_runner.gd",
+    "${GODOT_BIN} --headless --path . --scene res://tests/scenes/test_boot.tscn --quit-after 120"
+  ],
+  "upstreams": {
+    "GamePlanner": "bluehige/GamePlanner@97fa93bcf6eeef15a24d9c15cae41c22d539ac0a",
+    "UI_UX_Skill_for_Game": "bluehige/UI_UX_Skill_for_Game@e609d0d4401657bec4cad650e9981e1edd9305df"
+  }
+}
