@@ -48,13 +48,29 @@
 
 상세 근거는 [`docs/00_PRODUCTION_PRIORITY.md`](docs/00_PRODUCTION_PRIORITY.md)를 따른다.
 
+## 콘셉트 아트 시작점
+
+다음 세션에서 이미지 생성 또는 콘셉트 수정을 할 때는 아래 문서를 순서대로 읽는다.
+
+1. [`docs/art/00_CONCEPT_ART_SOURCEBOOK.md`](docs/art/00_CONCEPT_ART_SOURCEBOOK.md) — 전체 시각 계약과 검수 기준
+2. [`docs/art/01_LEE_YEON_CHARACTER_BIBLE.md`](docs/art/01_LEE_YEON_CHARACTER_BIBLE.md) — 이연 얼굴·체형·의상·포즈
+3. [`docs/art/02_SWORD_COFFIN_AND_108_SWORDS.md`](docs/art/02_SWORD_COFFIN_AND_108_SWORDS.md) — 검관, 12검대, 108검 전개
+4. [`docs/art/03_WORLD_VISUAL_LANGUAGE.md`](docs/art/03_WORLD_VISUAL_LANGUAGE.md) — 백야성, 색, 재질, 세력, 카메라
+5. [`docs/art/04_KEYFRAME_IMAGE_QUEUE.md`](docs/art/04_KEYFRAME_IMAGE_QUEUE.md) — 이미지 제작 우선순위와 장면별 요구
+6. [`docs/art/05_IMAGE_GENERATION_GUIDE.md`](docs/art/05_IMAGE_GENERATION_GUIDE.md) — 일관성 앵커와 생성 프롬프트
+7. [`assets/concept-art/README.md`](assets/concept-art/README.md) — 이미지 파일명, 상태, 검수 기록
+
+최초 이미지 순서는 `CA-001 이연 전신 → CA-002 검관 구조 → CA-003 12검대 → KF-001 관천협 108검`이다. 이연과 검관의 기준 이미지가 확정되기 전에 최종 전투 이미지를 대량 제작하지 않는다.
+
 ## 저장소 구조
 
 ```text
 .agents/skills/                     프로젝트 전용 Agent Skills
 .game-planner/config.json           GamePlanner 연결 설정
 .game-wiki/                         결정·상태·handoff
+assets/concept-art/                 생성 이미지와 검수 기록
 docs/
+├── art/                            캐릭터·검관·세계·키프레임 이미지 기준
 ├── foundation/                     게임 계약, 위험, 프로토타입
 ├── design/                         GDD, 스토리, 검진·연출
 ├── ui/                             화면 계약과 디자인 시스템
@@ -72,6 +88,8 @@ docs/
 4. 현재 요청과 직접 관련된 전용 Skill
 5. 관련 설계 문서
 
+이미지 생성 작업이면 `docs/art/00_CONCEPT_ART_SOURCEBOOK.md`를 우선 읽고, 대상에 맞는 아트 바이블과 키프레임 큐를 이어서 읽는다.
+
 현재는 런타임 코드가 없는 **기획·계약 단계**다. 첫 구현 작업은 전체 게임이 아니라 [`docs/foundation/PROTOTYPE_BRIEF.md`](docs/foundation/PROTOTYPE_BRIEF.md)의 `EXP-001`이어야 한다.
 
 ## 전용 스킬
@@ -86,7 +104,9 @@ docs/
 ## 현재 판정
 
 - Foundation 초안: **완료, 사용자 검토 필요**
+- 콘셉트 아트 기준 소스: **작성 완료, 이미지 생성 전**
 - 핵심 재미 프로토타입: **미착수**
 - 전체 시나리오 집필: **프로토타입 전 착수 금지**
 - Godot 프로젝트 코드: **미생성**
-- 다음 안전 작업: `EXP-001` 작업 계약 작성 및 프로토타입 구현
+- 다음 아트 작업: `CA-001` 이연 전신 키시트
+- 다음 개발 작업: `EXP-001` 작업 계약 작성 및 프로토타입 구현
