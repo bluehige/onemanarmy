@@ -1,112 +1,128 @@
 ---
 name: onemanarmy-foundation
-description: Protect and refine the game-specific foundation of One-Man Formation: Lee Yeon's power fantasy, 108-sword identity, hard-boiled tone, meaningful decisions, scope, and prototype gates.
+description: Protect and refine the visual-novel foundation of One-Man Formation: Lee Yeon's completed power fantasy, 108-sword cinematic identity, hard-boiled tone, non-failing emotional interactions, multi-route choices, scope, and prototype gates.
 ---
 
 # Onemanarmy Foundation
 
 ## Read first
 
+- `docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md`
 - `docs/foundation/GAME_CONTRACT.md`
-- `docs/foundation/RISK_REGISTER.md`
 - `docs/foundation/PROTOTYPE_BRIEF.md`
-- `docs/00_PRODUCTION_PRIORITY.md`
-
-Use the generic `game-foundation-director` only for missing foundational decisions. Do not copy its generic questionnaire into project outputs.
+- `.game-wiki/current-state.md`
 
 ## One-line contract
 
-The player directs an already-complete hard-boiled fixer who controls 108 swords as twelve disciplined units, and chooses what kind of victory his overwhelming power will create.
+The player inhabits the gaze, decision, and responsibility of an already-complete fixer whose 108 swords turn narrative choices into cinematic consequences.
 
 ## Non-negotiable pillars
 
+- visual novel first
 - one man is a formation
-- power is preserved; objectives are difficult
-- hard-boiled means price and personal code
+- power is preserved; principles and costs differ
+- interaction supports emotion and never tests combat skill
+- hard-boiled means personal code and lasting consequence
 - each route is a different complete victory
 
-Every new system, scene, character, or feature must connect to at least one pillar. Major features should connect to two.
+## Genre audit
+
+Reject or revise if a proposal includes:
+
+- manual combat
+- tactical placement
+- HP, damage, cooldown, combo
+- QTE or timing success
+- equipment or squad progression
+- strategy dashboard during dialogue
+- input failure changing the story
 
 ## Power audit
 
-For any proposal, answer:
+1. Does Lee Yeon look competent before the choice?
+2. Is the tension a conflict of priorities rather than inability?
+3. Does the 108-sword cinematic express the chosen principle?
+4. Does the aftermath remain after the spectacle?
+5. Would the scene still work with a generic swordsman? If yes, strengthen the 108-sword or personal-code function.
 
-1. Does Lee Yeon look capable before the choice?
-2. Is the tension caused by conflicting objectives rather than inability?
-3. Does the 108-sword system solve the problem in a unique way?
-4. Does the consequence remain after he wins?
-5. Would the same scene work with an ordinary swordsman? If yes, redesign.
+## Interaction audit
+
+An interaction is allowed only when:
+
+- it embodies gaze, restraint, intent, recall, or responsibility
+- it has no fail state
+- it has no score or timing bonus
+- it lasts under 20 seconds
+- it has an accessible alternative input
+- replay can skip or auto-complete it
+- the narrative choice remains explicit
 
 ## 108-sword audit
 
-Reject or revise if:
+Revise if:
 
 - swords behave as a random swarm
-- the player cannot tell why a sword group moved
-- all formations are damage skills
-- the sword case is only decoration
-- full deployment is saved only for the ending
-- the protagonist repeatedly loses control for drama
-- an enemy invalidates all swords through a simple counter
+- full deployment is hidden until late game
+- all formations are damage attacks
+- the player must arrange the swords manually
+- the sword coffin is decoration only
+- Lee Yeon repeatedly loses control
+- a simple counter invalidates all swords
 
 ## Hard-boiled audit
 
-A scene passes only if it has at least two of the following:
+A scene should contain at least two:
 
-- corrupt or compromised institution
-- Lee Yeon's personal rule
-- an immediate practical choice
+- compromised institution
+- personal rule
+- practical choice
+- transaction, debt, betrayal, or responsibility
 - violence with visible aftermath
-- a cost that cannot be fully repaired
+- cost that cannot be fully repaired
 - emotion shown through action
-- a deal, debt, betrayal, or responsibility
-- a short line before irreversible action
+- short line before an irreversible act
 
-Rain, darkness, blood, alcohol, and silence do not count by themselves.
+Rain, alcohol, blood, and silence do not count by themselves.
 
-## Scope audit
+## Scope
 
 Current release excludes:
 
 - open world
-- real-time player-character action combat
+- action or turn-based combat
+- tactical grid
 - gear farming
+- squad decks
 - 108 individual inventory slots
 - romance-route structure
-- mobile launch
 - online features
-- full voice acting as a prerequisite
-- 108 long character subplots
-
-New scope must identify content cost, technical risk, and which current deliverable it displaces.
-
-## Decision mode
-
-When the user has already chosen, synthesize rather than ask again. When a missing decision blocks the prototype, choose the most conservative reversible assumption and mark it `PENDING`.
+- full voice as a prerequisite
 
 ## Required output
 
-For foundation work, update or produce:
+For foundation work:
 
 - decision statement
 - affected pillar
 - player-facing result
 - forbidden interpretation
-- prototype impact
-- release-scope impact
+- interaction impact
+- story and cinematic impact
+- scope impact
 - unresolved owner decision
 
 ## Exit gate
 
 ```yaml
 foundation_exit:
+  visual_novel_primary: true
+  manual_combat: false
   protagonist_power_preserved: true
-  full_108_swords_visible_early: true
-  core_loop_defined: true
+  full_108_visible_early: true
+  non_failing_interactions_only: true
   route_principles_defined: true
   hardboiled_cost_defined: true
   out_of_scope_defined: true
   prototype_question_defined: true
-  redesign_and_kill_criteria_defined: true
-  user_approval: pending_or_approved
+  owner_approval: pending_or_approved
 ```
