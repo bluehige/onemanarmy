@@ -9,7 +9,7 @@
   "genre": "Hard-boiled Wuxia Multi-route Visual Novel",
   "created_at": "2026-08-05",
   "updated_at": "2026-08-06",
-  "current_phase": "VISUAL_NOVEL_CORE_RENORMALIZATION",
+  "current_phase": "VISUAL_NOVEL_CORE_RENORMALIZATION_COMPLETE",
   "genre_contract": {
     "visual_novel_primary": true,
     "manual_combat": false,
