@@ -1,57 +1,69 @@
 ---
 name: onemanarmy-story-route-director
-description: Design or audit One-Man Formation story spines, routes, chapters, scenes, characters, choices, dialogue, and multi-play reveals while preserving Lee Yeon's overwhelming 108-sword appeal and hard-boiled agency.
+description: Design or audit One-Man Formation story spines, routes, chapters, scenes, dialogue, visual-novel choices, replay reveals, and authored 108-sword consequences while preserving Lee Yeon's power and the non-combat genre contract.
 ---
 
 # Onemanarmy Story & Route Director
 
 ## Read first
 
+- `docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md`
 - `docs/foundation/GAME_CONTRACT.md`
 - `docs/design/STORY_ROUTE_ARCHITECTURE.md`
+- `docs/design/INTERACTION_LANGUAGE.md`
 - `docs/design/FORMATION_COMBAT_AND_CINEMATICS.md`
-- relevant current-state and handoff
+- current-state and relevant chapter source
 
 ## Primary rule
 
-Story exists to put Lee Yeon's rules and 108 swords into meaningful conflict. Mystery is allowed, but information must change whom he targets, what he protects, how he deploys a sword unit, or what price follows.
+Story exists to put Lee Yeon's rules and 108 swords into meaningful conflict.
 
-He is not a detective who happens to own swords. He is a fixer who knows a trap is a trap and enters because of contract, debt, vengeance, or responsibility.
+The player chooses what he notices, which principle he follows, and what cost he accepts. The player does not prove combat skill or arrange formations.
 
 ## Modes
 
 - `SPINE`: premise, acts, routes, endings
-- `SCENE`: one scene contract and beat sheet
+- `SCENE`: scene contract and beat sheet
 - `DIALOGUE`: dialogue draft or rewrite
+- `CHOICE`: choice and delayed consequence
+- `MULTIPLAY`: replay knowledge and unlocks
+- `CHARACTER`: desire, hidden goal, value, taboo
 - `ROUTE_AUDIT`: repetition, agency, power, cost
-- `MULTIPLAY`: unlocks, new scenes, true-route knowledge
-- `CHARACTER`: desire, hidden goal, value, taboo, relation to Lee Yeon
-
-Until EXP-001 passes, default to `SPINE`, `SCENE CONTRACT`, or prototype dialogue. Do not produce the entire final script unless explicitly overridden by the project owner.
 
 ## Scene contract
-
-Every gameplay scene must define:
 
 ```yaml
 scene_id: ""
 route: ""
 scene_function: ""
-player_question: ""
+dramatic_question: ""
 lee_yeon_knows: []
 lee_yeon_wants: ""
-opposing_demand: ""
+opposing_demands: []
 personal_rule_tested: ""
-formation_or_sword_presence: ""
+focus_points: []
 choice:
   options: []
-  immediate_results: []
+  direct_results: []
   delayed_costs: []
-hardboiled_aftermath: ""
+interaction:
+  type: optional
+  emotional_purpose: ""
+formation_cinematic: ""
+aftermath: []
 exit_state: []
 ```
 
-A scene without a player question may be a short cinematic, but it must deliver character, atmosphere, information, or formation payoff efficiently.
+## Choice gate
+
+A choice passes when:
+
+- Lee Yeon can execute every option competently
+- the player knows what is prioritized and what may be lost
+- the choice expresses a principle, relationship, or responsibility
+- the cinematic and aftermath differ materially
+- later scenes remember it
+- no dexterity input determines success
 
 ## Lee Yeon agency gate
 
@@ -61,22 +73,32 @@ Revise if:
 - he misses obvious information only to prolong the plot
 - he enters a trap without knowing or choosing
 - he begs for power or training
-- the antagonist repeatedly humiliates him in combat
-- his swords solve nothing meaningful
-- the scene would be unchanged if he were replaced by a generic investigator
+- an antagonist repeatedly humiliates him in combat
+- player input failure makes him incompetent
+- the scene would be unchanged with a generic investigator
 
-He may be deceived about motives or history, but his immediate tactical judgment remains credible.
+## Interaction boundary
+
+Story may request one of the approved interaction types, but must state its emotional purpose.
+
+- FOCUS_POINT
+- HOLD_INTENT
+- CHAIN_PULL
+- BLADE_RECALL
+- AFTERMATH_INSPECT
+- WEIGHTED_CONFIRM
+
+Do not write QTE, combat choice trees, target placement, or timing checks.
 
 ## Route differentiation
 
-Each major route must differ in all four areas:
+Each major route must differ in:
 
 1. governing principle
 2. primary ally/opponent relationship
-3. 108-sword set piece
-4. political and personal aftermath
-
-Changing dialogue and final choice only is insufficient.
+3. key questions and revealed information
+4. unique 108-sword cinematic
+5. political and personal aftermath
 
 Canonical principles:
 
@@ -84,80 +106,67 @@ Canonical principles:
 - VENGEANCE
 - PROTECTION
 - DOMINION
-- TRUTH / TRUE ROUTE
+- TRUTH
 
 ## Multi-play rules
 
 - common content no more than 25% of total new content
-- new content appears within 30 minutes of replay
+- new content within 30 minutes of replay
 - read-text skip never skips unseen lines
-- replay knowledge unlocks plausible earlier actions, not unexplained clairvoyance
-- a prior ending remains emotionally valid after true-route completion
-- short endings provide information, a replay path, or a unique spectacle
-- the protagonist's power does not reset between routes
+- seen interactions can auto-complete
+- replay knowledge unlocks plausible questions and actions
+- prior endings remain emotionally valid
+- protagonist power does not reset
 
 ## Hard-boiled writing rules
 
-- put motive in action, not explanatory monologue
-- Lee Yeon speaks in short statements, warnings, prices, and decisions
-- supporting characters may explain; Lee Yeon answers by doing
-- humor comes from transaction, contradiction, and understatement
-- violence is fast; aftermath receives narrative time
+- motive in action, not explanatory monologue
+- Lee Yeon speaks in prices, warnings, observations, and decisions
+- supporting characters may explain; Lee Yeon answers by choosing or acting
+- humor from transaction, contradiction, and understatement
+- violence is short; aftermath receives time
 - avoid repeated aphorisms
-- avoid every character speaking with the same clipped voice
-- do not decorate ordinary exposition with excessive martial jargon
-- show repairs, bodies, missing leaders, broken contracts, and survivors
+- do not give every character the same clipped voice
+- avoid decorative martial jargon
 
-## Formation payoff quota
+## 108-sword quota
 
-Use swords deliberately.
-
-- not every scene needs movement
-- each chapter needs at least one memorable sword-related action or implication
-- each route needs a unique full-scale set piece
-- full 108 deployment is limited and differentiated
-- small 1/9/18-sword scenes maintain identity between large battles
-- a formation scene must have a story consequence
-
-## Choice quality test
-
-A choice is acceptable when:
-
-- Lee Yeon can execute every option competently
-- options express different principles or target priorities
-- immediate and delayed results differ
-- there is no hidden arbitrary death
-- the player can state what was traded
-- later scenes remember the result
+- not every scene needs moving swords
+- each chapter needs at least one memorable sword-related action, image, or ritual
+- each route needs a unique full-scale cinematic
+- small 1/9/18-sword scenes preserve identity between large scenes
+- every cinematic must change story state or reveal character
 
 ## Output
 
 For a route:
 
-1. route thesis
-2. five to eight chapter beats
-3. key character arc
-4. formation set pieces
-5. choice-consequence matrix
-6. ending and cost
-7. replay information
-8. content-reuse map
-9. unresolved decisions
+1. thesis
+2. chapter beats
+3. character arcs
+4. choices and delayed costs
+5. interaction map
+6. formation cinematics
+7. ending and cost
+8. replay information
+9. content-reuse map
 
 For a scene:
 
 1. scene contract
 2. beat sheet
 3. dialogue intent
-4. visual/formation notes
-5. state changes
-6. validation questions
+4. interaction purpose
+5. cinematic and aftermath
+6. state changes
+7. validation questions
 
 ## Never
 
-- default to murder mystery structure
+- default to a murder-mystery structure
 - let exposition dominate the first 10 minutes
-- make the true route a consequence-free happy ending
-- use romance affinity as the main route selector
-- write a giant final battle without readable objectives
-- make Lee Yeon look weak to create a cliffhanger
+- write manual combat or tactical placement
+- hide a result behind dexterity
+- use romance affinity as main route selector
+- make the true route consequence-free
+- make Lee Yeon weak for a cliffhanger
