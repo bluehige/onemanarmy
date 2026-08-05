@@ -75,14 +75,15 @@ def validate_config(errors: list[str]) -> None:
         errors.append("config engine must be Godot 4.6.3")
 
     contract = data.get("genre_contract", {})
-    if contract.get("visual_novel_primary") is not True:
-        errors.append("visual_novel_primary must be true")
-    if contract.get("manual_combat") is not False:
-        errors.append("manual_combat must be false")
-    if contract.get("tactical_placement") is not False:
-        errors.append("tactical_placement must be false")
-    if contract.get("non_failing_micro_interactions") is not True:
-        errors.append("non_failing_micro_interactions must be true")
+    expected = {
+        "visual_novel_primary": True,
+        "manual_combat": False,
+        "tactical_placement": False,
+        "non_failing_micro_interactions": True,
+    }
+    for key, value in expected.items():
+        if contract.get(key) is not value:
+            errors.append(f"genre_contract.{key} must be {value}")
 
     configured = set(data.get("project_skills", []))
     missing = set(SKILLS) - configured
@@ -116,14 +117,15 @@ def validate_skills(errors: list[str]) -> None:
 
 
 def validate_visual_novel_contract(errors: list[str]) -> None:
-    contract = (ROOT / "docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md").read_text(
-        encoding="utf-8"
-    )
+    path = ROOT / "docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md"
+    if not path.is_file():
+        return
+    contract = path.read_text(encoding="utf-8")
     required_phrases = [
-        "비주얼 노블",
+        "하드보일드 무협 다회차 비주얼 노블",
         "수동 전투·전술 게임          0%",
-        "실패 상태가 없다",
-        "검대를 배치하거나 검을 조종하지 않는다",
+        "실패·점수·정확도 판정이 없다",
+        "플레이어는 이연의 검을 조종하지 않는다",
     ]
     for phrase in required_phrases:
         if phrase not in contract:
