@@ -1,32 +1,54 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "project_slug": "onemanarmy",
   "game_title": "일인합격진: 검관을 끄는 남자",
   "engine": "Godot 4.6.3",
   "platforms": [
     "Windows PC"
   ],
-  "genre": "Cinematic Tactical Visual Novel / Hard-boiled Wuxia",
+  "genre": "Hard-boiled Wuxia Multi-route Visual Novel",
   "created_at": "2026-08-05",
-  "current_phase": "FOUNDATION_APPROVAL_AND_PROTOTYPE_PREPARATION",
+  "updated_at": "2026-08-06",
+  "current_phase": "VISUAL_NOVEL_CORE_RENORMALIZATION",
+  "genre_contract": {
+    "visual_novel_primary": true,
+    "manual_combat": false,
+    "tactical_placement": false,
+    "non_failing_micro_interactions": true,
+    "authored_formation_cinematics": true
+  },
   "canonical_documents": {
+    "visual_novel_core": "docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md",
     "game_contract": "docs/foundation/GAME_CONTRACT.md",
     "risk_register": "docs/foundation/RISK_REGISTER.md",
     "prototype_brief": "docs/foundation/PROTOTYPE_BRIEF.md",
     "game_design_spec": "docs/design/GAME_DESIGN_SPEC.md",
     "story_routes": "docs/design/STORY_ROUTE_ARCHITECTURE.md",
-    "formation": "docs/design/FORMATION_COMBAT_AND_CINEMATICS.md",
+    "interaction_language": "docs/design/INTERACTION_LANGUAGE.md",
+    "formation_cinematics": "docs/design/FORMATION_COMBAT_AND_CINEMATICS.md",
     "ui_ux": "docs/ui/UI_UX_SPEC.md",
     "technical": "docs/technical/GODOT_4_6_3_TECHNICAL_PLAN.md",
-    "production": "docs/production/VERTICAL_SLICE_PLAN.md"
+    "production": "docs/production/VERTICAL_SLICE_PLAN.md",
+    "chapter_01": "docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md",
+    "chapter_01_script": "docs/story/CH01_FULL_SCRIPT.md",
+    "chapter_01_storyboard": "docs/story/CH01_CINEMATIC_STORYBOARD.md",
+    "canonical_visual_style": "docs/art/06_CANONICAL_VISUAL_STYLE_PROMPT.md"
   },
   "project_skills": [
     "onemanarmy-production-router",
     "onemanarmy-foundation",
     "onemanarmy-story-route-director",
+    "onemanarmy-interactive-vn-director",
     "onemanarmy-formation-director",
     "onemanarmy-ui-ux",
     "onemanarmy-godot-director"
+  ],
+  "forbidden_runtime_modules": [
+    "BattleResolver",
+    "FormationBattleRuntime",
+    "TacticalGrid",
+    "SquadPlacementUI",
+    "CombatStats"
   ],
   "planned_validation_commands": [
     "${GODOT_BIN} --headless --editor --path . --quit-after 2",
