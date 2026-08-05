@@ -1,133 +1,148 @@
 # Current State
 
-- Date: 2026-08-05
-- Phase: `MVP_CHAPTER_PREPRODUCTION`
+- Date: 2026-08-06
+- Phase: `VISUAL_NOVEL_CORE_RENORMALIZATION_COMPLETE`
 - Engine: Godot 4.6.3
 - Runtime project: not created
 - Current canonical branch: `main`
-- Latest planning baseline: `main`
 - Build ID: none
 
-## Completed
+## Active owner decision
 
-- core game contract draft
-- four route principles and true-route structure
-- twelve-squad 108-sword design
-- cinematic language
-- project UI/UX contract
-- Godot technical plan
-- vertical-slice scope
-- six project-specific Agent Skills
-- canonical-draft concept art sourcebook
-- Lee Yeon character visual bible
-- sword coffin and twelve-squad visual bible
-- world visual language
-- keyframe image production queue
-- image generation prompt and consistency guide
-- concept-art asset storage workflow
-- MVP chapter production request: `docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md`
-- MVP chapter full dialogue and event script: `docs/story/CH01_FULL_SCRIPT.md`
-- MVP chapter cinematic storyboard: `docs/story/CH01_CINEMATIC_STORYBOARD.md`
-- MVP chapter detailed graphic asset request: `docs/art/CH01_GRAPHIC_ASSET_REQUEST.md`
-- project-session UI reference audit incorporated into CH01 storyboard and asset request
+**일인합격진은 하드보일드 무협 다회차 비주얼 노블이다.**
 
-## Canonical MVP chapter entrypoint
+- 수동 전투 없음
+- 전술 배치 없음
+- 검대 조작 없음
+- 실패 없는 짧은 감정 인터랙션 허용
+- 108검은 선택 뒤 재생되는 시네마틱 서사 언어
 
-MVP chapter work must begin with:
+## Canonical entrypoint
 
-1. `docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md`
-2. `docs/story/CH01_FULL_SCRIPT.md`
-3. `docs/story/CH01_CINEMATIC_STORYBOARD.md`
-4. `docs/art/CH01_GRAPHIC_ASSET_REQUEST.md`
-5. `docs/design/FORMATION_COMBAT_AND_CINEMATICS.md`
-6. `docs/ui/UI_UX_SPEC.md`
-7. target-specific art bible
+1. `AGENTS.md`
+2. `docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md`
+3. `docs/foundation/GAME_CONTRACT.md`
+4. `docs/design/GAME_DESIGN_SPEC.md`
+5. `docs/design/INTERACTION_LANGUAGE.md`
+6. 관련 프로젝트 Skill
+7. 관련 스토리·UI·기술 문서
 
-The current chapter package includes:
+## Completed in the pivot
 
-- S00 full 108-sword cold open
-- S01 Baekya City entrance
-- S02 north-gate contract and three information choices
-- S03-S05 Qingyu Inn setup and nine-sword reveal
-- S06 Upper Dantian tactical choice
-- TRACK / PROTECT / LOCKDOWN result branches
-- Honglian's disguised introduction and conditional identity reveal
-- aftermath, sword recovery, result screen, and Chapter 02 hook
-- dialogue IDs, state flags, autosave points, and text QA rules
-- shot-by-shot camera, UI, VFX, and resource mapping
-- detailed character, environment, prop, sword, CG, UI, VFX, and 3D asset requests
+- visual-novel core contract added
+- interaction language added
+- project genre and README rewritten
+- AGENTS rules rewritten
+- GamePlanner config updated
+- game contract rewritten
+- prototype brief rewritten
+- risk register rewritten
+- GDD rewritten
+- story and route architecture rewritten
+- formation document converted to cinematic-only language
+- UI/UX spec rewritten for story-first screens
+- Godot technical plan rewritten around StoryRuntime, InteractionDirector, and CinematicDirector
+- vertical slice plan rewritten
+- CH01 production request rewritten
+- CH01 full script rewritten
+- CH01 cinematic storyboard rewritten
+- CH01 graphic asset request rewritten
+- prompt-04 canonical visual style aligned to VN UI
+- image generation guide aligned to VN UI
+- project validation script updated
+- seven project-specific Agent Skills active
 
-## CH01 UI decision
+## Project Skills
 
-The previous project UI examples provide the ink-wash visual identity and functional flow, but CH01 does not preserve their strategy-RPG density.
+- `onemanarmy-production-router`
+- `onemanarmy-foundation`
+- `onemanarmy-story-route-director`
+- `onemanarmy-interactive-vn-director`
+- `onemanarmy-formation-director`
+- `onemanarmy-ui-ux`
+- `onemanarmy-godot-director`
 
-Canonical rules:
+## CH01 canonical flow
 
-- Story screen prioritizes characters and background; no persistent tactical HUD.
-- Upper-Dantian View appears only at the tactical decision moment.
-- Formation Confirm is a thin overlay, not a duplicated full screen.
-- Cinematic Execution hides almost all UI.
-- Consequence uses one aftermath image and at most four result lines.
-- No success probability, reputation score, squad level, or upgrade card in the MVP chapter.
+```text
+S00 관천협
+  FOCUS_POINT
+  → 지휘관 생포 / 길 우선 선택
+  → HOLD_INTENT / CHAIN_PULL
+  → 108검 시네마틱
+  → BLADE_RECALL
 
-## Canonical art entrypoint
+S01 백야성 입성
+→ S02 북문 계약과 질문 선택
+→ S03 청우객잔
+→ S04 FOCUS_POINT
+→ S05 구검 공통 제압 시네마틱
+→ S06 추적 / 수호 / 봉쇄 일반 VN 선택
+  → HOLD_INTENT
+  → 선택별 9검 시네마틱
+→ S08 AFTERMATH_INSPECT / BLADE_RECALL
+→ S09 북문 출발
+```
 
-Image-generation sessions must begin with:
+## Forbidden runtime modules
 
-1. `docs/art/00_CONCEPT_ART_SOURCEBOOK.md`
-2. target-specific art bible
-3. `docs/art/04_KEYFRAME_IMAGE_QUEUE.md`
-4. `docs/art/05_IMAGE_GENERATION_GUIDE.md`
-5. for CH01 assets, `docs/art/CH01_GRAPHIC_ASSET_REQUEST.md`
+- BattleResolver
+- FormationBattleRuntime
+- TacticalGrid
+- SquadPlacementUI
+- CombatStats
+- DamageCalculator
+- TurnManager
+- QTE success state
 
-First image task: `CA-001` Lee Yeon full-body key sheet.  
-Do not mass-produce final battle images before Lee Yeon and the sword coffin have canonical reference images.
+## Official visual style
+
+`docs/art/06_CANONICAL_VISUAL_STYLE_PROMPT.md`
+
+- prompt 04
+- warm bone paper
+- strong black-white contrast
+- crisp pen line on face, hand, sword, coffin
+- broad dry ink brush for cloth, terrain, rain, smoke
+- dried-blood red under 5%
+- visual-novel editorial UI
+- no action-RPG or tactical HUD
 
 ## Not completed
 
-- user approval and dialogue revision of `CH01_FULL_SCRIPT.md`
-- user approval of CH01 storyboard and graphic asset request
-- canonical concept images
-- EXP-001 Work Order
+- owner review of revised CH01 script
+- owner review of revised interaction language
 - Godot project
-- 108-sword renderer
-- actual UI
+- StoryRuntime
+- InteractionDirector
+- CinematicDirector
+- 9/108 sword renderer
+- actual VN UI
 - runtime story JSON
+- save/load
 - performance evidence
-- user playtest
+- E3 input completion
+- E4 user test
 
-## Next safe action
+## Next safe actions
 
-Content path:
-
-1. review `docs/story/CH01_FULL_SCRIPT.md`
-2. review `docs/story/CH01_CINEMATIC_STORYBOARD.md`
-3. review `docs/art/CH01_GRAPHIC_ASSET_REQUEST.md`
-4. revise dialogue, shots, and asset scope from owner feedback
-5. convert approved script into runtime story data only after the schema is fixed
-
-Art path:
-
-1. generate `CA-001` Lee Yeon full-body key sheet
-2. review face, age, silhouette, clothing, sword coffin ratio
-3. generate `CA-002` sword coffin structure sheet
-4. generate `CA-003` twelve-squad silhouette sheet
-5. proceed to `CH01-CG-001` Gwancheon Gorge and `CH01-CG-003` Inn of Nine Swords only after references stabilize
-
-Development path:
-
-Create `WO-0001` for the Godot 4.6.3 baseline and `WO-0002/0003` for the EXP-001 sword renderer. Do not start broad product architecture before EXP-001 evidence.
+1. create `WO-0001` for Godot 4.6.3 baseline and headless boot
+2. create `WO-0002` for StoryRuntime say / choice / flag / jump
+3. create `WO-0003` for dialogue UI, log, and read-text skip
+4. create `WO-0004` for InteractionDirector base and FOCUS_POINT / HOLD_INTENT
+5. create `WO-0005` for CinematicDirector and a single CH01 cinematic
+6. create `WO-0006` for 9/108 sword visual renderer
+7. integrate CH01 and test the visual-novel flow
 
 ## Do not touch
 
-- protagonist power contract
-- twelve squads × nine swords
-- no conventional HP/MP progression
-- route principles
+- visual novel primary genre
+- manual combat false
+- tactical placement false
+- non-failing interaction rule
+- Lee Yeon as an already-complete fighter
+- 12 squads × 9 swords
 - first-ten-minutes 108-sword reveal
-- prototype gate
-- Lee Yeon as a mature, controlled, already-complete fighter
-- sword coffin as a low, long, twelve-lock physical carrier rather than magic storage or futuristic machinery
-- 108 swords as organized squads rather than a random swarm
-- tactical branches must change secured goals and costs without making Lee Yeon incompetent
-- visual-novel story scenes must not become permanent strategy dashboards
+- prompt-04 visual style
+- sword coffin as a low, long wheeled carrier
+- interactions support emotion and never decide combat success
