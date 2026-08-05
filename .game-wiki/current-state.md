@@ -1,11 +1,11 @@
 # Current State
 
 - Date: 2026-08-05
-- Phase: `FOUNDATION_APPROVAL_AND_PROTOTYPE_PREPARATION`
+- Phase: `MVP_CHAPTER_PREPRODUCTION`
 - Engine: Godot 4.6.3
 - Runtime project: not created
-- Current branch for planning package: `agent/complete-game-design-and-skills`
-- Baseline main commit: `c5268de18536bd2b88998faaca958a806cb68b9c`
+- Current canonical branch: `main`
+- Latest planning baseline: `main`
 - Build ID: none
 
 ## Completed
@@ -25,6 +25,30 @@
 - keyframe image production queue
 - image generation prompt and consistency guide
 - concept-art asset storage workflow
+- MVP chapter production request: `docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md`
+- MVP chapter full dialogue and event script: `docs/story/CH01_FULL_SCRIPT.md`
+
+## Canonical MVP chapter entrypoint
+
+MVP chapter work must begin with:
+
+1. `docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md`
+2. `docs/story/CH01_FULL_SCRIPT.md`
+3. `docs/design/FORMATION_COMBAT_AND_CINEMATICS.md`
+4. `docs/ui/UI_UX_SPEC.md`
+5. target-specific art bible
+
+The current script includes:
+
+- S00 full 108-sword cold open
+- S01 Baekya City entrance
+- S02 north-gate contract and three information choices
+- S03-S05 Qingyu Inn setup and nine-sword reveal
+- S06 Upper Dantian tactical choice
+- TRACK / PROTECT / LOCKDOWN result branches
+- Honglian's disguised introduction and conditional identity reveal
+- aftermath, sword recovery, result screen, and Chapter 02 hook
+- dialogue IDs, state flags, autosave points, and text QA rules
 
 ## Canonical art entrypoint
 
@@ -40,17 +64,26 @@ Do not mass-produce final battle images before Lee Yeon and the sword coffin hav
 
 ## Not completed
 
-- user approval of Foundation
+- user approval and dialogue revision of `CH01_FULL_SCRIPT.md`
+- CH01 cinematic storyboard
+- CH01 detailed art request sheet
 - canonical concept images
 - EXP-001 Work Order
 - Godot project
 - 108-sword renderer
 - actual UI
-- actual story script
+- runtime story JSON
 - performance evidence
 - user playtest
 
 ## Next safe action
+
+Content path:
+
+1. review `docs/story/CH01_FULL_SCRIPT.md`
+2. write `docs/production/CH01_CINEMATIC_STORYBOARD.md`
+3. write `docs/art/CH01_ART_REQUEST_SHEET.md`
+4. convert approved script into runtime story data only after the schema is fixed
 
 Art path:
 
@@ -62,7 +95,7 @@ Art path:
 
 Development path:
 
-Create `WO-0001` for the Godot 4.6.3 baseline and `WO-0002/0003` for the EXP-001 sword renderer. Do not start the complete story script.
+Create `WO-0001` for the Godot 4.6.3 baseline and `WO-0002/0003` for the EXP-001 sword renderer. Do not start broad product architecture before EXP-001 evidence.
 
 ## Do not touch
 
@@ -75,3 +108,4 @@ Create `WO-0001` for the Godot 4.6.3 baseline and `WO-0002/0003` for the EXP-001
 - Lee Yeon as a mature, controlled, already-complete fighter
 - sword coffin as a low, long, twelve-lock physical carrier rather than magic storage or futuristic machinery
 - 108 swords as organized squads rather than a random swarm
+- tactical branches must change secured goals and costs without making Lee Yeon incompetent
