@@ -1,46 +1,95 @@
 ---
 name: onemanarmy-godot-director
-description: Plan, implement, debug, or validate the Godot 4.6.3 architecture for One-Man Formation, including story runtime, deterministic battle resolution, 12x9 sword rendering, cinematic sequencing, UI, save compatibility, tools, tests, and performance.
+description: Plan, implement, debug, or validate the Godot 4.6.3 visual-novel runtime for One-Man Formation, including StoryRuntime, non-failing InteractionDirector, authored cinematic playback, 12x9 sword rendering, UI, save compatibility, tools, tests, and performance. Never build battle resolution or tactical placement.
 ---
 
 # Onemanarmy Godot Director
 
 ## Read first
 
+- `docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md`
+- `docs/design/INTERACTION_LANGUAGE.md`
 - `docs/technical/GODOT_4_6_3_TECHNICAL_PLAN.md`
-- relevant design and UI contract
+- relevant script, storyboard, and UI contract
 - approved Work Order
 - `.game-wiki/current-state.md`
-
-Use the generic implementation and debugging skills for discipline. This Skill provides only project-specific technical boundaries.
 
 ## Engine contract
 
 - Godot 4.6.3
 - GDScript
 - Windows PC
-- Forward+ planned
-- no external add-on before EXP-001 unless the Work Order proves necessity
+- Forward+
 - headless test baseline
-- JSON for authored story/state IDs
-- custom Resource for cinematic and engine-reference data
-- save schema version from first save implementation
+- JSON for story, choices, interactions, and IDs
+- Resource for cinematic, camera, VFX, audio, curves, and engine references
 
-## Architecture boundaries
+## Architecture
 
-- StoryRuntime owns narrative step flow.
-- BattleResolver owns deterministic result logic.
-- FormationDirector owns visual execution, not game truth.
-- UI displays state and emits intent; it does not recalculate rules.
+- StoryRuntime owns narrative flow and state.
+- InteractionDirector owns non-failing input feedback.
+- CinematicDirector owns authored playback and replay modes.
+- FormationVisualDirector renders swords but never calculates outcomes.
+- UI displays state and emits intent; it does not redefine rules.
 - ContentRegistry owns IDs and references.
 - SaveService owns persistence and migrations.
-- Telemetry records evidence; it does not alter outcomes.
+
+## Forbidden architecture
+
+Do not create:
+
+- BattleResolver
+- FormationBattleRuntime
+- TacticalGrid
+- SquadPlacementUI
+- DamageCalculator
+- CombatStats
+- EnemyCombatAI
+- TurnManager
+- QTE success state
+
+A request for one of these must be reported as a visual-novel contract conflict.
+
+## Implementation order
+
+1. baseline project and headless boot
+2. content ID validator
+3. StoryRuntime say / choice / flag / jump
+4. dialogue UI, log, read-text skip
+5. InteractionDirector base interface
+6. FOCUS_POINT and HOLD_INTENT
+7. CinematicDirector full / summary / result modes
+8. FormationVisualDirector 9 and 108 swords
+9. CH01 S00 integration
+10. CH01 inn choices and three cinematics
+11. consequence, blade recall, save/load
+12. E3 and E4 validation
+
+## Interaction boundary
+
+Every interaction implementation must declare:
+
+```yaml
+emotional_purpose: ""
+input_type: ""
+failure_state: none
+alternative_input: ""
+max_duration_sec: 20
+replay_behavior: ""
+on_complete_event: ""
+```
+
+- no score
+- no timing bonus
+- no hidden fail
+- input interruption preserves progress or restarts without penalty
+- auto-complete supported
 
 ## 108-sword boundary
 
-Game logic operates on 12 squads, not 108 independent agents.
+Logic operates on an authored `FormationVisualSequence`.
 
-Rendering candidate:
+Candidate renderer:
 
 ```text
 12 MultiMeshInstance3D
@@ -48,45 +97,7 @@ Rendering candidate:
 = 108 swords
 ```
 
-Each squad has:
-
-- center transform/path
-- local 9-sword formation
-- role data
-- target
-- beat state
-- optional hero-sword representation
-
-Use no physics simulation for primary result logic. Contact and destruction are authored/deterministic.
-
-## Implementation order
-
-1. baseline project and headless boot
-2. content ID validator
-3. four squad definitions and placeholders for twelve
-4. 108-count renderer
-5. formation sequence and camera
-6. EXP-001 inputs and variants
-7. performance and user evidence
-8. only after KEEP: StoryRuntime
-9. BattleResolver and Upper-Dantian UI
-10. save/log/skip
-11. vertical slice
-
-A request for a later item before its gate must report the skipped prerequisite.
-
-## Work Order requirements
-
-Every implementation task must identify:
-
-- exact player outcome
-- exact system contract
-- exact planned paths
-- in/out of scope
-- prototype fate
-- test and engine command
-- performance evidence if visual
-- rollback
+Each squad has authored center path, local 9-sword formation, camera relation, and return track. No physics simulation determines story results.
 
 ## Testing
 
@@ -98,48 +109,42 @@ ${GODOT_BIN} --headless --path . --script res://tests/test_runner.gd
 ${GODOT_BIN} --headless --path . --scene res://tests/scenes/test_boot.tscn --quit-after 120
 ```
 
-Do not claim these ran until the project exists and logs are captured.
-
 Required validators:
 
 - duplicate IDs
 - broken story jumps
-- missing battle/formation references
-- exactly 12 squad definitions for full content
+- missing interaction/cinematic references
+- forbidden interaction type
+- interaction failure state present
+- missing alternative input
+- unseen text skip
 - exactly 108 runtime swords for full deployment
 - duplicate sword slots
 - missing localization
 - save schema and migration fixtures
-- deterministic battle fixtures
 
-## Performance
+## Debugging order
 
-Prototype evidence must include:
+1. story step
+2. choice state
+3. interaction contract and completion
+4. cinematic ID
+5. sequence and camera
+6. formation renderer transform
+7. consequence state
+8. save and restore
+
+Do not patch a cinematic to hide incorrect story state.
+
+## Performance evidence
 
 - target hardware
 - resolution and renderer
-- average, minimum, 1% low or equivalent frame data
+- average/minimum/1% low or equivalent
 - CPU/GPU frame time
 - draw submissions
-- active trails and VFX
-- capture of the heaviest beat
-
-Optimize after measuring. Do not replace clear formation motion with visual noise to hide performance compromises.
-
-## Debugging
-
-When a result is wrong, isolate:
-
-1. command input
-2. BattleResolver outcome
-3. selected sequence variant
-4. squad track
-5. renderer transform
-6. camera/VFX
-7. consequence state
-8. save/restore
-
-Do not patch the cinematic to hide an incorrect resolver result.
+- active swords, trails, and VFX
+- heaviest shot capture
 
 ## Save safety
 
@@ -147,19 +152,19 @@ Do not patch the cinematic to hide an incorrect resolver result.
 - backup
 - schema version
 - content ID migration
-- test loading at scene and battle boundaries
-- global seen-text separate from slot state
+- global seen text and cinematic state separate from slot state
+- completed interaction state
 - never silently discard incompatible data
 
 ## Completion gate
 
-No implementation is complete until:
-
-- scope maps to the Work Order
+- all changes map to Work Order
+- no forbidden combat module
 - static validator passes
 - headless boot passes
-- relevant unit/integration fixtures pass
-- actual Godot render is inspected
-- supported input completes the flow
-- performance evidence exists for formation work
-- current-state and handoff are updated
+- relevant tests pass
+- actual Godot render inspected
+- mouse, keyboard, and gamepad alternatives progress
+- all interactions have no fail state
+- performance evidence exists for formation cinematics
+- current-state and handoff updated
