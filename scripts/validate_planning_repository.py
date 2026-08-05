@@ -14,15 +14,22 @@ REQUIRED = [
     "AGENTS.md",
     ".game-planner/config.json",
     "docs/00_PRODUCTION_PRIORITY.md",
+    "docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md",
     "docs/foundation/GAME_CONTRACT.md",
     "docs/foundation/RISK_REGISTER.md",
     "docs/foundation/PROTOTYPE_BRIEF.md",
     "docs/design/GAME_DESIGN_SPEC.md",
     "docs/design/STORY_ROUTE_ARCHITECTURE.md",
+    "docs/design/INTERACTION_LANGUAGE.md",
     "docs/design/FORMATION_COMBAT_AND_CINEMATICS.md",
     "docs/ui/UI_UX_SPEC.md",
     "docs/technical/GODOT_4_6_3_TECHNICAL_PLAN.md",
     "docs/production/VERTICAL_SLICE_PLAN.md",
+    "docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md",
+    "docs/story/CH01_FULL_SCRIPT.md",
+    "docs/story/CH01_CINEMATIC_STORYBOARD.md",
+    "docs/art/CH01_GRAPHIC_ASSET_REQUEST.md",
+    "docs/art/06_CANONICAL_VISUAL_STYLE_PROMPT.md",
     ".game-wiki/current-state.md",
 ]
 
@@ -30,15 +37,22 @@ SKILLS = [
     "onemanarmy-production-router",
     "onemanarmy-foundation",
     "onemanarmy-story-route-director",
+    "onemanarmy-interactive-vn-director",
     "onemanarmy-formation-director",
     "onemanarmy-ui-ux",
     "onemanarmy-godot-director",
 ]
 
+FORBIDDEN_TERMS_IN_CONFIG = {
+    "BattleResolver",
+    "FormationBattleRuntime",
+    "TacticalGrid",
+    "SquadPlacementUI",
+    "CombatStats",
+}
+
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
-FRONTMATTER_RE = re.compile(
-    r"\A---\s*\n(?P<body>.*?)\n---\s*\n", re.DOTALL
-)
+FRONTMATTER_RE = re.compile(r"\A---\s*\n(?P<body>.*?)\n---\s*\n", re.DOTALL)
 
 
 def validate_required(errors: list[str]) -> None:
@@ -56,12 +70,31 @@ def validate_config(errors: list[str]) -> None:
     except json.JSONDecodeError as exc:
         errors.append(f"invalid config JSON: {exc}")
         return
+
     if data.get("engine") != "Godot 4.6.3":
         errors.append("config engine must be Godot 4.6.3")
+
+    contract = data.get("genre_contract", {})
+    if contract.get("visual_novel_primary") is not True:
+        errors.append("visual_novel_primary must be true")
+    if contract.get("manual_combat") is not False:
+        errors.append("manual_combat must be false")
+    if contract.get("tactical_placement") is not False:
+        errors.append("tactical_placement must be false")
+    if contract.get("non_failing_micro_interactions") is not True:
+        errors.append("non_failing_micro_interactions must be true")
+
     configured = set(data.get("project_skills", []))
     missing = set(SKILLS) - configured
     if missing:
         errors.append(f"config missing skills: {sorted(missing)}")
+
+    forbidden = set(data.get("forbidden_runtime_modules", []))
+    missing_forbidden = FORBIDDEN_TERMS_IN_CONFIG - forbidden
+    if missing_forbidden:
+        errors.append(
+            f"config missing forbidden runtime modules: {sorted(missing_forbidden)}"
+        )
 
 
 def validate_skills(errors: list[str]) -> None:
@@ -80,6 +113,21 @@ def validate_skills(errors: list[str]) -> None:
             errors.append(f"frontmatter name mismatch: {name}")
         if "description:" not in body:
             errors.append(f"missing description: {name}")
+
+
+def validate_visual_novel_contract(errors: list[str]) -> None:
+    contract = (ROOT / "docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md").read_text(
+        encoding="utf-8"
+    )
+    required_phrases = [
+        "비주얼 노블",
+        "수동 전투·전술 게임          0%",
+        "실패 상태가 없다",
+        "검대를 배치하거나 검을 조종하지 않는다",
+    ]
+    for phrase in required_phrases:
+        if phrase not in contract:
+            errors.append(f"visual novel contract missing phrase: {phrase}")
 
 
 def validate_markdown_links(errors: list[str]) -> None:
@@ -113,6 +161,7 @@ def main() -> int:
     validate_required(errors)
     validate_config(errors)
     validate_skills(errors)
+    validate_visual_novel_contract(errors)
     validate_markdown_links(errors)
 
     if errors:
@@ -124,6 +173,7 @@ def main() -> int:
     print("VALIDATION PASSED")
     print(f"- required files: {len(REQUIRED)}")
     print(f"- project skills: {len(SKILLS)}")
+    print("- visual novel core: enforced")
     return 0
 
 
