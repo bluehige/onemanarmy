@@ -1,66 +1,125 @@
 # 일인합격진: 검관을 끄는 남자
 
-하단전이 파괴되어 내공을 쓸 수 없지만, 비정상적으로 발달한 상단전의 의념으로 108자루의 검을 동시에 운용하는 해결사 **이연**을 주인공으로 한 하드보일드 무협 게임 프로젝트다.
-
-장르는 **시네마틱 전술 비주얼 노블**이다. 서사 선택만 읽는 작품이 아니라, 전투 직전 `상단전 시야`에서 12개 검대(각 9검)를 목표에 배치하고, 선택한 검진이 3D 시네마틱으로 집행되는 구조를 사용한다.
+하단전이 파괴되어 일반 내공을 사용할 수 없지만, 비정상적으로 발달한 상단전의 의념으로 108자루의 검을 운용하는 해결사 **이연**의 하드보일드 무협 다회차 비주얼 노블이다.
 
 > 이연은 검객 한 명이 아니다. 혼자 이동하는 하나의 군진이다.
 
-## 프로젝트 한 문장
+## 최종 장르
 
-플레이어는 108검을 지휘하는 압도적 해결사 이연이 되어, 썩은 강호에서 **계약·복수·수호·군림** 중 무엇을 자기 힘의 규칙으로 삼을지 결정한다.
+**하드보일드 무협 다회차 비주얼 노블**
+
+108검은 플레이어가 직접 전투하거나 검대를 배치하기 위한 전술 시스템이 아니다. 대화와 선택으로 결정된 이연의 판단을 협곡·도시 규모로 확대해 보여 주는 **시네마틱 서사 언어**다.
+
+```text
+비주얼 노블 서사와 선택      75~80%
+비실패형 감정 인터랙션       10~15%
+108검 시네마틱과 결과 연출   10~15%
+수동 전투·전술 게임          0%
+```
+
+최상위 장르 계약은 [`docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md`](docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md)를 따른다.
+
+## 플레이 경험
+
+플레이어가 맡는 것은 검술이 아니라 이연의 세 가지 감각이다.
+
+1. **시선** — 무엇을 먼저 보고 어떤 의미를 읽는가
+2. **결단** — 계약·복수·수호·군림 중 무엇을 선택하는가
+3. **무게** — 결정을 내리기 전 머물고, 결정 뒤 남은 결과를 확인하는가
+
+기본 흐름:
+
+```text
+대화와 장면 감상
+→ 짧은 관찰 또는 시선 선택
+→ 의미 있는 서사 선택
+→ 결의를 느끼는 비실패형 인터랙션
+→ 선택에 대응하는 108검 시네마틱
+→ 후일담과 다음 분기
+```
+
+## 허용되는 인터랙션
+
+인터랙션은 이연의 심정을 손으로 느끼게 하지만 미니게임이나 전투가 되지 않는다.
+
+- 장면 속 무엇을 먼저 보는지 선택
+- 쇠사슬을 누르고 있거나 짧게 당겨 결의를 체감
+- 검진 뒤 검을 회수하는 짧은 의식
+- 부상자, 열린 창문, 그을린 들보 같은 결과 확인
+- 되돌릴 수 없는 선택의 길게 누르기 확인
+
+모든 인터랙션은 실패·점수·정확도·타이밍 보너스가 없고, 재플레이에서는 자동 완료 또는 스킵할 수 있다.
+
+상세 규칙은 [`docs/design/INTERACTION_LANGUAGE.md`](docs/design/INTERACTION_LANGUAGE.md)를 따른다.
 
 ## 핵심 기둥
 
-1. **108검의 압도적 존재감**  
-   첫 회차 첫 장면부터 108검을 보여 준다. 검은 무작위 투사체가 아니라 12개 부대로 정밀 운용된다.
+1. **비주얼 노블이 중심이다**  
+   대화, 인물 관계, 선택, 회차별 진실과 후일담이 플레이의 중심이다.
 
-2. **전투력이 아닌 목적의 충돌**  
-   이연은 정상적인 전투에서 약하지 않다. 긴장은 누구를 죽이고, 누구를 살리고, 어느 목표를 포기할지에서 발생한다.
+2. **108검은 첫 장면부터 압도적이다**  
+   검은 `12검대 × 9검`의 질서로 움직이며, 선택의 결과를 시네마틱으로 확대한다.
 
-3. **행동으로 드러나는 하드보일드**  
-   비, 술, 과묵함만으로 분위기를 만들지 않는다. 썩은 질서, 개인 규칙, 폭력의 대가, 감정을 설명하지 않는 행동으로 톤을 유지한다.
+3. **이연은 플레이어 실수로 약해지지 않는다**  
+   긴장은 전투 숙련이 아니라 어떤 원칙과 대가를 선택하는지에서 발생한다.
 
-4. **다회차마다 다른 종류의 완전한 승리**  
-   이연이 패배해서 엔딩이 갈리는 것이 아니다. 계약을 완수하거나, 복수를 끝내거나, 사람을 구하거나, 강호를 굴복시키는 방식이 서로 다른 대가를 만든다.
+4. **하드보일드는 행동과 결과로 표현한다**  
+   개인 규칙, 거래, 빚, 책임, 폭력 뒤의 흔적을 보여 준다.
 
-## 엔진과 대상
+5. **다회차마다 다른 완전한 승리를 제공한다**  
+   계약·복수·수호·군림·진상 루트는 각각 다른 검진과 다른 대가를 가진다.
+
+## 금지 요소
+
+- 실시간·턴제 전투
+- 검대 드래그 배치, 목표 슬롯, 전술 그리드
+- HP, MP, 대미지, 쿨다운, 콤보
+- QTE, 조준, 회피, 패링
+- 검대 강화·덱 구성·장비 파밍
+- 입력 실패로 이연이 무능해지는 장면
+- 서사 화면의 상시 전술 HUD
+
+## 엔진과 플랫폼
 
 - 엔진: **Godot Engine 4.6.3**
-- 1차 플랫폼: Windows PC
-- 1차 입력: 마우스 + 키보드
-- 출시 목표 입력: 마우스 + 키보드, 게임패드
+- 플랫폼: Windows PC
+- 입력: 마우스·키보드, 출시 시 게임패드 대응
 - 기준 화면: 1920×1080, 최소 1280×720
-- 렌더러: Forward+
-- 언어: 한국어 우선, 데이터 구조는 현지화 대응
+- 언어: 한국어 우선, 현지화 가능한 데이터 구조
+- 렌더링: 2D/2.5D 비주얼 노블 + 선택 뒤 재생되는 3D 또는 프리렌더 검진 시네마틱
 
-## 제작 순서
+## 제작 우선순위
 
-이 프로젝트는 장편 시나리오 전체를 먼저 쓰지 않는다.
+```text
+비주얼 노블 핵심 계약 고정
+→ CH01 대본과 감정 인터랙션 검증
+→ 108검 시네마틱 가독성 검증
+→ 45~60분 MVP 챕터 완성
+→ 실제 사용자 테스트
+→ 전체 루트 확장
+```
 
-1. 게임 계약과 주인공·108검의 표현 규칙 고정
-2. `EXP-001` 108검 전개와 검진 지휘 프로토타입
-3. 전투 판단이 읽히는지 실제 플레이 검증
-4. 수직 슬라이스용 공통부와 한 개 분기 작성
-5. 검증 결과를 반영한 GDD·기술 계약 확정
-6. 계약/복수/수호/군림 루트 제작
-7. 세 개 이상의 엔딩 경험 후 진상 루트 제작
+광범위한 전투 아키텍처는 제작하지 않는다.
 
-상세 근거는 [`docs/00_PRODUCTION_PRIORITY.md`](docs/00_PRODUCTION_PRIORITY.md)를 따른다.
+## CH01 기준 문서
 
-## 콘셉트 아트 시작점
+1. [`docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md`](docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md)
+2. [`docs/story/CH01_FULL_SCRIPT.md`](docs/story/CH01_FULL_SCRIPT.md)
+3. [`docs/story/CH01_CINEMATIC_STORYBOARD.md`](docs/story/CH01_CINEMATIC_STORYBOARD.md)
+4. [`docs/art/CH01_GRAPHIC_ASSET_REQUEST.md`](docs/art/CH01_GRAPHIC_ASSET_REQUEST.md)
+5. [`docs/design/INTERACTION_LANGUAGE.md`](docs/design/INTERACTION_LANGUAGE.md)
 
-다음 세션에서 이미지 생성 또는 콘셉트 수정을 할 때는 아래 문서를 순서대로 읽는다.
+## 공식 아트 스타일
 
-1. [`docs/art/00_CONCEPT_ART_SOURCEBOOK.md`](docs/art/00_CONCEPT_ART_SOURCEBOOK.md) — 전체 시각 계약과 검수 기준
-2. [`docs/art/01_LEE_YEON_CHARACTER_BIBLE.md`](docs/art/01_LEE_YEON_CHARACTER_BIBLE.md) — 이연 얼굴·체형·의상·포즈
-3. [`docs/art/02_SWORD_COFFIN_AND_108_SWORDS.md`](docs/art/02_SWORD_COFFIN_AND_108_SWORDS.md) — 검관, 12검대, 108검 전개
-4. [`docs/art/03_WORLD_VISUAL_LANGUAGE.md`](docs/art/03_WORLD_VISUAL_LANGUAGE.md) — 백야성, 색, 재질, 세력, 카메라
-5. [`docs/art/04_KEYFRAME_IMAGE_QUEUE.md`](docs/art/04_KEYFRAME_IMAGE_QUEUE.md) — 이미지 제작 우선순위와 장면별 요구
-6. [`docs/art/05_IMAGE_GENERATION_GUIDE.md`](docs/art/05_IMAGE_GENERATION_GUIDE.md) — 일관성 앵커와 생성 프롬프트
-7. [`assets/concept-art/README.md`](assets/concept-art/README.md) — 이미지 파일명, 상태, 검수 기록
+렌더링과 UI 시각 언어는 프롬프트 후보 4를 공식 기준으로 사용한다.
 
-최초 이미지 순서는 `CA-001 이연 전신 → CA-002 검관 구조 → CA-003 12검대 → KF-001 관천협 108검`이다. 이연과 검관의 기준 이미지가 확정되기 전에 최종 전투 이미지를 대량 제작하지 않는다.
+- [`docs/art/06_CANONICAL_VISUAL_STYLE_PROMPT.md`](docs/art/06_CANONICAL_VISUAL_STYLE_PROMPT.md)
+- 따뜻한 골회색 종이 바탕
+- 강한 흑백 명암
+- 얼굴·손·검·검관의 날카로운 펜선
+- 옷자락·절벽·연기의 넓고 끊긴 마른 먹 붓질
+- 마른 혈색 3~5% 이하
+- 액션 RPG HUD가 아닌 비주얼 노블 편집 디자인
 
 ## 저장소 구조
 
@@ -70,43 +129,25 @@
 .game-wiki/                         결정·상태·handoff
 assets/concept-art/                 생성 이미지와 검수 기록
 docs/
-├── art/                            캐릭터·검관·세계·키프레임 이미지 기준
-├── foundation/                     게임 계약, 위험, 프로토타입
-├── design/                         GDD, 스토리, 검진·연출
-├── ui/                             화면 계약과 디자인 시스템
+├── foundation/                     장르·게임 계약과 프로토타입
+├── design/                         GDD, 루트, 검진 연출, 인터랙션 언어
+├── story/                          장면별 대본과 콘티
+├── art/                            공식 스타일과 그래픽 발주
+├── ui/                             비주얼 노블 UI/UX 계약
 ├── technical/                      Godot 4.6.3 기술 계획
-└── production/                     수직 슬라이스 실행 순서
+└── production/                     MVP와 수직 슬라이스 실행 순서
 ```
 
-## Codex 작업 시작 순서
+## 프로젝트 전용 Skill
 
-새 세션은 다음 파일만 우선 읽는다.
+- `onemanarmy-production-router`
+- `onemanarmy-foundation`
+- `onemanarmy-story-route-director`
+- `onemanarmy-interactive-vn-director`
+- `onemanarmy-formation-director`
+- `onemanarmy-ui-ux`
+- `onemanarmy-godot-director`
 
-1. [`AGENTS.md`](AGENTS.md)
-2. [`.agents/skills/onemanarmy-production-router/SKILL.md`](.agents/skills/onemanarmy-production-router/SKILL.md)
-3. [`.game-wiki/current-state.md`](.game-wiki/current-state.md)
-4. 현재 요청과 직접 관련된 전용 Skill
-5. 관련 설계 문서
+## 현재 상태
 
-이미지 생성 작업이면 `docs/art/00_CONCEPT_ART_SOURCEBOOK.md`를 우선 읽고, 대상에 맞는 아트 바이블과 키프레임 큐를 이어서 읽는다.
-
-현재는 런타임 코드가 없는 **기획·계약 단계**다. 첫 구현 작업은 전체 게임이 아니라 [`docs/foundation/PROTOTYPE_BRIEF.md`](docs/foundation/PROTOTYPE_BRIEF.md)의 `EXP-001`이어야 한다.
-
-## 전용 스킬
-
-- `onemanarmy-production-router`: 요청을 현재 제작 단계에 맞게 라우팅
-- `onemanarmy-foundation`: 주인공 판타지와 금지 구조 보호
-- `onemanarmy-story-route-director`: 하드보일드 서사와 다회차 루트 설계
-- `onemanarmy-formation-director`: 108검·검진·카메라·VFX 연출 설계
-- `onemanarmy-ui-ux`: 전술 비주얼 노블 전용 UI/UX 계약
-- `onemanarmy-godot-director`: Godot 4.6.3 구현 경계와 검증
-
-## 현재 판정
-
-- Foundation 초안: **완료, 사용자 검토 필요**
-- 콘셉트 아트 기준 소스: **작성 완료, 이미지 생성 전**
-- 핵심 재미 프로토타입: **미착수**
-- 전체 시나리오 집필: **프로토타입 전 착수 금지**
-- Godot 프로젝트 코드: **미생성**
-- 다음 아트 작업: `CA-001` 이연 전신 키시트
-- 다음 개발 작업: `EXP-001` 작업 계약 작성 및 프로토타입 구현
+현재는 **비주얼 노블 중심 전환을 반영한 MVP 재정규화 단계**다. 다음 개발 결과물은 전투 프로토타입이 아니라 CH01의 대화·선택·감정 인터랙션·검진 시네마틱을 연결한 플레이 가능한 비주얼 노블 슬라이스다.
