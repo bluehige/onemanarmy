@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S05",
+  "route": "COMMON",
+  "title_text_id": "CH01-UI-S05-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s05--객잔의-구검",
+  "steps": [
+    {"id": "S05-001", "type": "say", "speaker_id": "swordsman", "text_id": "CH01-S05-001"},
+    {"id": "S05-002", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S05-COMMON"},
+    {"id": "S05-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S05-002"},
+    {"id": "S05-004", "type": "jump", "target": "S06"}
+  ]
+}

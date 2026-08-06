@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S06",
+  "route": "COMMON",
+  "title_text_id": "CH01-UI-S06-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s06--무엇을-먼저-끝낼-것인가",
+  "steps": [
+    {"id": "S06-001", "type": "narrate", "text_id": "CH01-S06-001"},
+    {"id": "S06-002", "type": "narrate", "text_id": "CH01-S06-002"},
+    {"id": "S06-003", "type": "autosave", "save_id": "SAVE-CH01-004"},
+    {
+      "id": "S06-004",
+      "type": "choice",
+      "choice_id": "CH01-C06-PRIORITY",
+      "output_flag": "priority_choice",
+      "options": [
+        {
+          "id": "TRACK",
+          "value": "track",
+          "label_text_id": "CH01-C06-PRIORITY-TRACK-LABEL",
+          "description_text_id": "CH01-C06-PRIORITY-TRACK-DESCRIPTION"
+        },
+        {
+          "id": "PROTECT",
+          "value": "protect",
+          "label_text_id": "CH01-C06-PRIORITY-PROTECT-LABEL",
+          "description_text_id": "CH01-C06-PRIORITY-PROTECT-DESCRIPTION"
+        },
+        {
+          "id": "LOCKDOWN",
+          "value": "lockdown",
+          "label_text_id": "CH01-C06-PRIORITY-LOCKDOWN-LABEL",
+          "description_text_id": "CH01-C06-PRIORITY-LOCKDOWN-DESCRIPTION"
+        }
+      ]
+    },
+    {"id": "S06-005", "type": "intent_interaction", "interaction_id": "INT-CH01-S06-HOLD"},
+    {
+      "id": "S06-006",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "priority_choice", "equals": "track"},
+          "steps": [{"id": "S06-006A", "type": "jump", "target": "S07A"}]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "protect"},
+          "steps": [{"id": "S06-006B", "type": "jump", "target": "S07B"}]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "lockdown"},
+          "steps": [{"id": "S06-006C", "type": "jump", "target": "S07C"}]
+        }
+      ]
+    }
+  ]
+}

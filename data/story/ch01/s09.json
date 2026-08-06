@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S09",
+  "route": "BRANCH_MERGE",
+  "title_text_id": "CH01-UI-S09-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s09--해-뜨기-전의-북문",
+  "steps": [
+    {
+      "id": "S09-001",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "priority_choice", "equals": "track"},
+          "steps": [
+            {"id": "S09-001A", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S09-001A"}
+          ]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "protect"},
+          "steps": [
+            {"id": "S09-001B", "type": "say", "speaker_id": "hongryeon", "text_id": "CH01-S09-001B"}
+          ]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "lockdown"},
+          "steps": [
+            {"id": "S09-001C", "type": "say", "speaker_id": "bokchil", "text_id": "CH01-S09-001C"}
+          ]
+        }
+      ]
+    },
+    {"id": "S09-002", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-002"},
+    {
+      "id": "S09-003",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "clue_lee_yeon_bait", "equals": true},
+          "steps": [
+            {"id": "S09-003A", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-003A"}
+          ]
+        },
+        {
+          "when": {"flag": "power_exposure", "equals": "high"},
+          "steps": [
+            {"id": "S09-003B", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-003B"}
+          ]
+        }
+      ],
+      "default_steps": [
+        {"id": "S09-003C", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-003C"}
+      ]
+    },
+    {"id": "S09-004", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S09-DEPARTURE"},
+    {"id": "S09-005", "type": "set_flag", "flag": "chapter_01_completed", "operation": "set", "value": true},
+    {
+      "id": "S09-006",
+      "type": "end_chapter",
+      "chapter_id": "CH-MVP-001",
+      "completion_title_text_id": "CH01-UI-COMPLETE-TITLE",
+      "completion_subtitle_text_id": "CH01-UI-COMPLETE-SUBTITLE",
+      "next_title_text_id": "CH01-UI-NEXT-TITLE",
+      "next_chapter_text_id": "CH01-UI-NEXT-CHAPTER"
+    }
+  ]
+}

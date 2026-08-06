@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S08",
+  "route": "BRANCH_MERGE",
+  "title_text_id": "CH01-UI-S08-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s08--남은-흔적",
+  "steps": [
+    {"id": "S08-001", "type": "narrate", "text_id": "CH01-S08-001"},
+    {
+      "id": "S08-002",
+      "type": "focus_interaction",
+      "interaction_id": "INT-CH01-S08-AFTERMATH",
+      "output_flag": "aftermath_first_focus"
+    },
+    {
+      "id": "S08-003",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "priority_choice", "equals": "track"},
+          "steps": [
+            {"id": "S08-003A", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002A"}
+          ]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "protect"},
+          "steps": [
+            {"id": "S08-003B", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002B"}
+          ]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "lockdown"},
+          "steps": [
+            {"id": "S08-003C", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002C"}
+          ]
+        }
+      ]
+    },
+    {"id": "S08-004", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S08-003"},
+    {"id": "S08-005", "type": "set_flag", "flag": "faction_mark_evidence", "operation": "set", "value": true},
+    {
+      "id": "S08-006",
+      "type": "blade_recall",
+      "interaction_id": "INT-CH01-S08-RECALL",
+      "expected_sword_count": 9
+    },
+    {"id": "S08-007", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-004"},
+    {"id": "S08-008", "type": "set_flag", "flag": "swords_recalled", "operation": "set", "value": 9},
+    {"id": "S08-009", "type": "autosave", "save_id": "SAVE-CH01-005"},
+    {
+      "id": "S08-010",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "priority_choice", "equals": "track"},
+          "steps": [
+            {
+              "id": "S08-010A",
+              "type": "show_consequence",
+              "consequence_id": "CON-CH01-TRACK",
+              "image_id": "CH01-AFTERMATH-TRACK",
+              "line_text_ids": [
+                "CH01-CON-TRACK-01",
+                "CH01-CON-TRACK-02",
+                "CH01-CON-TRACK-03",
+                "CH01-CON-TRACK-04"
+              ]
+            }
+          ]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "protect"},
+          "steps": [
+            {
+              "id": "S08-010B",
+              "type": "show_consequence",
+              "consequence_id": "CON-CH01-PROTECT",
+              "image_id": "CH01-AFTERMATH-PROTECT",
+              "line_text_ids": [
+                "CH01-CON-PROTECT-01",
+                "CH01-CON-PROTECT-02",
+                "CH01-CON-PROTECT-03",
+                "CH01-CON-PROTECT-04"
+              ]
+            }
+          ]
+        },
+        {
+          "when": {"flag": "priority_choice", "equals": "lockdown"},
+          "steps": [
+            {
+              "id": "S08-010C",
+              "type": "show_consequence",
+              "consequence_id": "CON-CH01-LOCKDOWN",
+              "image_id": "CH01-AFTERMATH-LOCKDOWN",
+              "line_text_ids": [
+                "CH01-CON-LOCKDOWN-01",
+                "CH01-CON-LOCKDOWN-02",
+                "CH01-CON-LOCKDOWN-03",
+                "CH01-CON-LOCKDOWN-04"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {"id": "S08-011", "type": "jump", "target": "S09"}
+  ]
+}

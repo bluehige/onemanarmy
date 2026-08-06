@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "interaction_contracts",
+  "chapter_id": "CH-MVP-001",
+  "source": "docs/design/INTERACTION_LANGUAGE.md#36-weighted_confirm--무거운-확인",
+  "interactions": [
+    {
+      "id": "INT-CH01-COMMON-WEIGHTED-CONFIRM",
+      "scene_id": null,
+      "type": "WEIGHTED_CONFIRM",
+      "fixture_only": true,
+      "prompt_key": "CH01-INT-WEIGHTED-CONFIRM-PROMPT",
+      "emotional_purpose": "향후 되돌릴 수 없는 서사 선택을 취소 가능한 짧은 확인으로 확정하는 공통 기반이다.",
+      "expected_duration_sec": 1.2,
+      "failure_state": null,
+      "score": null,
+      "timing_bonus": null,
+      "accuracy_bonus": null,
+      "cancel_available": true,
+      "input": {
+        "mouse": "left_hold",
+        "keyboard": "interaction_hold",
+        "gamepad": "confirm_hold",
+        "accessibility": "toggle"
+      },
+      "alternative_input": "single_press_toggle",
+      "replay_behavior": "skip_when_choice_already_committed",
+      "resume_behavior": "cancel_or_resume_without_penalty",
+      "visible_change": "마른 혈색 인장만 제한적으로 나타난다.",
+      "on_complete_event": "interaction_completed"
+    }
+  ]
+}

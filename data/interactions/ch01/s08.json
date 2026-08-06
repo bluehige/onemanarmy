@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "kind": "interaction_contracts",
+  "chapter_id": "CH-MVP-001",
+  "source": "docs/design/INTERACTION_LANGUAGE.md#5-ch01-적용",
+  "interactions": [
+    {
+      "id": "INT-CH01-S08-AFTERMATH",
+      "scene_id": "S08",
+      "type": "AFTERMATH_INSPECT",
+      "prompt_key": "CH01-INT-S08-AFTERMATH-PROMPT",
+      "emotional_purpose": "선택 뒤 남은 사람·정보·공간의 가격을 이연과 함께 먼저 확인한다.",
+      "expected_duration_sec": 8.0,
+      "failure_state": null,
+      "score": null,
+      "timing_bonus": null,
+      "accuracy_bonus": null,
+      "input": {
+        "mouse": "left_click",
+        "keyboard": "direction_and_confirm",
+        "gamepad": "focus_and_confirm",
+        "accessibility": "high_contrast_focus_outline"
+      },
+      "alternative_input": "keyboard_or_gamepad_focus_navigation",
+      "replay_behavior": "auto_complete_with_saved_first_focus_or_skip",
+      "resume_behavior": "preserve_selection",
+      "visible_change": "선택한 흔적이 먹선으로 강조되고 결과 독백이 나타난다.",
+      "state_output": "aftermath_first_focus",
+      "required_selections": 1,
+      "optional_more": true,
+      "points": [
+        {"id": "injured_innkeeper", "route": "TRACK", "label_text_id": "CH01-INT-S08-TRACK-INNKEEPER"},
+        {"id": "bound_fugitive", "route": "TRACK", "label_text_id": "CH01-INT-S08-TRACK-FUGITIVE"},
+        {"id": "burned_waiter", "route": "TRACK", "label_text_id": "CH01-INT-S08-TRACK-WAITER"},
+        {"id": "open_window", "route": "PROTECT", "label_text_id": "CH01-INT-S08-PROTECT-WINDOW"},
+        {"id": "intact_beam", "route": "PROTECT", "label_text_id": "CH01-INT-S08-PROTECT-BEAM"},
+        {"id": "medicine_case_trace", "route": "PROTECT", "label_text_id": "CH01-INT-S08-PROTECT-MEDICINE"},
+        {"id": "burned_beam", "route": "LOCKDOWN", "label_text_id": "CH01-INT-S08-LOCKDOWN-BEAM"},
+        {"id": "exit_blade_marks", "route": "LOCKDOWN", "label_text_id": "CH01-INT-S08-LOCKDOWN-MARKS"},
+        {"id": "onlookers", "route": "LOCKDOWN", "label_text_id": "CH01-INT-S08-LOCKDOWN-ONLOOKERS"}
+      ],
+      "on_complete_event": "interaction_completed"
+    },
+    {
+      "id": "INT-CH01-S08-RECALL",
+      "scene_id": "S08",
+      "type": "BLADE_RECALL",
+      "prompt_key": "CH01-INT-S08-RECALL-PROMPT",
+      "emotional_purpose": "선택의 흔적을 본 뒤 아홉 검을 빠짐없이 거두는 이연의 책임을 체감한다.",
+      "expected_duration_sec": 6.0,
+      "failure_state": null,
+      "score": null,
+      "timing_bonus": null,
+      "accuracy_bonus": null,
+      "input": {
+        "mouse": "left_hold",
+        "keyboard": "interaction_hold",
+        "gamepad": "confirm_hold",
+        "accessibility": "toggle_or_auto"
+      },
+      "alternative_input": "single_press_toggle_or_auto_complete",
+      "replay_behavior": "auto_complete_or_skip",
+      "resume_behavior": "preserve_progress",
+      "groups": [3, 3, 3],
+      "sword_count": 9,
+      "last_blade_inspection": true,
+      "visible_change": "아홉 검이 세 자루씩 귀환하고 마지막 검 뒤에 검관 잠금이 닫힌다.",
+      "on_complete_event": "interaction_completed"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S07B",
+  "route": "PROTECT",
+  "title_text_id": "CH01-UI-S07B-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s07b--수호",
+  "steps": [
+    {"id": "S07B-001", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S07-PROTECT"},
+    {"id": "S07B-002", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S07B-001"},
+    {"id": "S07B-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07B-002"},
+    {"id": "S07B-004", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S07B-003"},
+    {"id": "S07B-005", "type": "say", "speaker_id": "hongryeon", "text_id": "CH01-S07B-004"},
+    {"id": "S07B-006", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07B-005"},
+    {"id": "S07B-007", "type": "say", "speaker_id": "hongryeon", "text_id": "CH01-S07B-006"},
+    {"id": "S07B-008", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07B-007"},
+    {"id": "S07B-009", "type": "say", "speaker_id": "hongryeon", "text_id": "CH01-S07B-008"},
+    {"id": "S07B-010", "type": "set_flag", "flag": "fugitive_state", "operation": "set", "value": "escaped"},
+    {"id": "S07B-011", "type": "set_flag", "flag": "innkeeper_state", "operation": "set", "value": "safe"},
+    {"id": "S07B-012", "type": "set_flag", "flag": "waiter_state", "operation": "set", "value": "safe"},
+    {"id": "S07B-013", "type": "set_flag", "flag": "inn_damage", "operation": "set", "value": "none"},
+    {"id": "S07B-014", "type": "set_flag", "flag": "courier_identity_partial", "operation": "set", "value": true},
+    {"id": "S07B-015", "type": "set_flag", "flag": "clue_north_wagons", "operation": "set", "value": true},
+    {"id": "S07B-016", "type": "jump", "target": "S08"}
+  ]
+}

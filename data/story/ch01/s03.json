@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S03",
+  "route": "COMMON",
+  "title_text_id": "CH01-UI-S03-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s03--청우객잔",
+  "steps": [
+    {"id": "S03-001", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S03-001"},
+    {"id": "S03-002", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S03-002"},
+    {"id": "S03-003", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S03-003"},
+    {"id": "S03-004", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S03-004"},
+    {"id": "S03-005", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S03-005"},
+    {"id": "S03-006", "type": "set_flag", "flag": "sword_coffin_parked", "operation": "set", "value": true},
+    {"id": "S03-007", "type": "jump", "target": "S04"}
+  ]
+}
