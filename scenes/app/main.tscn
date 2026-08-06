@@ -1,10 +1,38 @@
-[gd_scene format=3]
+[gd_scene load_steps=10 format=3]
+
+[ext_resource path="res://scripts/app/main.gd" type="Script" id="1_main"]
+[ext_resource path="res://scenes/ui/title_screen.tscn" type="PackedScene" id="2_title"]
+[ext_resource path="res://scenes/story/story_screen.tscn" type="PackedScene" id="3_story"]
+[ext_resource path="res://scenes/story/interaction_director.tscn" type="PackedScene" id="4_interaction"]
+[ext_resource path="res://scripts/cinematic/cinematic_director.gd" type="Script" id="5_cinematic_director"]
+[ext_resource path="res://scenes/ui/cinematic_presenter.tscn" type="PackedScene" id="6_cinematic_presenter"]
+[ext_resource path="res://scenes/ui/consequence_screen.tscn" type="PackedScene" id="7_consequence"]
+[ext_resource path="res://scenes/ui/chapter_end_screen.tscn" type="PackedScene" id="8_chapter_end"]
+[ext_resource path="res://scenes/ui/settings_screen.tscn" type="PackedScene" id="9_settings"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_main")
 
 [node name="SceneStack" type="Node" parent="."]
 
 [node name="CinematicStage" type="Node3D" parent="."]
 
+[node name="CinematicDirector" type="Node" parent="CinematicStage"]
+script = ExtResource("5_cinematic_director")
+
 [node name="UILayer" type="CanvasLayer" parent="."]
 layer = 10
+
+[node name="StoryScreen" parent="UILayer" instance=ExtResource("3_story")]
+
+[node name="InteractionDirector" parent="UILayer" instance=ExtResource("4_interaction")]
+
+[node name="CinematicPresenter" parent="UILayer" instance=ExtResource("6_cinematic_presenter")]
+
+[node name="ConsequenceScreen" parent="UILayer" instance=ExtResource("7_consequence")]
+
+[node name="ChapterEndScreen" parent="UILayer" instance=ExtResource("8_chapter_end")]
+
+[node name="TitleScreen" parent="UILayer" instance=ExtResource("2_title")]
+
+[node name="SettingsScreen" parent="UILayer" instance=ExtResource("9_settings")]
