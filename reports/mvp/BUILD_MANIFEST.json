@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "package_id": "ONEMANARMY_CH01_MVP_WINDOWS_X86_64",
+  "status": "PASS",
+  "created_at": "2026-08-06T23:27:01+09:00",
+  "source": {
+    "branch": "codex/mvp-ch01-v1",
+    "commit": "ee0b76e0ba6c6fb7fd9cd41ad6b93cedfd138046",
+    "commit_role": "runtime_export_source",
+    "package_commit": "cb96b67e4d57d76c348ea50513f9a6a9d2ec67be"
+  },
+  "engine": {
+    "version": "4.6.3.stable.official.7d41c59c4",
+    "export_preset": "Windows Desktop",
+    "architecture": "x86_64",
+    "mode": "release"
+  },
+  "export_templates": {
+    "archive": {
+      "path": ".tools/godot/Godot_v4.6.3-stable_export_templates.tpz",
+      "bytes": 1255918323,
+      "sha256": "3fbe2c0e2dec9d537ab9ec97bcf8da91dcf23357fc51f67092dd068d839290a8"
+    },
+    "windows_release_x86_64": {
+      "installed_path": "%APPDATA%/Godot/export_templates/4.6.3.stable/windows_release_x86_64.exe",
+      "bytes": 104659456,
+      "sha256": "91724F15024A3A545E28CCD83134403D31CE2323A38E51C95E4DFA282F732AB6"
+    }
+  },
+  "artifacts": [
+    {
+      "role": "windows_executable",
+      "path": "build/windows/onemanarmy_ch01.exe",
+      "bytes": 104518656,
+      "sha256": "FDA69AD440435BD93D7C0DFCC43F717BADD5E051F1B3A19D60AA281E526B8CAB"
+    },
+    {
+      "role": "godot_pack",
+      "path": "build/windows/onemanarmy_ch01.pck",
+      "bytes": 5737656,
+      "sha256": "99FD3ECF4F0E9A07575B5F0921ADD950FCA337585A6C9D51332EF225FCF7963D"
+    },
+    {
+      "role": "distribution_archive",
+      "path": "build/windows/onemanarmy-ch01-mvp.zip",
+      "bytes": 41695843,
+      "sha256": "F85B2402FA8582AD6606BABA1672390CD11DF38ED19BB9806AAEA0C906EF5A07"
+    }
+  ],
+  "distribution_archive": {
+    "path": "build/windows/onemanarmy-ch01-mvp.zip",
+    "checksum_sidecar": "build/windows/onemanarmy-ch01-mvp.zip.sha256",
+    "entry_count": 4,
+    "entries": [
+      "onemanarmy_ch01.exe",
+      "onemanarmy_ch01.pck",
+      "E4_PLAYTEST_GUIDE.md",
+      "KNOWN_ISSUES.md"
+    ]
+  },
+  "verification": {
+    "release_export": {
+      "status": "PASS"
+    },
+    "extracted_build_headless_smoke": {
+      "status": "PASS",
+      "exit_code": 0
+    },
+    "windows_renderer_smoke": {
+      "status": "PASS",
+      "frames": 60,
+      "exit_code": 0
+    },
+    "initial_missing_export_path_attempt": {
+      "status": "RECOVERED",
+      "classification": "environment_preparation",
+      "resolution": "Created the output directory and reran the same release export successfully."
+    }
+  },
+  "package_documents": {
+    "checksum_sidecar": "build/windows/onemanarmy-ch01-mvp.zip.sha256",
+    "playtest_guide": "reports/mvp/E4_PLAYTEST_GUIDE.md",
+    "known_issues": "reports/mvp/KNOWN_ISSUES.md",
+    "validation_summary": "reports/mvp/VALIDATION_SUMMARY.md"
+  }
+}

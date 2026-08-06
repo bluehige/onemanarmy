@@ -1,27 +1,142 @@
 {
   "schema_version": 1,
   "updated_at": "2026-08-06",
-  "phase": "P0_BOOTSTRAP",
-  "status": "PASS",
-  "commit": null,
+  "phase": "P12_INTEGRATED_QA_BUILD",
+  "status": "COMPLETE",
+  "commit": "cb96b67e4d57d76c348ea50513f9a6a9d2ec67be",
+  "build_source_commit": "ee0b76e0ba6c6fb7fd9cd41ad6b93cedfd138046",
   "tests_run": [
-    "python scripts/validate_planning_repository.py",
-    ".tools/godot/Godot_v4.6.3-stable_win64_console.exe --version"
+    "powershell -NoProfile -ExecutionPolicy Bypass -File tools/run_validation.ps1",
+    "Godot 4.6.3 OpenGL Compatibility E2 capture via res://tests/visual/capture_e2.gd",
+    "Godot 4.6.3 108-sword performance fixture via res://tests/performance/test_heaviest_scene.gd",
+    "Godot 4.6.3 Windows Desktop release export",
+    "SHA-256 verification for EXE, PCK, and ZIP"
   ],
   "tests_passed": [
-    "planning repository validator",
-    "Godot exact version",
-    "project Skill count and hashes",
-    "implementation branch and base commit"
+    "E0 planning, content, project-contract, and forbidden-module static validation",
+    "E1 boot, unit, integration, aggregate sanity, and Main-flow validation",
+    "All 12 CH01 scenes and 185 story steps validated",
+    "Five major choice paths (two S00 priorities plus three S02 questions) and three S06 final branches validated",
+    "S00 2 x S02 3 x S06 3 = 18 route combinations completed",
+    "9-sword and 108-sword counts exact with duplicate slots = 0",
+    "Runtime save adapter, atomic save, backup recovery, and global seen separation",
+    "E2 720p and 1080p OpenGL Compatibility render captures",
+    "Automated keyboard, mouse, gamepad-event, accessibility, save/load, seen-skip, auto, and cinematic-mode checks",
+    "108-sword development performance fixture",
+    "Windows EXE, PCK, ZIP, and final ZIP SHA-256 F85B2402FA8582AD6606BABA1672390CD11DF38ED19BB9806AAEA0C906EF5A07 generation"
   ],
   "tests_not_run": [
-    "Godot editor boot (P1)",
-    "Windows export template check (required before P12 export)"
+    "E4 human playtest",
+    "Physical gamepad end-to-end completion",
+    "Forward+ Windows release-build long-duration soak",
+    "Minimum-spec and cross-vendor GPU validation",
+    "CPU/GPU split frame timing, 1% low, and draw-submission profiling"
   ],
   "evidence": [
+    "reports/mvp/MVP_COMPLETION_REPORT.md",
     "reports/mvp/bootstrap_report.md",
-    "reports/mvp/skill_install_manifest.json"
+    "reports/mvp/skill_install_manifest.json",
+    "reports/mvp/KNOWN_ISSUES.md",
+    "reports/mvp/PERFORMANCE_REPORT.md",
+    "reports/mvp/E4_PLAYTEST_GUIDE.md",
+    "reports/mvp/evidence/",
+    "assets/art/ch01/ASSET_MANIFEST.json",
+    "assets/audio/AUDIO_PLACEHOLDER_MANIFEST.json",
+    "tools/run_validation.ps1",
+    "tools/validators/validate_all.gd",
+    "tests/test_runner.gd",
+    "tests/integration/test_main_flow.gd",
+    "tests/performance/test_heaviest_scene.gd",
+    "build/windows/onemanarmy_ch01.exe",
+    "build/windows/onemanarmy_ch01.pck",
+    "build/windows/onemanarmy-ch01-mvp.zip",
+    "build/windows/onemanarmy-ch01-mvp.zip.sha256"
   ],
-  "known_issues": [],
-  "next_phase": "P1_GODOT_BASELINE"
+  "known_issues": [
+    "Three generated CH01 art assets remain DRAFT pending owner approval.",
+    "Nine production audio cues use approved silent MVP placeholders.",
+    "E4 human playtest, physical gamepad validation, and Forward+ release soak are NOT_RUN.",
+    "Pull Request is pending."
+  ],
+  "next_phase": null,
+  "phases": [
+    {
+      "phase": "P0_BOOTSTRAP",
+      "status": "PASS",
+      "commits": ["1b51272"],
+      "summary": "Repository, seven project Skills, exact Godot 4.6.3, planning validator, and implementation branch established."
+    },
+    {
+      "phase": "P1_GODOT_BASELINE",
+      "status": "PASS",
+      "commits": ["617a7f9"],
+      "summary": "Forward+ project baseline, 1920x1080/1280x720 policy, input actions, autoloads, Main shell, boot fixture, and export preset established."
+    },
+    {
+      "phase": "P2_CH01_CONTENT_DATA",
+      "status": "PASS",
+      "commits": ["271f7fd"],
+      "summary": "S00-S09 story, interaction, cinematic, localization data and reference validator implemented."
+    },
+    {
+      "phase": "P3_STORY_RUNTIME",
+      "status": "PASS",
+      "commits": ["97f0576"],
+      "summary": "All 13 StoryRuntime step types, deterministic branches, snapshots, state logs, signals, and loop guard implemented."
+    },
+    {
+      "phase": "P4_VISUAL_NOVEL_UI",
+      "status": "PASS",
+      "commits": ["cf106f7", "5420cf0"],
+      "summary": "Dialogue, choices, typewriter, log, auto, read-only skip, settings, chapter markers, and Main UI integration completed."
+    },
+    {
+      "phase": "P5_INTERACTION_DIRECTOR",
+      "status": "PASS",
+      "commits": ["3fbba03"],
+      "summary": "Six non-failing interaction types, alternative inputs, toggle mode, interruption safety, and replay completion implemented."
+    },
+    {
+      "phase": "P6_SAVE_LOAD_SEEN",
+      "status": "PASS",
+      "commits": ["ea1f252", "2a7af57"],
+      "summary": "Schema-1 atomic save, backup recovery, autosave/manual slot, runtime snapshot adapter, and global seen separation completed."
+    },
+    {
+      "phase": "P7_CINEMATIC_FORMATION",
+      "status": "PASS",
+      "commits": ["e60ebf7", "2f3239e"],
+      "summary": "Full/Summary/Result playback and deterministic visible 9/108 procedural formations with duplicate-slot protection completed."
+    },
+    {
+      "phase": "P8_S00_INTEGRATION",
+      "status": "PASS",
+      "commits": ["5420cf0"],
+      "summary": "S00 focus, two choices, intent/pull, choice-specific 108-sword cinematic, recall, and autosave integrated."
+    },
+    {
+      "phase": "P9_S01_S05_INTEGRATION",
+      "status": "PASS",
+      "commits": ["5420cf0"],
+      "summary": "Common city/contract/inn flow, three question options, focus interaction, and common nine-sword cinematic integrated."
+    },
+    {
+      "phase": "P10_S06_S09_BRANCHES",
+      "status": "PASS",
+      "commits": ["5420cf0"],
+      "summary": "Track, protect, and lockdown routes, aftermath, 9/9 recall, consequence variants, and chapter ending integrated."
+    },
+    {
+      "phase": "P11_ART_AUDIO_ACCESSIBILITY_POLISH",
+      "status": "PASS_WITH_WARNINGS",
+      "commits": ["eda855d", "51dbeb7", "22220d8"],
+      "summary": "Title/settings/accessibility and three generated art assets integrated; art remains DRAFT and nine production audio cues remain approved silent placeholders."
+    },
+    {
+      "phase": "P12_INTEGRATED_QA_BUILD",
+      "status": "PASS_WITH_WARNINGS",
+      "commits": ["d5b6eff", "caddcbe", "a43b675", "6e97d23", "f5687c7", "ee0b76e", "d437c94", "cb96b67"],
+      "summary": "Aggregate validation, render/performance evidence, Windows EXE/PCK/ZIP, and package exclusion gate completed; E4, physical gamepad, and Forward+ soak remain NOT_RUN."
+    }
+  ]
 }
