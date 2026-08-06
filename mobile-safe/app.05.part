@@ -1,0 +1,208 @@
+      if (!startedAt) startedAt = timestamp;
+      const ratio = Math.min(1, (timestamp - startedAt) / duration);
+      fill.style.width = `${Math.round(ratio * 100)}%`;
+      if (contract.type === 'BLADE_RECALL') {
+        const total = Number(contract.sword_count || 9);
+        meta.textContent = `검 회수 ${Math.max(1, Math.round(total * ratio))} / ${total}`;
+      }
+      if (ratio >= 1) {
+        frame = 0;
+        currentInteractionComplete?.(true);
+        return;
+      }
+      frame = requestAnimationFrame(tick);
+    };
+
+    const start = (event) => {
+      event.preventDefault();
+      button.setPointerCapture?.(event.pointerId);
+      cancel();
+      frame = requestAnimationFrame(tick);
+    };
+    const stop = (event) => {
+      event.preventDefault();
+      cancel();
+    };
+
+    button.addEventListener('pointerdown', start);
+    button.addEventListener('pointerup', stop);
+    button.addEventListener('pointercancel', stop);
+    button.addEventListener('pointerleave', stop);
+    currentHoldCleanup = () => {
+      cancel();
+      button.removeEventListener('pointerdown', start);
+      button.removeEventListener('pointerup', stop);
+      button.removeEventListener('pointercancel', stop);
+      button.removeEventListener('pointerleave', stop);
+    };
+  }
+
+  function renderDragInteraction() {
+    const track = document.createElement('div');
+    track.className = 'drag-track';
+    const handle = document.createElement('button');
+    handle.type = 'button';
+    handle.className = 'drag-handle';
+    handle.textContent = '당김';
+    track.appendChild(handle);
+    ui.interactionBody.appendChild(track);
+
+    let active = false;
+    let startX = 0;
+    let currentX = 0;
+
+    const reset = () => {
+      active = false;
+      currentX = 0;
+      handle.style.transform = 'translateX(0)';
+    };
+
+    const down = (event) => {
+      event.preventDefault();
+      active = true;
+      startX = event.clientX;
+      handle.setPointerCapture?.(event.pointerId);
+    };
+
+    const move = (event) => {
+      if (!active) return;
+      event.preventDefault();
+      const max = Math.max(80, track.clientWidth - handle.clientWidth - 16);
+      currentX = Math.max(0, Math.min(max, event.clientX - startX));
+      handle.style.transform = `translateX(${currentX}px)`;
+      if (currentX >= max * 0.72) {
+        active = false;
+        currentInteractionComplete?.(true);
+      }
+    };
+
+    const up = (event) => {
+      if (!active) return;
+      event.preventDefault();
+      reset();
+    };
+
+    handle.addEventListener('pointerdown', down);
+    handle.addEventListener('pointermove', move);
+    handle.addEventListener('pointerup', up);
+    handle.addEventListener('pointercancel', up);
+    currentHoldCleanup = () => {
+      handle.removeEventListener('pointerdown', down);
+      handle.removeEventListener('pointermove', move);
+      handle.removeEventListener('pointerup', up);
+      handle.removeEventListener('pointercancel', up);
+    };
+  }
+
+  function completeInteraction(step, contract, value) {
+    const outputFlag = String(step.output_flag || contract.state_output || '');
+    if (outputFlag) runtime.flags[outputFlag] = value;
+    const interactionId = String(step.interaction_id || contract.id || '');
+    if (!runtime.completedInteractionIds.includes(interactionId)) {
+      runtime.completedInteractionIds.push(interactionId);
+    }
+    cleanupActiveInteraction();
+    clearWaiting();
+    saveSnapshot(AUTOSAVE_KEY, false);
+    drive();
+  }
+
+  function cleanupActiveInteraction() {
+    currentInteractionComplete = null;
+    currentInteractionFallback = null;
+    if (currentHoldCleanup) currentHoldCleanup();
+    currentHoldCleanup = null;
+  }
+
+  function renderCinematic(step) {
+    const cinematicId = String(step.cinematic_id || '');
+    const cinematic = data.cinematics.get(cinematicId);
+    if (!cinematic) {
+      showError(new Error(`시네마틱을 찾지 못했습니다: ${cinematicId}`));
+      return;
+    }
+    const swordCount = Number(cinematic.sword_count || 0);
+    ui.cinematicLabel.textContent = `${cinematicId} · TEMPORARY WEB PRESENTATION`;
+    ui.cinematicTitle.textContent = swordCount === 108
+      ? '백여덟 검, 진을 이루다'
+      : swordCount === 9
+        ? '아홉 검, 한 호흡으로'
+        : '검관을 다시 메다';
+    ui.cinematicPurpose.textContent = localize(cinematic.purpose_text_id, '이연의 선택이 검의 움직임으로 드러납니다.');
+    ui.swordCount.textContent = swordCount > 0 ? `${swordCount} SWORDS` : 'DEPARTURE';
+    buildSwordFormation(swordCount);
+    ui.cinematicSummaryButton.onclick = () => completeCinematic(step, cinematic, 'summary');
+    ui.cinematicResultButton.onclick = () => completeCinematic(step, cinematic, 'full');
+    showScreen(ui.cinematicScreen);
+  }
+
+  function buildSwordFormation(swordCount) {
+    ui.swordFormation.replaceChildren();
+    const visible = swordCount === 108 ? 54 : swordCount;
+    for (let index = 0; index < visible; index += 1) {
+      const sword = document.createElement('span');
+      sword.className = 'sword-mark';
+      const normalized = visible <= 1 ? 0 : index / (visible - 1);
+      const tilt = -18 + normalized * 36;
+      const rise = Math.abs(normalized - 0.5) * 22;
+      sword.style.setProperty('--tilt', `${tilt.toFixed(1)}deg`);
+      sword.style.setProperty('--rise', `${rise.toFixed(1)}px`);
+      sword.style.setProperty('--delay', `${Math.min(420, index * 12)}ms`);
+      ui.swordFormation.appendChild(sword);
+    }
+  }
+
+  function completeCinematic(step, cinematic, mode) {
+    for (const event of cinematic.result_events || []) {
+      applyStateEvent(event, false);
+      const signature = eventSignature(event);
+      runtime.resultEventSuppressions[signature] = Number(runtime.resultEventSuppressions[signature] || 0) + 1;
+    }
+    runtime.cinematicHistory[String(step.cinematic_id || cinematic.id)] = mode;
+    clearWaiting();
+    saveSnapshot(AUTOSAVE_KEY, false);
+    drive();
+  }
+
+  function renderConsequence(step) {
+    const route = String(runtime.flags.priority_choice || '').toUpperCase();
+    const titleByRoute = {
+      TRACK: '추적 · 놓치지 않은 대가',
+      PROTECT: '수호 · 사람을 먼저 남기다',
+      LOCKDOWN: '봉쇄 · 객잔에 남은 불',
+    };
+    ui.consequenceTitle.textContent = titleByRoute[route] || '선택 뒤 남은 것';
+    ui.consequenceLines.replaceChildren();
+    for (const textId of step.line_text_ids || []) {
+      const line = document.createElement('div');
+      line.className = 'consequence-line';
+      line.textContent = localize(textId, String(textId));
+      ui.consequenceLines.appendChild(line);
+    }
+    showScreen(ui.consequenceScreen);
+  }
+
+  function continueConsequence() {
+    if (runtime?.waitingKind !== 'consequence') return;
+    clearWaiting();
+    drive();
+  }
+
+  function showEnding() {
+    const route = String(runtime.flags.priority_choice || '').toUpperCase();
+    const routeNames = {
+      TRACK: '추적 — 도주자를 놓치지 않았다',
+      PROTECT: '수호 — 사람을 먼저 남겼다',
+      LOCKDOWN: '봉쇄 — 객잔 전체를 묶었다',
+    };
+    ui.endingRoute.textContent = routeNames[route] || '공통 경로 완료';
+    const entries = [
+      ['도주자', stateLabel(runtime.flags.fugitive_state, { captured: '생포', escaped: '도주' })],
+      ['객잔 주인', stateLabel(runtime.flags.innkeeper_state, { safe: '안전', injured: '부상' })],
+      ['점소이', stateLabel(runtime.flags.waiter_state, { safe: '안전', minor_injury: '경상' })],
+      ['객잔 피해', stateLabel(runtime.flags.inn_damage, { none: '없음', minor: '경미', fire_damage: '화재 피해' })],
+      ['북문 단서', `${Number(runtime.flags.north_gate_clue_level || 0)} 단계`],
+      ['검 회수', `${Number(runtime.flags.swords_recalled || 9)} / 9`],
+    ];
+    ui.endingSummary.replaceChildren();
+    for (const [term, description] of entries) {
