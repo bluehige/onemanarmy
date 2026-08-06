@@ -1,10 +1,11 @@
 # Current State
 
 - Date: 2026-08-06
-- Phase: `VISUAL_NOVEL_CORE_RENORMALIZATION_COMPLETE`
+- Phase: `CODEX_MVP_EXECUTION_READY`
 - Engine: Godot 4.6.3
 - Runtime project: not created
 - Current canonical branch: `main`
+- Planned implementation branch: `codex/mvp-ch01-v1`
 - Build ID: none
 
 ## Active owner decision
@@ -17,7 +18,16 @@
 - 실패 없는 짧은 감정 인터랙션 허용
 - 108검은 선택 뒤 재생되는 시네마틱 서사 언어
 
-## Canonical entrypoint
+## Codex MVP execution entrypoint
+
+1. `CODEX_MVP_START_HERE.md`
+2. `docs/production/CODEX_MVP_ONE_SHOT_PROMPT.md`
+3. `docs/production/CODEX_MVP_MASTER_EXECUTION_PLAN.md`
+4. `docs/production/CODEX_MVP_DELIVERY_CHECKLIST.md`
+
+Codex는 구현 branch에서 P0부터 P12까지 자동 진행한다. 계획·스캐폴드·한 장면 데모에서 멈추지 않으며, 실제 CH01 빌드와 검증 보고서, PR을 만든다.
+
+## Canonical project entrypoint
 
 1. `AGENTS.md`
 2. `docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md`
@@ -27,30 +37,34 @@
 6. 관련 프로젝트 Skill
 7. 관련 스토리·UI·기술 문서
 
-## Completed in the pivot
+## Completed planning package
 
-- visual-novel core contract added
-- interaction language added
-- project genre and README rewritten
-- AGENTS rules rewritten
-- GamePlanner config updated
-- game contract rewritten
-- prototype brief rewritten
-- risk register rewritten
-- GDD rewritten
-- story and route architecture rewritten
-- formation document converted to cinematic-only language
-- UI/UX spec rewritten for story-first screens
-- Godot technical plan rewritten around StoryRuntime, InteractionDirector, and CinematicDirector
-- vertical slice plan rewritten
-- CH01 production request rewritten
-- CH01 full script rewritten
-- CH01 cinematic storyboard rewritten
-- CH01 graphic asset request rewritten
-- prompt-04 canonical visual style aligned to VN UI
-- image generation guide aligned to VN UI
-- project validation script updated
-- seven project-specific Agent Skills active
+- visual-novel core contract
+- interaction language
+- project genre and README
+- AGENTS rules
+- GamePlanner config
+- game contract
+- prototype brief
+- risk register
+- GDD
+- story and route architecture
+- formation cinematic language
+- visual-novel UI/UX spec
+- Godot technical plan
+- vertical slice plan
+- CH01 production request
+- CH01 full script
+- CH01 cinematic storyboard
+- CH01 graphic asset request
+- prompt-04 canonical visual style
+- image generation guide
+- planning repository validator
+- seven project-specific Agent Skills
+- Codex MVP master execution plan
+- Codex one-shot prompt
+- Codex delivery checklist
+- root start entrypoint
 
 ## Project Skills
 
@@ -90,9 +104,10 @@ S01 백야성 입성
 - FormationBattleRuntime
 - TacticalGrid
 - SquadPlacementUI
+- TurnManager
 - CombatStats
 - DamageCalculator
-- TurnManager
+- EnemyCombatAI
 - QTE success state
 
 ## Official visual style
@@ -110,29 +125,27 @@ S01 백야성 입성
 
 ## Not completed
 
-- owner review of revised CH01 script
-- owner review of revised interaction language
 - Godot project
 - StoryRuntime
 - InteractionDirector
 - CinematicDirector
+- FormationVisualDirector
 - 9/108 sword renderer
 - actual VN UI
-- runtime story JSON
+- runtime CH01 JSON
 - save/load
+- Windows build
 - performance evidence
 - E3 input completion
-- E4 user test
+- E4 human user test
 
-## Next safe actions
+## Next safe action
 
-1. create `WO-0001` for Godot 4.6.3 baseline and headless boot
-2. create `WO-0002` for StoryRuntime say / choice / flag / jump
-3. create `WO-0003` for dialogue UI, log, and read-text skip
-4. create `WO-0004` for InteractionDirector base and FOCUS_POINT / HOLD_INTENT
-5. create `WO-0005` for CinematicDirector and a single CH01 cinematic
-6. create `WO-0006` for 9/108 sword visual renderer
-7. integrate CH01 and test the visual-novel flow
+1. Open `CODEX_MVP_START_HERE.md`.
+2. Paste the full prompt from `docs/production/CODEX_MVP_ONE_SHOT_PROMPT.md` into Codex.
+3. Confirm Codex created `codex/mvp-ch01-v1`.
+4. Allow it to continue through P0~P12 without stage-by-stage approval.
+5. Review the final PR and Windows MVP build.
 
 ## Do not touch
 
@@ -146,3 +159,4 @@ S01 백야성 입성
 - prompt-04 visual style
 - sword coffin as a low, long wheeled carrier
 - interactions support emotion and never decide combat success
+- product code must be implemented on a branch and submitted through PR
