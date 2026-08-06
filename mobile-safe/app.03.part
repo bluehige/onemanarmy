@@ -1,0 +1,241 @@
+      const frame = runtime.frames[runtime.frames.length - 1];
+      if (!Array.isArray(frame.steps)) return null;
+      if (frame.index >= frame.steps.length) {
+        runtime.frames.pop();
+        continue;
+      }
+      const step = frame.steps[frame.index];
+      frame.index += 1;
+      return step && typeof step === 'object' ? step : null;
+    }
+    return null;
+  }
+
+  function conditionMatches(condition) {
+    if (!condition || typeof condition !== 'object') return false;
+    return Object.prototype.hasOwnProperty.call(runtime.flags, condition.flag)
+      && runtime.flags[condition.flag] === condition.equals;
+  }
+
+  function eventSignature(event) {
+    return JSON.stringify([
+      String(event.flag || ''),
+      String(event.operation || 'set'),
+      event.value,
+    ]);
+  }
+
+  function applyStateEvent(event, allowSuppression = false) {
+    const signature = eventSignature(event);
+    if (allowSuppression) {
+      const count = Number(runtime.resultEventSuppressions[signature] || 0);
+      if (count > 0) {
+        if (count === 1) delete runtime.resultEventSuppressions[signature];
+        else runtime.resultEventSuppressions[signature] = count - 1;
+        return;
+      }
+    }
+
+    const flag = String(event.flag || '');
+    if (!Object.prototype.hasOwnProperty.call(runtime.flags, flag)) {
+      throw new Error(`정의되지 않은 상태 플래그입니다: ${flag}`);
+    }
+    const operation = String(event.operation || 'set');
+    if (operation === 'set') {
+      runtime.flags[flag] = event.value;
+    } else if (operation === 'increment') {
+      runtime.flags[flag] = Number(runtime.flags[flag] || 0) + Number(event.value || 0);
+    } else {
+      throw new Error(`지원하지 않는 상태 연산입니다: ${operation}`);
+    }
+  }
+
+  function setWaiting(kind, step) {
+    runtime.waitingKind = kind;
+    runtime.pendingStep = clone(step);
+    runtime.updatedAt = new Date().toISOString();
+    saveSnapshot(AUTOSAVE_KEY, false);
+    renderWaiting();
+  }
+
+  function clearWaiting() {
+    runtime.waitingKind = '';
+    runtime.pendingStep = null;
+  }
+
+  function drive() {
+    try {
+      let processed = 0;
+      while (!runtime.ended && !runtime.waitingKind) {
+        processed += 1;
+        if (processed > 512) throw new Error('스토리 내부 처리 한도를 초과했습니다.');
+        const step = nextStep();
+        if (!step) throw new Error(`장면 ${runtime.sceneId}이 jump 또는 end_chapter 없이 끝났습니다.`);
+
+        switch (step.type) {
+          case 'say':
+          case 'narrate':
+            setWaiting('line', step);
+            break;
+          case 'choice':
+            setWaiting('choice', step);
+            break;
+          case 'set_flag':
+            applyStateEvent(step, true);
+            break;
+          case 'conditional': {
+            let selected = [];
+            for (const branch of step.branches || []) {
+              if (conditionMatches(branch.when)) {
+                selected = Array.isArray(branch.steps) ? branch.steps : [];
+                break;
+              }
+            }
+            if (selected.length === 0 && Array.isArray(step.default_steps)) {
+              selected = step.default_steps;
+            }
+            if (selected.length > 0) {
+              runtime.frames.push({ steps: clone(selected), index: 0 });
+            }
+            break;
+          }
+          case 'focus_interaction':
+          case 'intent_interaction':
+          case 'blade_recall':
+            setWaiting('interaction', step);
+            break;
+          case 'play_cinematic':
+            setWaiting('cinematic', step);
+            break;
+          case 'show_consequence':
+            setWaiting('consequence', step);
+            break;
+          case 'autosave':
+            saveSnapshot(AUTOSAVE_KEY, false);
+            break;
+          case 'jump':
+            enterScene(String(step.target || ''));
+            break;
+          case 'end_chapter':
+            runtime.ended = true;
+            runtime.updatedAt = new Date().toISOString();
+            saveSnapshot(AUTOSAVE_KEY, false);
+            showEnding();
+            break;
+          default:
+            throw new Error(`지원하지 않는 스토리 단계입니다: ${String(step.type)}`);
+        }
+      }
+    } catch (error) {
+      showError(error);
+    }
+  }
+
+  function snapshotDocument() {
+    return {
+      schemaVersion: 2,
+      sourceCommit: SOURCE_COMMIT,
+      savedAt: new Date().toISOString(),
+      runtime: clone(runtime),
+    };
+  }
+
+  function saveSnapshot(key, notify = true) {
+    if (!runtime) return false;
+    runtime.updatedAt = new Date().toISOString();
+    const persisted = safeStorageSet(key, JSON.stringify(snapshotDocument()));
+    ui.saveStatus.textContent = key === MANUAL_KEY ? '수동 저장 완료' : '자동 저장 완료';
+    ui.manualLoadButton.disabled = !hasValidSave(MANUAL_KEY);
+    updateTitleButtons();
+    if (notify) {
+      showToast(persisted ? '이 브라우저에 저장했습니다.' : '이번 탭에 임시 저장했습니다.');
+    }
+    return true;
+  }
+
+  function readSnapshot(key) {
+    const raw = safeStorageGet(key);
+    if (!raw) return null;
+    try {
+      const document = JSON.parse(raw);
+      if (document?.schemaVersion !== 2 || document?.sourceCommit !== SOURCE_COMMIT) {
+        return null;
+      }
+      if (!document.runtime || document.runtime.schemaVersion !== 2) {
+        return null;
+      }
+      return document;
+    } catch (error) {
+      log('Save parse failed', { key, error: String(error) });
+      return null;
+    }
+  }
+
+  function hasValidSave(key) {
+    return Boolean(readSnapshot(key));
+  }
+
+  function restoreSnapshot(key) {
+    const document = readSnapshot(key);
+    if (!document) {
+      showToast('복원할 수 있는 저장 데이터가 없습니다.');
+      return false;
+    }
+    runtime = clone(document.runtime);
+    runtime.dialogueLog = Array.isArray(runtime.dialogueLog) ? runtime.dialogueLog.slice(-MAX_LOG_ENTRIES) : [];
+    updateScenePresentation();
+    ui.hud.hidden = false;
+    ui.manualSaveButton.disabled = false;
+    ui.manualLoadButton.disabled = !hasValidSave(MANUAL_KEY);
+    if (runtime.ended) showEnding();
+    else if (runtime.waitingKind) renderWaiting();
+    else drive();
+    showToast(key === MANUAL_KEY ? '수동 저장을 불러왔습니다.' : '자동 저장을 이어갑니다.');
+    return true;
+  }
+
+  function updateTitleButtons() {
+    ui.continueButton.disabled = !hasValidSave(AUTOSAVE_KEY);
+    ui.loadTitleButton.disabled = !hasValidSave(MANUAL_KEY);
+  }
+
+  function startNewGame() {
+    requestPersistentStorage();
+    runtime = createInitialRuntime();
+    ui.hud.hidden = false;
+    ui.manualSaveButton.disabled = false;
+    ui.manualLoadButton.disabled = !hasValidSave(MANUAL_KEY);
+    enterScene(data.manifest.entry_scene);
+    saveSnapshot(AUTOSAVE_KEY, false);
+    drive();
+  }
+
+  function showTitle() {
+    cleanupActiveInteraction();
+    finishTypewriter();
+    ui.hud.hidden = true;
+    ui.logDrawer.hidden = true;
+    updateTitleButtons();
+    updateStorageNote();
+    setBackdrop('S00');
+    showScreen(ui.titleScreen);
+  }
+
+  function updateScenePresentation() {
+    const scene = data.scenes.get(runtime?.sceneId);
+    const sceneTitle = scene ? localize(scene.title_text_id, scene.id) : '표지';
+    const location = scene ? localize(scene.location_text_id, '') : '';
+    ui.chapterLabel.textContent = data.chapterTitle || '第一章';
+    ui.sceneLabel.textContent = runtime?.sceneId ? `${runtime.sceneId} · ${sceneTitle}` : sceneTitle;
+    ui.sceneCaption.textContent = location || sceneTitle;
+    setBackdrop(runtime?.sceneId || 'S00');
+  }
+
+  function assetUrl(path) {
+    return `${SOURCE_ROOTS[0]}${path}`;
+  }
+
+  function setBackdrop(sceneId) {
+    const asset = SCENE_ART[sceneId];
+    if (asset) {
+      ui.backdrop.style.backgroundImage = [
