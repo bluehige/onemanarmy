@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "project_slug": "onemanarmy",
   "game_title": "일인합격진: 검관을 끄는 남자",
   "engine": "Godot 4.6.3",
@@ -9,7 +9,8 @@
   "genre": "Hard-boiled Wuxia Multi-route Visual Novel",
   "created_at": "2026-08-05",
   "updated_at": "2026-08-06",
-  "current_phase": "VISUAL_NOVEL_CORE_RENORMALIZATION_COMPLETE",
+  "current_phase": "CODEX_MVP_EXECUTION_READY",
+  "implementation_branch": "codex/mvp-ch01-v1",
   "genre_contract": {
     "visual_novel_primary": true,
     "manual_combat": false,
@@ -18,6 +19,10 @@
     "authored_formation_cinematics": true
   },
   "canonical_documents": {
+    "codex_start": "CODEX_MVP_START_HERE.md",
+    "codex_mvp_master_plan": "docs/production/CODEX_MVP_MASTER_EXECUTION_PLAN.md",
+    "codex_mvp_one_shot_prompt": "docs/production/CODEX_MVP_ONE_SHOT_PROMPT.md",
+    "codex_mvp_delivery_checklist": "docs/production/CODEX_MVP_DELIVERY_CHECKLIST.md",
     "visual_novel_core": "docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md",
     "game_contract": "docs/foundation/GAME_CONTRACT.md",
     "risk_register": "docs/foundation/RISK_REGISTER.md",
@@ -32,6 +37,7 @@
     "chapter_01": "docs/production/MVP_CH01_INN_OF_NINE_SWORDS.md",
     "chapter_01_script": "docs/story/CH01_FULL_SCRIPT.md",
     "chapter_01_storyboard": "docs/story/CH01_CINEMATIC_STORYBOARD.md",
+    "chapter_01_graphic_assets": "docs/art/CH01_GRAPHIC_ASSET_REQUEST.md",
     "canonical_visual_style": "docs/art/06_CANONICAL_VISUAL_STYLE_PROMPT.md"
   },
   "project_skills": [
@@ -48,9 +54,13 @@
     "FormationBattleRuntime",
     "TacticalGrid",
     "SquadPlacementUI",
-    "CombatStats"
+    "TurnManager",
+    "CombatStats",
+    "DamageCalculator",
+    "EnemyCombatAI"
   ],
   "planned_validation_commands": [
+    "python scripts/validate_planning_repository.py",
     "${GODOT_BIN} --headless --editor --path . --quit-after 2",
     "${GODOT_BIN} --headless --path . --script res://tests/test_runner.gd",
     "${GODOT_BIN} --headless --path . --scene res://tests/scenes/test_boot.tscn --quit-after 120"
