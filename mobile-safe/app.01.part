@@ -1,0 +1,188 @@
+(() => {
+  'use strict';
+
+  const SOURCE_COMMIT = 'ac236ab65a755d9d075a398ba4cad91536eb9834';
+  const SOURCE_ROOTS = [
+    `https://raw.githubusercontent.com/bluehige/onemanarmy/${SOURCE_COMMIT}/`,
+    `https://cdn.jsdelivr.net/gh/bluehige/onemanarmy@${SOURCE_COMMIT}/`,
+  ];
+  const STORAGE_PREFIX = 'onemanarmy.mobile_safe.v2';
+  const AUTOSAVE_KEY = `${STORAGE_PREFIX}.autosave`;
+  const MANUAL_KEY = `${STORAGE_PREFIX}.manual`;
+  const SETTINGS_KEY = `${STORAGE_PREFIX}.settings`;
+  const MAX_LOG_ENTRIES = 160;
+  const TYPEWRITER_INTERVAL_MS = 18;
+  const HOLD_DURATION_MS = 900;
+
+  const SPEAKER_NAMES = Object.freeze({
+    bokchil: '복칠',
+    cavalry_commander: '기병 지휘관',
+    child: '아이',
+    fugitive: '도주자',
+    gatekeeper: '문지기',
+    guardian: '보호자',
+    gwak_nosam: '곽노삼',
+    hongryeon: '홍련',
+    jo_muntak: '조문탁',
+    lee_yeon: '이연',
+    lee_yeon_inner: '이연',
+    merchant: '상인',
+    note: '쪽지',
+    other_swordsman: '다른 칼잡이',
+    refugee_man: '피난민 남자',
+    swordsman: '칼잡이',
+  });
+
+  const SCENE_ART = Object.freeze({
+    S00: 'assets/art/ch01/kf-001-gwancheon-108-swords.png',
+    S04: 'assets/art/ch01/kf-002-cheongu-inn-nine-swords.png',
+    S05: 'assets/art/ch01/kf-002-cheongu-inn-nine-swords.png',
+    S06: 'assets/art/ch01/kf-002-cheongu-inn-nine-swords.png',
+    S07A: 'assets/art/ch01/kf-007-north-gate-road.png',
+    S07B: 'assets/art/ch01/kf-007-north-gate-road.png',
+    S07C: 'assets/art/ch01/kf-007-north-gate-road.png',
+    S08: 'assets/art/ch01/kf-007-north-gate-road.png',
+    S09: 'assets/art/ch01/kf-007-north-gate-road.png',
+  });
+
+  const ui = Object.freeze({
+    app: document.getElementById('app'),
+    backdrop: document.getElementById('scene-backdrop'),
+    hud: document.getElementById('hud'),
+    chapterLabel: document.getElementById('chapter-label'),
+    sceneLabel: document.getElementById('scene-label'),
+    saveStatus: document.getElementById('save-status'),
+    logButton: document.getElementById('log-button'),
+    manualSaveButton: document.getElementById('manual-save-button'),
+    manualLoadButton: document.getElementById('manual-load-button'),
+    menuButton: document.getElementById('menu-button'),
+    bootScreen: document.getElementById('boot-screen'),
+    bootDetail: document.getElementById('boot-detail'),
+    bootProgress: document.getElementById('boot-progress'),
+    bootPercent: document.getElementById('boot-percent'),
+    bootProgressTrack: document.querySelector('.progress-track'),
+    titleScreen: document.getElementById('title-screen'),
+    newGameButton: document.getElementById('new-game-button'),
+    continueButton: document.getElementById('continue-button'),
+    loadTitleButton: document.getElementById('load-title-button'),
+    resetSaveButton: document.getElementById('reset-save-button'),
+    storageNote: document.getElementById('storage-note'),
+    storyScreen: document.getElementById('story-screen'),
+    sceneCaption: document.getElementById('scene-caption'),
+    dialoguePanel: document.getElementById('dialogue-panel'),
+    speakerName: document.getElementById('speaker-name'),
+    dialogueText: document.getElementById('dialogue-text'),
+    advanceHint: document.getElementById('advance-hint'),
+    choiceScreen: document.getElementById('choice-screen'),
+    choiceOptions: document.getElementById('choice-options'),
+    interactionScreen: document.getElementById('interaction-screen'),
+    interactionType: document.getElementById('interaction-type'),
+    interactionTitle: document.getElementById('interaction-title'),
+    interactionPrompt: document.getElementById('interaction-prompt'),
+    interactionBody: document.getElementById('interaction-body'),
+    interactionFallback: document.getElementById('interaction-fallback'),
+    cinematicScreen: document.getElementById('cinematic-screen'),
+    cinematicLabel: document.getElementById('cinematic-label'),
+    cinematicTitle: document.getElementById('cinematic-title'),
+    cinematicPurpose: document.getElementById('cinematic-purpose'),
+    swordFormation: document.getElementById('sword-formation'),
+    swordCount: document.getElementById('sword-count'),
+    cinematicSummaryButton: document.getElementById('cinematic-summary-button'),
+    cinematicResultButton: document.getElementById('cinematic-result-button'),
+    consequenceScreen: document.getElementById('consequence-screen'),
+    consequenceTitle: document.getElementById('consequence-title'),
+    consequenceLines: document.getElementById('consequence-lines'),
+    consequenceContinueButton: document.getElementById('consequence-continue-button'),
+    endingScreen: document.getElementById('ending-screen'),
+    endingTitle: document.getElementById('ending-title'),
+    endingRoute: document.getElementById('ending-route'),
+    endingSummary: document.getElementById('ending-summary'),
+    endingReplayButton: document.getElementById('ending-replay-button'),
+    endingTitleButton: document.getElementById('ending-title-button'),
+    errorScreen: document.getElementById('error-screen'),
+    errorMessage: document.getElementById('error-message'),
+    errorDiagnostics: document.getElementById('error-diagnostics'),
+    copyErrorButton: document.getElementById('copy-error-button'),
+    retryButton: document.getElementById('retry-button'),
+    logDrawer: document.getElementById('log-drawer'),
+    closeLogButton: document.getElementById('close-log-button'),
+    logList: document.getElementById('log-list'),
+    toast: document.getElementById('toast'),
+  });
+
+  const screenElements = [
+    ui.bootScreen,
+    ui.titleScreen,
+    ui.storyScreen,
+    ui.choiceScreen,
+    ui.interactionScreen,
+    ui.cinematicScreen,
+    ui.consequenceScreen,
+    ui.endingScreen,
+    ui.errorScreen,
+  ];
+
+  const diagnostics = [];
+  let toastTimer = 0;
+  let typewriterTimer = 0;
+  let fullDialogueText = '';
+  let dialogueTyping = false;
+  let storagePersistent = false;
+  let storageAvailable = false;
+  let memoryStorage = new Map();
+  let currentInteractionComplete = null;
+  let currentInteractionFallback = null;
+  let currentHoldCleanup = null;
+  let data = null;
+  let runtime = null;
+
+  function clone(value) {
+    if (typeof structuredClone === 'function') return structuredClone(value);
+    return JSON.parse(JSON.stringify(value));
+  }
+
+  function log(message, detail) {
+    const suffix = detail === undefined
+      ? ''
+      : ` ${typeof detail === 'string' ? detail : JSON.stringify(detail)}`;
+    const line = `[${new Date().toISOString()}] ${message}${suffix}`;
+    diagnostics.push(line);
+    if (diagnostics.length > 180) diagnostics.shift();
+    console.log(line);
+  }
+
+  function showScreen(target) {
+    for (const screen of screenElements) {
+      screen.hidden = screen !== target;
+    }
+  }
+
+  function setBootProgress(percent, detail) {
+    const value = Math.max(0, Math.min(100, Math.round(percent)));
+    ui.bootProgress.style.width = `${value}%`;
+    ui.bootPercent.textContent = `${value}%`;
+    ui.bootDetail.textContent = detail;
+    ui.bootProgressTrack?.setAttribute('aria-valuenow', String(value));
+  }
+
+  function showToast(message, duration = 1800) {
+    clearTimeout(toastTimer);
+    ui.toast.textContent = message;
+    ui.toast.hidden = false;
+    toastTimer = window.setTimeout(() => {
+      ui.toast.hidden = true;
+    }, duration);
+  }
+
+  function safeStorageGet(key) {
+    if (storageAvailable) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (error) {
+        log('localStorage read failed', String(error));
+        storageAvailable = false;
+      }
+    }
+    return memoryStorage.get(key) ?? null;
+  }
+
