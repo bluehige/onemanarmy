@@ -71,3 +71,52 @@ func reset_slot_state(slot_id: String = AUTOSAVE_SLOT_ID) -> void:
 
 func reset_global_state() -> void:
 	replace_global_state(make_default_global_state())
+
+
+func is_text_seen(text_id: String) -> bool:
+	return text_id in global_state.get("seen_text_ids", [])
+
+
+func is_cinematic_seen(cinematic_id: String) -> bool:
+	return cinematic_id in global_state.get("seen_cinematic_ids", [])
+
+
+func is_interaction_completed(interaction_id: String) -> bool:
+	return interaction_id in global_state.get("completed_interaction_ids", [])
+
+
+func mark_text_seen(text_id: String) -> bool:
+	return _append_unique_global_id("seen_text_ids", text_id)
+
+
+func mark_cinematic_seen(cinematic_id: String) -> bool:
+	return _append_unique_global_id("seen_cinematic_ids", cinematic_id)
+
+
+func mark_interaction_completed(interaction_id: String) -> bool:
+	return _append_unique_global_id("completed_interaction_ids", interaction_id)
+
+
+func update_settings(changes: Dictionary) -> Dictionary:
+	var next_global := global_state.duplicate(true)
+	var settings: Dictionary = make_default_settings()
+	settings.merge(next_global.get("settings", {}), true)
+	for key in DEFAULT_SETTINGS:
+		if changes.has(key):
+			settings[key] = changes[key]
+	next_global["settings"] = settings
+	replace_global_state(next_global)
+	return settings.duplicate(true)
+
+
+func _append_unique_global_id(field: String, value: String) -> bool:
+	if value.is_empty():
+		return false
+	var next_global := global_state.duplicate(true)
+	var values: Array = next_global.get(field, []).duplicate()
+	if value in values:
+		return false
+	values.append(value)
+	next_global[field] = values
+	replace_global_state(next_global)
+	return true
