@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-06",
+  "mode": "repository_direct",
+  "global_copy_required": false,
+  "expected_count": 7,
+  "discovered_count": 7,
+  "frontmatter_valid": true,
+  "source_hash_match": true,
+  "skills": [
+    {
+      "name": "onemanarmy-production-router",
+      "source": ".agents/skills/onemanarmy-production-router/SKILL.md",
+      "sha256": "c1d558d6a82038c5c71a7cdc347e4d6de96cb1cb3efad00553ce13d6396cae3a"
+    },
+    {
+      "name": "onemanarmy-foundation",
+      "source": ".agents/skills/onemanarmy-foundation/SKILL.md",
+      "sha256": "f0a9be305d7072bd834eaf9d998f1b9bbaf0bc2825f5c6ad6405c4f25876e695"
+    },
+    {
+      "name": "onemanarmy-story-route-director",
+      "source": ".agents/skills/onemanarmy-story-route-director/SKILL.md",
+      "sha256": "eec9d4a37928d3429490b96aa7f1f7c3ee5f3baaa7748330b92dd74abae70d0e"
+    },
+    {
+      "name": "onemanarmy-interactive-vn-director",
+      "source": ".agents/skills/onemanarmy-interactive-vn-director/SKILL.md",
+      "sha256": "4aca2573d9ffbc49f5c8eaa02b8be480d8f1ee1901077601e108c3f744ce3cf3"
+    },
+    {
+      "name": "onemanarmy-formation-director",
+      "source": ".agents/skills/onemanarmy-formation-director/SKILL.md",
+      "sha256": "e7e5015b4c15222cdf33cb43c1c06e3fddab6cc57d2deea07530d8152f2041d7"
+    },
+    {
+      "name": "onemanarmy-ui-ux",
+      "source": ".agents/skills/onemanarmy-ui-ux/SKILL.md",
+      "sha256": "ca30b4ca41e9744442e66c96d1e4bb4cbff58541c45c6fafa3cf79ebd39c3dec"
+    },
+    {
+      "name": "onemanarmy-godot-director",
+      "source": ".agents/skills/onemanarmy-godot-director/SKILL.md",
+      "sha256": "729ee85f1801b3d3882116cb5a64c3e2c487a94cd1af537516409240f9df6e6d"
+    }
+  ]
+}

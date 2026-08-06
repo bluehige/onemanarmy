@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "package_id": "CH01_GENERATED_ART",
+  "generated_on": "2026-08-06",
+  "hash_algorithm": "SHA-256",
+  "asset_order": [
+    "KF-001",
+    "KF-002",
+    "KF-007"
+  ],
+  "count_authority": {
+    "formation_director": "res://scripts/cinematic/formation_visual_director.gd",
+    "unit_test": "res://tests/unit/test_cinematic_directors.gd",
+    "nine_instance_contract": "1 squad x 9 unique procedural instances",
+    "full_instance_contract": "12 squads x 9 unique procedural instances = 108",
+    "duplicate_slot_contract": 0,
+    "bitmap_policy": "Generated bitmap blade marks are representative composition only; the procedural overlay is authoritative for exact counts."
+  },
+  "assets": {
+    "KF-001": {
+      "file": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png",
+      "sha256": "a14c567128d214a4d9fc519747399e61e5167c9d04d77c4d7acdac79f6e9d6d1",
+      "file_bytes": 2905280,
+      "pixel_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "framing": "16:9 landscape target",
+      "runtime_role": "representative_cinematic_background_with_procedural_formation_overlay",
+      "scene_ids": [
+        "S00"
+      ],
+      "cinematic_ids": [
+        "CIN-CH01-S00-CAPTURE",
+        "CIN-CH01-S00-OPEN-PATH"
+      ],
+      "prompt_summary": "Rain-soaked Gwancheon Gorge with Lee Yeon and the low wheeled sword coffin in the foreground; ordered formation regions open a refugee passage and contain cavalry using restrained Prompt-04 bone-paper, ink, and gray-wash styling.",
+      "status": "DRAFT_REPRESENTATIVE",
+      "visual_inspection": "Representative squad order, refugee corridor, cavalry containment, static formation, and prohibited-element absence are readable.",
+      "count_note": "The bitmap is not authoritative evidence of exactly 108 individually countable blades. FormationVisualDirector's deterministic 12x9 overlay is authoritative."
+    },
+    "KF-002": {
+      "file": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
+      "sha256": "664056be7bdc38b9ace09e3f339fe6adfb56f3650276c2ae9eda2a4284b08931",
+      "file_bytes": 2504273,
+      "pixel_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "framing": "16:9 landscape target with lower dialogue-safe area",
+      "runtime_role": "inn_cinematic_and_visual_novel_background_with_procedural_nine_sword_overlay",
+      "scene_ids": [
+        "S05"
+      ],
+      "cinematic_ids": [
+        "CIN-CH01-S05-COMMON"
+      ],
+      "prompt_summary": "Seated Lee Yeon lowers a water cup while nine visually separated sword placements intercept, pin, block, protect, and hold living attackers inside Cheongu Inn; the sword coffin remains visible outside and the lower dialogue area stays clear.",
+      "status": "DRAFT_RUNTIME_CANDIDATE",
+      "visual_inspection": "Nine distinct restraint and protection placements are visually readable with seated Lee Yeon, the exterior sword coffin, and dialogue-safe negative space.",
+      "count_note": "The image visually stages nine swords, while exact nine-instance authority belongs to FormationVisualDirector and its unit test."
+    },
+    "KF-007": {
+      "file": "res://assets/art/ch01/kf-007-north-gate-road.png",
+      "sha256": "fed07438b9560bd7d58a520a48aaac5c2a9043fd115c91f27094ed89b7c8fb7d",
+      "file_bytes": 2589747,
+      "pixel_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "framing": "16:9 landscape target with right-side chapter-copy safe area",
+      "runtime_role": "chapter_ending_background",
+      "scene_ids": [
+        "S09"
+      ],
+      "cinematic_ids": [
+        "CIN-CH01-S09-DEPARTURE"
+      ],
+      "prompt_summary": "Rear silhouette of Lee Yeon pulling the closed sword coffin through predawn rain toward the closed North Gate, with a broad quiet right-side area reserved for chapter-ending copy.",
+      "status": "DRAFT_RUNTIME_CANDIDATE",
+      "visual_inspection": "Rear silhouette, chain, closed sword coffin, wet north road, closed gate, and chapter-copy safe area are clearly readable.",
+      "count_note": "No deployed-sword count overlay is required for this chapter-ending background."
+    }
+  }
+}

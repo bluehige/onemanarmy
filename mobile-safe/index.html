@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#11100f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>일인합격진 CH01 · 모바일 안전 모드</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app" class="app is-loading">
+    <div id="scene-backdrop" class="scene-backdrop" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header id="hud" class="hud" hidden>
+      <div class="hud-copy">
+        <span id="chapter-label" class="chapter-label">第一章</span>
+        <strong id="scene-label" class="scene-label">장면 준비 중</strong>
+        <span id="save-status" class="save-status">임시 저장 준비</span>
+      </div>
+      <nav class="hud-actions" aria-label="플레이 도구">
+        <button id="log-button" class="hud-button" type="button">대화 기록</button>
+        <button id="manual-save-button" class="hud-button" type="button">수동 저장</button>
+        <button id="manual-load-button" class="hud-button" type="button">불러오기</button>
+        <button id="menu-button" class="hud-button" type="button">표지</button>
+      </nav>
+    </header>
+
+    <main id="stage" class="stage">
+      <section id="boot-screen" class="screen boot-screen" aria-live="polite">
+        <div class="boot-mark">一人合格陣</div>
+        <h1>모바일 안전 모드 준비 중</h1>
+        <p id="boot-detail">한글 데이터와 저장 장치를 확인하고 있습니다.</p>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="boot-progress" class="progress-fill"></div>
+        </div>
+        <p id="boot-percent" class="boot-percent">0%</p>
+      </section>
+
+      <section id="title-screen" class="screen title-screen" hidden>
+        <div class="title-kicker">CHAPTER 01 · MOBILE SAFE MODE</div>
+        <h1>일인합격진</h1>
+        <p class="title-subtitle">검관을 끄는 남자</p>
+        <p class="title-description">
+          한글 깨짐과 Web 저장 오류를 우회한 임시 브라우저 플레이테스트입니다.
+          원본 CH01 데이터와 18개 선택 조합을 그대로 읽습니다.
+        </p>
+        <div class="title-actions">
+          <button id="new-game-button" class="primary-button" type="button">처음부터 시작</button>
+          <button id="continue-button" class="secondary-button" type="button" disabled>자동 저장 이어하기</button>
+          <button id="load-title-button" class="secondary-button" type="button" disabled>수동 저장 불러오기</button>
+          <button id="reset-save-button" class="ghost-button" type="button">이 브라우저 저장 초기화</button>
+        </div>
+        <div id="storage-note" class="storage-note">저장 장치 확인 중</div>
+        <div class="mode-boundary">
+          <strong>임시 테스트 경계</strong>
+          <span>스토리·선택·터치 인터랙션·분기·저장은 확인할 수 있지만, Godot 원본 시네마틱과 검 렌더링은 간이 표현입니다.</span>
+        </div>
+      </section>
+
+      <section id="story-screen" class="screen story-screen" hidden>
+        <div id="scene-caption" class="scene-caption"></div>
+        <button id="dialogue-panel" class="dialogue-panel" type="button" aria-label="대화 진행">
+          <span id="speaker-name" class="speaker-name"></span>
+          <span id="dialogue-text" class="dialogue-text"></span>
+          <span id="advance-hint" class="advance-hint">터치하여 계속</span>
+        </button>
+      </section>
+
+      <section id="choice-screen" class="screen modal-screen" hidden>
+        <div class="ink-panel choice-panel">
+          <div class="panel-kicker">CHOICE</div>
+          <h2>이연의 다음 판단</h2>
+          <div id="choice-options" class="choice-options"></div>
+        </div>
+      </section>
+
+      <section id="interaction-screen" class="screen modal-screen" hidden>
+        <div class="ink-panel interaction-panel">
+          <div id="interaction-type" class="panel-kicker">INTERACTION</div>
+          <h2 id="interaction-title">행동을 선택하십시오</h2>
+          <p id="interaction-prompt" class="interaction-prompt"></p>
+          <div id="interaction-body" class="interaction-body"></div>
+          <button id="interaction-fallback" class="ghost-button compact" type="button">임시 입력으로 완료</button>
+        </div>
+      </section>
+
+      <section id="cinematic-screen" class="screen cinematic-screen" hidden>
+        <div class="cinematic-vignette" aria-hidden="true"></div>
+        <div class="cinematic-copy">
+          <div id="cinematic-label" class="panel-kicker">CINEMATIC</div>
+          <h2 id="cinematic-title">검진 전개</h2>
+          <p id="cinematic-purpose"></p>
+          <div id="sword-formation" class="sword-formation" aria-hidden="true"></div>
+          <div id="sword-count" class="sword-count"></div>
+          <div class="cinematic-actions">
+            <button id="cinematic-summary-button" class="secondary-button" type="button">요약으로 보기</button>
+            <button id="cinematic-result-button" class="primary-button" type="button">결과까지 진행</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="consequence-screen" class="screen modal-screen" hidden>
+        <div class="ink-panel consequence-panel">
+          <div class="panel-kicker">CONSEQUENCE</div>
+          <h2 id="consequence-title">선택 뒤 남은 것</h2>
+          <div id="consequence-lines" class="consequence-lines"></div>
+          <button id="consequence-continue-button" class="primary-button" type="button">검을 거두고 계속</button>
+        </div>
+      </section>
+
+      <section id="ending-screen" class="screen ending-screen" hidden>
+        <div class="ink-panel ending-panel">
+          <div class="panel-kicker">CHAPTER 01 COMPLETE</div>
+          <h2 id="ending-title">첫 장을 마쳤습니다</h2>
+          <p id="ending-route" class="ending-route"></p>
+          <dl id="ending-summary" class="ending-summary"></dl>
+          <div class="ending-actions">
+            <button id="ending-replay-button" class="secondary-button" type="button">처음부터 다시</button>
+            <button id="ending-title-button" class="primary-button" type="button">표지로 돌아가기</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="error-screen" class="screen error-screen" hidden role="alert">
+        <div class="ink-panel error-panel">
+          <div class="panel-kicker danger">SAFE MODE ERROR</div>
+          <h2>테스트 데이터를 열지 못했습니다</h2>
+          <p id="error-message"></p>
+          <details>
+            <summary>진단 정보</summary>
+            <pre id="error-diagnostics"></pre>
+          </details>
+          <div class="error-actions">
+            <button id="copy-error-button" class="secondary-button" type="button">진단 복사</button>
+            <button id="retry-button" class="primary-button" type="button">다시 불러오기</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside id="log-drawer" class="log-drawer" hidden aria-label="대화 기록">
+      <div class="log-header">
+        <div>
+          <span class="panel-kicker">DIALOGUE LOG</span>
+          <h2>대화 기록</h2>
+        </div>
+        <button id="close-log-button" class="hud-button" type="button">닫기</button>
+      </div>
+      <div id="log-list" class="log-list"></div>
+    </aside>
+
+    <div id="toast" class="toast" hidden aria-live="polite"></div>
+
+    <div id="rotate-overlay" class="rotate-overlay" aria-live="polite">
+      <div class="rotate-card">
+        <div class="rotate-seal">橫</div>
+        <h2>휴대폰을 가로로 돌려주세요</h2>
+        <p>버튼과 대화창을 터치하기 쉬운 16:9 가로 화면으로 구성했습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

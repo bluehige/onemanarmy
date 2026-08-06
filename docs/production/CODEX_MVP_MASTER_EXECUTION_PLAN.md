@@ -100,6 +100,7 @@ Codex는 아래 항목을 편의상 변경할 수 없다.
 
 ```yaml
 visual_novel_primary: true
+수동 전투·전술 게임: 0%
 manual_combat: false
 tactical_placement: false
 interaction_failure: false

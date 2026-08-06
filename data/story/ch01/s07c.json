@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S07C",
+  "route": "LOCKDOWN",
+  "title_text_id": "CH01-UI-S07C-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s07c--봉쇄",
+  "steps": [
+    {"id": "S07C-001", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S07-LOCKDOWN"},
+    {"id": "S07C-002", "type": "say", "speaker_id": "bokchil", "text_id": "CH01-S07C-001"},
+    {"id": "S07C-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07C-002"},
+    {"id": "S07C-004", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S07C-003"},
+    {"id": "S07C-005", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07C-004"},
+    {"id": "S07C-006", "type": "say", "speaker_id": "hongryeon", "text_id": "CH01-S07C-005"},
+    {"id": "S07C-007", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07C-006"},
+    {"id": "S07C-008", "type": "set_flag", "flag": "fugitive_state", "operation": "set", "value": "captured"},
+    {"id": "S07C-009", "type": "set_flag", "flag": "innkeeper_state", "operation": "set", "value": "safe"},
+    {"id": "S07C-010", "type": "set_flag", "flag": "waiter_state", "operation": "set", "value": "minor_injury"},
+    {"id": "S07C-011", "type": "set_flag", "flag": "inn_damage", "operation": "set", "value": "fire_damage"},
+    {"id": "S07C-012", "type": "set_flag", "flag": "power_exposure", "operation": "set", "value": "high"},
+    {"id": "S07C-013", "type": "set_flag", "flag": "faction_mark_evidence", "operation": "set", "value": true},
+    {"id": "S07C-014", "type": "jump", "target": "S08"}
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "kind": "interaction_contracts",
+  "chapter_id": "CH-MVP-001",
+  "source": "docs/design/INTERACTION_LANGUAGE.md#5-ch01-적용",
+  "interactions": [
+    {
+      "id": "INT-CH01-S06-HOLD",
+      "scene_id": "S06",
+      "type": "HOLD_INTENT",
+      "prompt_key": "CH01-INT-S06-HOLD-PROMPT",
+      "emotional_purpose": "이미 읽고 고른 대가를 거두지 않는 이연의 결의를 짧은 정적으로 체감한다.",
+      "expected_duration_sec": 1.8,
+      "failure_state": null,
+      "score": null,
+      "timing_bonus": null,
+      "accuracy_bonus": null,
+      "input": {
+        "mouse": "left_hold",
+        "keyboard": "interaction_hold",
+        "gamepad": "confirm_hold",
+        "accessibility": "toggle"
+      },
+      "alternative_input": "single_press_toggle",
+      "replay_behavior": "auto_complete_or_skip",
+      "resume_behavior": "preserve_progress",
+      "visible_change": "대가 문장이 남은 채 쇠사슬이 팽팽해지고 아홉 검이 선택별 방향으로 미세하게 정렬된다.",
+      "on_complete_event": "interaction_completed"
+    }
+  ]
+}

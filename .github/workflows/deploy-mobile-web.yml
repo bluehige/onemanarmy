@@ -1,0 +1,311 @@
+name: Deploy touch-enabled mobile web MVP
+
+on:
+  push:
+    branches:
+      - codex/mvp-ch01-v1
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: onemanarmy-mobile-web-pages
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: "4.6.3"
+  GODOT_RELEASE: "4.6.3-stable"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout MVP branch
+        uses: actions/checkout@v4
+
+      - name: Install Godot 4.6.3 and export templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.local/bin" /tmp/godot /tmp/godot-templates
+
+          curl --fail --location --retry 5 --retry-delay 2 \
+            "https://github.com/godotengine/godot-builds/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_linux.x86_64.zip" \
+            --output /tmp/godot.zip
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          GODOT_BINARY="$(find /tmp/godot -maxdepth 1 -type f -name 'Godot_*linux.x86_64' -print -quit)"
+          test -n "$GODOT_BINARY"
+          install -m 0755 "$GODOT_BINARY" "$HOME/.local/bin/godot"
+
+          curl --fail --location --retry 5 --retry-delay 2 \
+            "https://github.com/godotengine/godot-builds/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_export_templates.tpz" \
+            --output /tmp/export_templates.tpz
+          unzip -q /tmp/export_templates.tpz -d /tmp/godot-templates
+          TEMPLATE_DIR="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          mkdir -p "$TEMPLATE_DIR"
+          cp -a /tmp/godot-templates/templates/. "$TEMPLATE_DIR/"
+
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/godot" --version
+          test -s "$TEMPLATE_DIR/web_release.zip"
+
+      - name: Prepare isolated mobile-web export configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          project_path = Path("project.godot")
+          project = project_path.read_text(encoding="utf-8")
+
+          replacements = {
+              'config/features=PackedStringArray("4.6", "Forward Plus")':
+                  'config/features=PackedStringArray("4.6", "GL Compatibility")',
+              'window/size/viewport_width=1920': 'window/size/viewport_width=1280',
+              'window/size/viewport_height=1080': 'window/size/viewport_height=720',
+              'renderer/rendering_method="forward_plus"':
+                  'renderer/rendering_method="gl_compatibility"\nrenderer/rendering_method.mobile="gl_compatibility"',
+          }
+          for old, new in replacements.items():
+              if old not in project:
+                  raise SystemExit(f"Expected project setting was not found: {old}")
+              project = project.replace(old, new, 1)
+
+          input_devices = '''
+          [input_devices]
+
+          pointing/emulate_mouse_from_touch=true
+          pointing/emulate_touch_from_mouse=false
+
+          '''
+          if "[input_devices]" not in project:
+              project = project.replace("[rendering]\n", input_devices + "[rendering]\n", 1)
+
+          project_path.write_text(project, encoding="utf-8")
+
+          presets_path = Path("export_presets.cfg")
+          presets = presets_path.read_text(encoding="utf-8").rstrip()
+          if 'name="Web Mobile"' in presets:
+              raise SystemExit("Web Mobile preset already exists; update the workflow instead of duplicating it.")
+
+          web_preset = r'''
+
+          [preset.1]
+
+          name="Web Mobile"
+          platform="Web"
+          runnable=true
+          advanced_options=false
+          dedicated_server=false
+          custom_features="web_mobile"
+          export_filter="all_resources"
+          include_filter=""
+          exclude_filter="tests/*,reports/*,tools/*,docs/*,build/windows/*,build/web/*"
+          export_path="build/web/index.html"
+          patches=PackedStringArray()
+          encryption_include_filters=""
+          encryption_exclude_filters=""
+          seed=0
+          encrypt_pck=false
+          encrypt_directory=false
+          script_export_mode=2
+
+          [preset.1.options]
+
+          custom_template/debug=""
+          custom_template/release=""
+          variant/extensions_support=false
+          variant/thread_support=false
+          vram_texture_compression/for_desktop=true
+          vram_texture_compression/for_mobile=true
+          html/export_icon=true
+          html/custom_html_shell=""
+          html/head_include=""
+          html/canvas_resize_policy=2
+          html/focus_canvas_on_start=true
+          html/experimental_virtual_keyboard=true
+          progressive_web_app/enabled=false
+          progressive_web_app/ensure_cross_origin_isolation_headers=false
+          progressive_web_app/offline_page=""
+          progressive_web_app/display=1
+          progressive_web_app/orientation=0
+          progressive_web_app/icon_144x144=""
+          progressive_web_app/icon_180x180=""
+          progressive_web_app/icon_512x512=""
+          progressive_web_app/background_color=Color(0.09, 0.08, 0.07, 1)
+          '''
+          presets_path.write_text(presets + web_preset + "\n", encoding="utf-8")
+          PY
+
+      - name: Import Godot resources
+        shell: bash
+        run: |
+          set -euo pipefail
+          godot --headless --path "$GITHUB_WORKSPACE" --editor --quit \
+            --rendering-method gl_compatibility --rendering-driver opengl3
+
+      - name: Export Web Mobile release
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf build/web
+          mkdir -p build/web
+          godot --headless --path "$GITHUB_WORKSPACE" \
+            --rendering-method gl_compatibility --rendering-driver opengl3 \
+            --export-release "Web Mobile" build/web/index.html
+
+      - name: Add mobile browser shell safeguards
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          index_path = Path("build/web/index.html")
+          html = index_path.read_text(encoding="utf-8")
+
+          head_markup = r'''
+          <meta name="theme-color" content="#171513">
+          <meta name="mobile-web-app-capable" content="yes">
+          <meta name="apple-mobile-web-app-capable" content="yes">
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+          <style>
+            html, body {
+              width: 100%;
+              height: 100%;
+              margin: 0;
+              overflow: hidden;
+              overscroll-behavior: none;
+              background: #171513;
+              touch-action: none;
+              -webkit-user-select: none;
+              user-select: none;
+              -webkit-touch-callout: none;
+            }
+            canvas {
+              touch-action: none !important;
+              -webkit-user-select: none;
+              user-select: none;
+              -webkit-touch-callout: none;
+            }
+            #mobile-rotate-notice {
+              position: fixed;
+              inset: 0;
+              z-index: 2147483647;
+              display: none;
+              align-items: center;
+              justify-content: center;
+              padding: 32px;
+              box-sizing: border-box;
+              background: #171513;
+              color: #f1ebdd;
+              text-align: center;
+              font-family: system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+            }
+            #mobile-rotate-notice strong {
+              display: block;
+              margin-bottom: 12px;
+              font-size: 24px;
+              font-weight: 700;
+            }
+            #mobile-rotate-notice span {
+              font-size: 16px;
+              line-height: 1.6;
+              color: #d4ccbd;
+            }
+            #mobile-touch-hint {
+              position: fixed;
+              left: 50%;
+              top: max(12px, env(safe-area-inset-top));
+              z-index: 2147483646;
+              transform: translateX(-50%);
+              max-width: calc(100vw - 32px);
+              padding: 10px 16px;
+              border: 1px solid rgba(241, 235, 221, 0.48);
+              background: rgba(23, 21, 19, 0.88);
+              color: #f1ebdd;
+              font: 600 14px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+              text-align: center;
+              pointer-events: none;
+              opacity: 1;
+              transition: opacity 240ms ease;
+            }
+            #mobile-touch-hint.hidden {
+              opacity: 0;
+            }
+            @media (orientation: portrait) and (max-width: 900px) {
+              #mobile-rotate-notice { display: flex; }
+              #mobile-touch-hint { display: none; }
+            }
+          </style>
+          '''
+
+          body_markup = r'''
+          <div id="mobile-rotate-notice" role="status" aria-live="polite">
+            <div>
+              <strong>휴대폰을 가로로 돌려주세요</strong>
+              <span>가로 화면에서 버튼과 대화창을 터치해 플레이할 수 있습니다.</span>
+            </div>
+          </div>
+          <div id="mobile-touch-hint">화면과 버튼을 터치해서 진행하세요</div>
+          <script>
+            (() => {
+              const hideHint = () => document.getElementById('mobile-touch-hint')?.classList.add('hidden');
+              window.addEventListener('pointerdown', hideHint, { once: true, passive: true });
+              window.setTimeout(hideHint, 4500);
+              document.addEventListener('contextmenu', (event) => event.preventDefault());
+              document.addEventListener('touchmove', (event) => {
+                if (event.target instanceof HTMLCanvasElement) event.preventDefault();
+              }, { passive: false });
+            })();
+          </script>
+          '''
+
+          if "</head>" not in html:
+              raise SystemExit("Godot export HTML has no closing head tag.")
+          html = html.replace("</head>", head_markup + "\n</head>", 1)
+          html, count = re.subn(r"(<body(?:\s[^>]*)?>)", r"\1" + body_markup, html, count=1, flags=re.IGNORECASE)
+          if count != 1:
+              raise SystemExit("Godot export HTML has no body tag.")
+
+          index_path.write_text(html, encoding="utf-8")
+          Path("build/web/.nojekyll").write_text("", encoding="utf-8")
+          Path("build/web/404.html").write_text(html, encoding="utf-8")
+          PY
+
+      - name: Verify deployable Web build
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s build/web/index.html
+          test -n "$(find build/web -maxdepth 1 -type f -name '*.wasm' -size +0c -print -quit)"
+          test -n "$(find build/web -maxdepth 1 -type f -name '*.pck' -size +0c -print -quit)"
+          grep -q "mobile-rotate-notice" build/web/index.html
+          du -sh build/web
+          find build/web -maxdepth 1 -type f -printf '%f %s bytes\n' | sort
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

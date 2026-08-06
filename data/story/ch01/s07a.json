@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S07A",
+  "route": "TRACK",
+  "title_text_id": "CH01-UI-S07A-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s07a--추적",
+  "steps": [
+    {"id": "S07A-001", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S07-TRACK"},
+    {"id": "S07A-002", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S07A-001"},
+    {"id": "S07A-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07A-002"},
+    {"id": "S07A-004", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S07A-003"},
+    {"id": "S07A-005", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07A-004"},
+    {"id": "S07A-006", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07A-005"},
+    {"id": "S07A-007", "type": "say", "speaker_id": "fugitive", "text_id": "CH01-S07A-006"},
+    {"id": "S07A-008", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S07A-007"},
+    {"id": "S07A-009", "type": "set_flag", "flag": "fugitive_state", "operation": "set", "value": "captured"},
+    {"id": "S07A-010", "type": "set_flag", "flag": "innkeeper_state", "operation": "set", "value": "injured"},
+    {"id": "S07A-011", "type": "set_flag", "flag": "waiter_state", "operation": "set", "value": "minor_injury"},
+    {"id": "S07A-012", "type": "set_flag", "flag": "inn_damage", "operation": "set", "value": "minor"},
+    {"id": "S07A-013", "type": "set_flag", "flag": "north_gate_clue_level", "operation": "increment", "value": 2},
+    {"id": "S07A-014", "type": "jump", "target": "S08"}
+  ]
+}

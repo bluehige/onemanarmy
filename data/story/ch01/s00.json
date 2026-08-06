@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "kind": "story_scene",
+  "chapter_id": "CH-MVP-001",
+  "id": "S00",
+  "route": "COMMON",
+  "title_text_id": "CH01-UI-S00-TITLE",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s00--관천협의-108검",
+  "steps": [
+    {"id": "S00-001", "type": "narrate", "text_id": "CH01-S00-001"},
+    {"id": "S00-002", "type": "narrate", "text_id": "CH01-S00-002"},
+    {"id": "S00-003", "type": "say", "speaker_id": "refugee_man", "text_id": "CH01-S00-003"},
+    {"id": "S00-004", "type": "say", "speaker_id": "child", "text_id": "CH01-S00-004"},
+    {
+      "id": "S00-005",
+      "type": "focus_interaction",
+      "interaction_id": "INT-CH01-S00-FOCUS",
+      "output_flag": "cold_open_focus"
+    },
+    {
+      "id": "S00-006",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "cold_open_focus", "equals": "refugees"},
+          "steps": [
+            {"id": "S00-006A", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S00-005A"}
+          ]
+        },
+        {
+          "when": {"flag": "cold_open_focus", "equals": "commander"},
+          "steps": [
+            {"id": "S00-006B", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S00-005B"}
+          ]
+        }
+      ]
+    },
+    {"id": "S00-007", "type": "say", "speaker_id": "cavalry_commander", "text_id": "CH01-S00-006"},
+    {"id": "S00-008", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S00-007"},
+    {"id": "S00-009", "type": "say", "speaker_id": "cavalry_commander", "text_id": "CH01-S00-008"},
+    {
+      "id": "S00-010",
+      "type": "choice",
+      "choice_id": "CH01-C00-PRIORITY",
+      "output_flag": "cold_open_choice",
+      "options": [
+        {
+          "id": "CAPTURE",
+          "value": "capture",
+          "label_text_id": "CH01-C00-PRIORITY-CAPTURE-LABEL",
+          "description_text_id": "CH01-C00-PRIORITY-CAPTURE-DESCRIPTION"
+        },
+        {
+          "id": "OPEN_PATH",
+          "value": "open_path",
+          "label_text_id": "CH01-C00-PRIORITY-OPEN-PATH-LABEL",
+          "description_text_id": "CH01-C00-PRIORITY-OPEN-PATH-DESCRIPTION"
+        }
+      ]
+    },
+    {"id": "S00-011", "type": "intent_interaction", "interaction_id": "INT-CH01-S00-HOLD"},
+    {"id": "S00-012", "type": "intent_interaction", "interaction_id": "INT-CH01-S00-PULL"},
+    {
+      "id": "S00-013",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "cold_open_choice", "equals": "capture"},
+          "steps": [
+            {"id": "S00-013A-01", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S00-CAPTURE"},
+            {"id": "S00-013A-02", "type": "narrate", "text_id": "CH01-S00-009A"},
+            {"id": "S00-013A-03", "type": "narrate", "text_id": "CH01-S00-010A"},
+            {"id": "S00-013A-04", "type": "say", "speaker_id": "cavalry_commander", "text_id": "CH01-S00-011A"},
+            {"id": "S00-013A-05", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S00-012A"},
+            {"id": "S00-013A-06", "type": "set_flag", "flag": "cold_open_commander_captured", "operation": "set", "value": true},
+            {"id": "S00-013A-07", "type": "set_flag", "flag": "clue_expected_in_baekya", "operation": "set", "value": true}
+          ]
+        },
+        {
+          "when": {"flag": "cold_open_choice", "equals": "open_path"},
+          "steps": [
+            {"id": "S00-013B-01", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S00-OPEN-PATH"},
+            {"id": "S00-013B-02", "type": "narrate", "text_id": "CH01-S00-009B"},
+            {"id": "S00-013B-03", "type": "say", "speaker_id": "refugee_man", "text_id": "CH01-S00-010B"},
+            {"id": "S00-013B-04", "type": "say", "speaker_id": "cavalry_commander", "text_id": "CH01-S00-011B"},
+            {"id": "S00-013B-05", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S00-012B"},
+            {"id": "S00-013B-06", "type": "set_flag", "flag": "cold_open_commander_captured", "operation": "set", "value": false}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S00-014",
+      "type": "blade_recall",
+      "interaction_id": "INT-CH01-S00-RECALL",
+      "expected_sword_count": 108
+    },
+    {"id": "S00-015", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S00-013"},
+    {"id": "S00-016", "type": "set_flag", "flag": "saw_full_108_deployment", "operation": "set", "value": true},
+    {"id": "S00-017", "type": "set_flag", "flag": "swords_recalled_full", "operation": "set", "value": true},
+    {"id": "S00-018", "type": "autosave", "save_id": "SAVE-CH01-001"},
+    {"id": "S00-019", "type": "jump", "target": "S01"}
+  ]
+}

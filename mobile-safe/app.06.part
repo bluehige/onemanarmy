@@ -1,0 +1,144 @@
+      const dt = document.createElement('dt');
+      const dd = document.createElement('dd');
+      dt.textContent = term;
+      dd.textContent = description;
+      ui.endingSummary.append(dt, dd);
+    }
+    showScreen(ui.endingScreen);
+    saveSnapshot(AUTOSAVE_KEY, false);
+  }
+
+  function stateLabel(value, labels) {
+    if (Object.prototype.hasOwnProperty.call(labels, value)) return labels[value];
+    if (value === null || value === undefined || value === '') return '미확정';
+    return String(value);
+  }
+
+  function renderLog() {
+    ui.logList.replaceChildren();
+    const entries = runtime?.dialogueLog || [];
+    if (entries.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'log-entry';
+      empty.textContent = '아직 기록된 대화가 없습니다.';
+      ui.logList.appendChild(empty);
+      return;
+    }
+    for (const entry of entries.slice().reverse()) {
+      const item = document.createElement('article');
+      item.className = 'log-entry';
+      const speaker = document.createElement('strong');
+      const text = document.createElement('p');
+      speaker.textContent = `${entry.sceneId || ''} · ${entry.speaker || '서술'}`;
+      text.textContent = entry.text || '';
+      item.append(speaker, text);
+      ui.logList.appendChild(item);
+    }
+  }
+
+  function openLog() {
+    if (!runtime) return;
+    renderLog();
+    ui.logDrawer.hidden = false;
+  }
+
+  function resetSaves() {
+    const confirmed = window.confirm('이 브라우저의 CH01 자동·수동 저장을 모두 지웁니다. 계속하시겠습니까?');
+    if (!confirmed) return;
+    safeStorageRemove(AUTOSAVE_KEY);
+    safeStorageRemove(MANUAL_KEY);
+    safeStorageRemove(SETTINGS_KEY);
+    updateTitleButtons();
+    ui.manualLoadButton.disabled = true;
+    showToast('브라우저 저장을 초기화했습니다.');
+  }
+
+  function buildErrorDiagnostics(error) {
+    return [
+      `message=${error instanceof Error ? error.message : String(error)}`,
+      `stack=${error instanceof Error ? error.stack || '' : ''}`,
+      `source_commit=${SOURCE_COMMIT}`,
+      `page=${location.href}`,
+      `user_agent=${navigator.userAgent}`,
+      `online=${navigator.onLine}`,
+      `local_storage=${storageAvailable}`,
+      `persistent_storage=${storagePersistent}`,
+      '',
+      ...diagnostics,
+    ].join('\n');
+  }
+
+  function showError(error) {
+    cleanupActiveInteraction();
+    finishTypewriter();
+    const normalized = error instanceof Error ? error : new Error(String(error));
+    log('Safe mode failure', { message: normalized.message, stack: normalized.stack || '' });
+    ui.hud.hidden = true;
+    ui.errorMessage.textContent = normalized.message;
+    ui.errorDiagnostics.textContent = buildErrorDiagnostics(normalized);
+    showScreen(ui.errorScreen);
+  }
+
+  async function copyError() {
+    const text = ui.errorDiagnostics.textContent;
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast('진단 정보를 복사했습니다.');
+    } catch {
+      ui.errorDiagnostics.closest('details').open = true;
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(ui.errorDiagnostics);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
+
+  function bindEvents() {
+    ui.newGameButton.addEventListener('click', startNewGame);
+    ui.continueButton.addEventListener('click', () => restoreSnapshot(AUTOSAVE_KEY));
+    ui.loadTitleButton.addEventListener('click', () => restoreSnapshot(MANUAL_KEY));
+    ui.resetSaveButton.addEventListener('click', resetSaves);
+    ui.dialoguePanel.addEventListener('click', advanceLine);
+    ui.interactionFallback.addEventListener('click', () => currentInteractionFallback?.());
+    ui.consequenceContinueButton.addEventListener('click', continueConsequence);
+    ui.endingReplayButton.addEventListener('click', startNewGame);
+    ui.endingTitleButton.addEventListener('click', showTitle);
+    ui.manualSaveButton.addEventListener('click', () => saveSnapshot(MANUAL_KEY, true));
+    ui.manualLoadButton.addEventListener('click', () => restoreSnapshot(MANUAL_KEY));
+    ui.menuButton.addEventListener('click', showTitle);
+    ui.logButton.addEventListener('click', openLog);
+    ui.closeLogButton.addEventListener('click', () => { ui.logDrawer.hidden = true; });
+    ui.retryButton.addEventListener('click', () => location.reload());
+    ui.copyErrorButton.addEventListener('click', copyError);
+
+    document.addEventListener('contextmenu', (event) => event.preventDefault());
+    document.addEventListener('touchmove', (event) => {
+      if (!event.target.closest('.ink-panel, .log-list, pre')) event.preventDefault();
+    }, { passive: false });
+    window.addEventListener('error', (event) => log('Window error', event.message || 'unknown'));
+    window.addEventListener('unhandledrejection', (event) => log('Unhandled rejection', String(event.reason)));
+  }
+
+  async function bootstrap() {
+    bindEvents();
+    showScreen(ui.bootScreen);
+    setBootProgress(1, '브라우저 한글 렌더링과 저장 장치를 확인하고 있습니다.');
+    try {
+      await detectStorage();
+      setBootProgress(3, storageAvailable
+        ? 'localStorage를 사용할 수 있습니다.'
+        : '저장이 차단되어 이번 탭 임시 저장으로 전환합니다.');
+      data = await loadContent();
+      ui.app.classList.remove('is-loading');
+      setBootProgress(100, '모바일 안전 모드 준비 완료');
+      await new Promise((resolve) => setTimeout(resolve, 220));
+      showTitle();
+      log('MOBILE_SAFE_MODE_READY');
+    } catch (error) {
+      showError(error);
+    }
+  }
+
+  bootstrap();
+})();

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "purpose": "Touch-enabled mobile Web playtest loader for onemanarmy PR #2",
+  "godot": {
+    "version": "4.6.3.stable.official.7d41c59c4",
+    "runtime_source_repository": "ironkid90-s/lucky5-v7",
+    "runtime_source_commit": "48f525a6224ee61afea2ec046fb25c3f160d78d7",
+    "runtime_base_path": "src/web/public/godot-cabinet/index",
+    "runtime_fetch_base": "https://raw.githubusercontent.com/ironkid90-s/lucky5-v7/48f525a6224ee61afea2ec046fb25c3f160d78d7/src/web/public/godot-cabinet/index",
+    "runtime_wasm_bytes": 37700666,
+    "runtime_wasm_blob_sha": "d58e7ddb9789943ee2ee0ed3a0939c5effb86d82"
+  },
+  "game": {
+    "source_repository": "bluehige/onemanarmy",
+    "source_commit": "07ec5c4207b6425262f705a77cf691bb4740068e",
+    "archive_path": "build/windows/onemanarmy-ch01-mvp.zip",
+    "archive_bytes": 41695843,
+    "archive_sha256": "F85B2402FA8582AD6606BABA1672390CD11DF38ED19BB9806AAEA0C906EF5A07",
+    "pack_entry": "onemanarmy_ch01.pck",
+    "pack_bytes": 5737656,
+    "pack_sha256": "99FD3ECF4F0E9A07575B5F0921ADD950FCA337585A6C9D51332EF225FCF7963D"
+  },
+  "libraries": [
+    {
+      "name": "fflate",
+      "version": "0.8.2",
+      "source": "jsDelivr npm CDN",
+      "license": "MIT"
+    }
+  ]
+}

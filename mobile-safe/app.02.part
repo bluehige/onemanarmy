@@ -1,0 +1,252 @@
+  function safeStorageSet(key, value) {
+    if (storageAvailable) {
+      try {
+        window.localStorage.setItem(key, value);
+        return true;
+      } catch (error) {
+        log('localStorage write failed', String(error));
+        storageAvailable = false;
+      }
+    }
+    memoryStorage.set(key, value);
+    return false;
+  }
+
+  function safeStorageRemove(key) {
+    if (storageAvailable) {
+      try {
+        window.localStorage.removeItem(key);
+      } catch (error) {
+        log('localStorage remove failed', String(error));
+        storageAvailable = false;
+      }
+    }
+    memoryStorage.delete(key);
+  }
+
+  async function detectStorage() {
+    const probeKey = `${STORAGE_PREFIX}.probe`;
+    try {
+      window.localStorage.setItem(probeKey, '1');
+      window.localStorage.removeItem(probeKey);
+      storageAvailable = true;
+    } catch (error) {
+      storageAvailable = false;
+      log('localStorage unavailable', String(error));
+    }
+
+    if (storageAvailable && navigator.storage) {
+      try {
+        if (typeof navigator.storage.persisted === 'function') {
+          storagePersistent = await navigator.storage.persisted();
+        }
+      } catch (error) {
+        log('Storage persistence probe failed', String(error));
+      }
+    }
+    updateStorageNote();
+  }
+
+  async function requestPersistentStorage() {
+    if (!storageAvailable || !navigator.storage || typeof navigator.storage.persist !== 'function') {
+      return;
+    }
+    try {
+      storagePersistent = await navigator.storage.persist();
+      updateStorageNote();
+    } catch (error) {
+      log('Storage persistence request failed', String(error));
+    }
+  }
+
+  function updateStorageNote() {
+    if (storageAvailable && storagePersistent) {
+      ui.storageNote.textContent = '저장 상태: 브라우저 영구 저장 허용됨';
+      ui.storageNote.style.color = '#a9c5b1';
+    } else if (storageAvailable) {
+      ui.storageNote.textContent = '저장 상태: 이 브라우저의 localStorage 사용 · 시크릿 모드/데이터 삭제 시 사라질 수 있음';
+      ui.storageNote.style.color = '#c8b787';
+    } else {
+      ui.storageNote.textContent = '저장 상태: 브라우저 저장이 차단되어 이번 탭에서만 임시 유지';
+      ui.storageNote.style.color = '#df8f85';
+    }
+  }
+
+  async function fetchText(path) {
+    const errors = [];
+    for (const root of SOURCE_ROOTS) {
+      const url = `${root}${path}`;
+      try {
+        const response = await fetch(url, {
+          mode: 'cors',
+          cache: 'force-cache',
+          credentials: 'omit',
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const text = await response.text();
+        if (!text) throw new Error('empty response');
+        return text.replace(/^\uFEFF/, '');
+      } catch (error) {
+        errors.push(`${url}: ${String(error)}`);
+      }
+    }
+    throw new Error(`데이터 파일을 내려받지 못했습니다: ${path}\n${errors.join('\n')}`);
+  }
+
+  async function fetchJson(path) {
+    const text = await fetchText(path);
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      throw new Error(`JSON 해석 실패: ${path}\n${String(error)}`);
+    }
+  }
+
+  function parseCsv(text) {
+    const rows = [];
+    let row = [];
+    let field = '';
+    let quoted = false;
+
+    for (let index = 0; index < text.length; index += 1) {
+      const char = text[index];
+      if (quoted) {
+        if (char === '"' && text[index + 1] === '"') {
+          field += '"';
+          index += 1;
+        } else if (char === '"') {
+          quoted = false;
+        } else {
+          field += char;
+        }
+      } else if (char === '"') {
+        quoted = true;
+      } else if (char === ',') {
+        row.push(field);
+        field = '';
+      } else if (char === '\n') {
+        row.push(field.replace(/\r$/, ''));
+        rows.push(row);
+        row = [];
+        field = '';
+      } else {
+        field += char;
+      }
+    }
+
+    if (field.length > 0 || row.length > 0) {
+      row.push(field.replace(/\r$/, ''));
+      rows.push(row);
+    }
+    return rows;
+  }
+
+  async function loadContent() {
+    setBootProgress(5, 'CH01 장면 목록을 읽고 있습니다.');
+    const manifest = await fetchJson('data/story/ch01/chapter_manifest.json');
+    if (!Array.isArray(manifest.scene_ids) || manifest.scene_ids.length === 0) {
+      throw new Error('CH01 장면 목록이 비어 있습니다.');
+    }
+
+    const scenePromises = manifest.scene_ids.map((sceneId) =>
+      fetchJson(`data/story/ch01/${sceneId.toLowerCase()}.json`),
+    );
+    const interactionFiles = ['common', 's00', 's04', 's06', 's08'];
+    const interactionPromises = interactionFiles.map((name) =>
+      fetchJson(`data/interactions/ch01/${name}.json`),
+    );
+
+    setBootProgress(18, '스토리·인터랙션·시네마틱 데이터를 내려받고 있습니다.');
+    const [scenesArray, interactionDocuments, cinematicManifest, csvText] = await Promise.all([
+      Promise.all(scenePromises),
+      Promise.all(interactionPromises),
+      fetchJson('data/cinematics/ch01_manifest.json'),
+      fetchText('data/localization/ko/ch01.csv'),
+    ]);
+
+    setBootProgress(70, '한글 문자열을 UTF-8로 해석하고 있습니다.');
+    const localizationRows = parseCsv(csvText);
+    const header = localizationRows.shift() || [];
+    if (header[0] !== 'key' || header[1] !== 'ko') {
+      throw new Error('한글 CSV 머리글이 올바르지 않습니다.');
+    }
+    const ko = new Map();
+    for (const row of localizationRows) {
+      if (row[0]) ko.set(row[0], row[1] ?? '');
+    }
+
+    const scenes = new Map();
+    for (const scene of scenesArray) {
+      if (!scene?.id || !Array.isArray(scene.steps)) {
+        throw new Error('장면 데이터 형식이 올바르지 않습니다.');
+      }
+      scenes.set(scene.id, scene);
+    }
+
+    const interactions = new Map();
+    for (const document of interactionDocuments) {
+      for (const interaction of document.interactions || []) {
+        interactions.set(interaction.id, interaction);
+      }
+    }
+
+    const cinematics = new Map();
+    for (const cinematic of cinematicManifest.cinematics || []) {
+      cinematics.set(cinematic.id, cinematic);
+    }
+
+    const chapterTitle = ko.get(manifest.chapter_title_text_id) || '第一章';
+    setBootProgress(88, `${scenes.size}개 장면과 ${ko.size}개 한글 문장을 확인했습니다.`);
+    log('Content loaded', {
+      sourceCommit: SOURCE_COMMIT,
+      scenes: scenes.size,
+      interactions: interactions.size,
+      cinematics: cinematics.size,
+      localization: ko.size,
+    });
+
+    return { manifest, scenes, interactions, cinematicManifest, cinematics, ko, chapterTitle };
+  }
+
+  function localize(textId, fallback = '') {
+    if (!textId) return fallback;
+    return data?.ko.get(String(textId)) || fallback || String(textId);
+  }
+
+  function createInitialRuntime() {
+    const flags = {};
+    for (const [name, specification] of Object.entries(data.manifest.state_schema || {})) {
+      flags[name] = specification?.default ?? null;
+    }
+    return {
+      schemaVersion: 2,
+      sourceCommit: SOURCE_COMMIT,
+      chapterId: data.manifest.chapter_id,
+      sceneId: '',
+      flags,
+      choices: {},
+      frames: [],
+      waitingKind: '',
+      pendingStep: null,
+      completedInteractionIds: [],
+      cinematicHistory: {},
+      resultEventSuppressions: {},
+      ended: false,
+      dialogueLog: [],
+      startedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+  }
+
+  function enterScene(sceneId) {
+    const scene = data.scenes.get(sceneId);
+    if (!scene) throw new Error(`장면을 찾지 못했습니다: ${sceneId}`);
+    runtime.sceneId = sceneId;
+    runtime.frames = [{ steps: clone(scene.steps), index: 0 }];
+    updateScenePresentation();
+  }
+
+  function nextStep() {
+    while (runtime.frames.length > 0) {

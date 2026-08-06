@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "kind": "cinematic_manifest",
+  "chapter_id": "CH-MVP-001",
+  "source": "docs/story/CH01_CINEMATIC_STORYBOARD.md",
+  "default_first_view_mode": "full",
+  "playback_modes": ["full", "summary", "result"],
+  "formation_templates": {
+    "FULL_108": {
+      "sword_count": 108,
+      "squad_count": 12,
+      "swords_per_squad": 9,
+      "squads": [
+        {"id": "SQ01", "sword_slots": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+        {"id": "SQ02", "sword_slots": [10, 11, 12, 13, 14, 15, 16, 17, 18]},
+        {"id": "SQ03", "sword_slots": [19, 20, 21, 22, 23, 24, 25, 26, 27]},
+        {"id": "SQ04", "sword_slots": [28, 29, 30, 31, 32, 33, 34, 35, 36]},
+        {"id": "SQ05", "sword_slots": [37, 38, 39, 40, 41, 42, 43, 44, 45]},
+        {"id": "SQ06", "sword_slots": [46, 47, 48, 49, 50, 51, 52, 53, 54]},
+        {"id": "SQ07", "sword_slots": [55, 56, 57, 58, 59, 60, 61, 62, 63]},
+        {"id": "SQ08", "sword_slots": [64, 65, 66, 67, 68, 69, 70, 71, 72]},
+        {"id": "SQ09", "sword_slots": [73, 74, 75, 76, 77, 78, 79, 80, 81]},
+        {"id": "SQ10", "sword_slots": [82, 83, 84, 85, 86, 87, 88, 89, 90]},
+        {"id": "SQ11", "sword_slots": [91, 92, 93, 94, 95, 96, 97, 98, 99]},
+        {"id": "SQ12", "sword_slots": [100, 101, 102, 103, 104, 105, 106, 107, 108]}
+      ]
+    },
+    "NINE_9": {
+      "sword_count": 9,
+      "squad_count": 1,
+      "swords_per_squad": 9,
+      "squads": [
+        {"id": "MUEUM", "sword_slots": [1, 2, 3, 4, 5, 6, 7, 8, 9]}
+      ]
+    }
+  },
+  "cinematics": [
+    {
+      "id": "CIN-CH01-S00-CAPTURE",
+      "source_scene": "S00",
+      "source_choice": {"choice_id": "CH01-C00-PRIORITY", "value": "capture"},
+      "purpose_text_id": "CH01-CIN-S00-CAPTURE-PURPOSE",
+      "formation_template": "FULL_108",
+      "sword_count": 108,
+      "lee_yeon_micro_action": "chain_pull",
+      "squad_roles": [
+        {"squads": ["SQ01", "SQ02", "SQ03", "SQ04"], "role": "arrow_block"},
+        {"squads": ["SQ05", "SQ06", "SQ07", "SQ08"], "role": "cavalry_route_redirect"},
+        {"squads": ["SQ09", "SQ10", "SQ11"], "role": "weapon_and_rein_cut"},
+        {"squads": ["SQ12"], "role": "commander_containment"}
+      ],
+      "playback": {
+        "full": {"duration_sec": 29, "shot_ids": ["S00-09", "S00-10", "S00-11", "S00-12", "S00-13A", "S00-14"]},
+        "summary": {"duration_sec": 12, "shot_ids": ["S00-09", "S00-12", "S00-13A", "S00-14"]},
+        "result": {"duration_sec": 0, "apply_result_events": true}
+      },
+      "result_events": [
+        {"flag": "cold_open_commander_captured", "operation": "set", "value": true},
+        {"flag": "clue_expected_in_baekya", "operation": "set", "value": true},
+        {"flag": "saw_full_108_deployment", "operation": "set", "value": true}
+      ]
+    },
+    {
+      "id": "CIN-CH01-S00-OPEN-PATH",
+      "source_scene": "S00",
+      "source_choice": {"choice_id": "CH01-C00-PRIORITY", "value": "open_path"},
+      "purpose_text_id": "CH01-CIN-S00-OPEN-PATH-PURPOSE",
+      "formation_template": "FULL_108",
+      "sword_count": 108,
+      "lee_yeon_micro_action": "chain_pull",
+      "squad_roles": [
+        {"squads": ["SQ01", "SQ02", "SQ03"], "role": "left_path_wall"},
+        {"squads": ["SQ04", "SQ05", "SQ06"], "role": "right_path_wall"},
+        {"squads": ["SQ07", "SQ08", "SQ09", "SQ10"], "role": "cavalry_containment"},
+        {"squads": ["SQ11", "SQ12"], "role": "refugee_path_guard"}
+      ],
+      "playback": {
+        "full": {"duration_sec": 29, "shot_ids": ["S00-09", "S00-10", "S00-11", "S00-12", "S00-13B", "S00-14"]},
+        "summary": {"duration_sec": 12, "shot_ids": ["S00-09", "S00-12", "S00-13B", "S00-14"]},
+        "result": {"duration_sec": 0, "apply_result_events": true}
+      },
+      "result_events": [
+        {"flag": "cold_open_commander_captured", "operation": "set", "value": false},
+        {"flag": "saw_full_108_deployment", "operation": "set", "value": true}
+      ]
+    },
+    {
+      "id": "CIN-CH01-S05-COMMON",
+      "source_scene": "S05",
+      "source_choice": null,
+      "purpose_text_id": "CH01-CIN-S05-COMMON-PURPOSE",
+      "formation_template": "NINE_9",
+      "sword_count": 9,
+      "lee_yeon_micro_action": "set_down_water_cup",
+      "sword_roles": [
+        {"slot": 1, "role": "hidden_weapon_intercept"},
+        {"slot": 2, "role": "scabbard_and_pillar_pin"},
+        {"slot": 3, "role": "stair_block"},
+        {"slot": 4, "role": "civilian_guard_line"},
+        {"slot": 5, "role": "civilian_guard_line"},
+        {"slot": 6, "role": "kitchen_block"},
+        {"slot": 7, "role": "hostage_hand_stop"},
+        {"slot": 8, "role": "archer_sight_block"},
+        {"slot": 9, "role": "lee_yeon_reserve"}
+      ],
+      "playback": {
+        "full": {"duration_sec": 29, "shot_ids": ["S05-01", "S05-02", "S05-03", "S05-04", "S05-05", "S05-06", "S05-07", "S05-08", "S05-09", "S05-10"]},
+        "summary": {"duration_sec": 10, "shot_ids": ["S05-03", "S05-05", "S05-08", "S05-10"]},
+        "result": {"duration_sec": 0, "apply_result_events": true}
+      },
+      "result_events": []
+    },
+    {
+      "id": "CIN-CH01-S07-TRACK",
+      "source_scene": "S07A",
+      "source_choice": {"choice_id": "CH01-C06-PRIORITY", "value": "track"},
+      "purpose_text_id": "CH01-CIN-S07-TRACK-PURPOSE",
+      "formation_template": "NINE_9",
+      "sword_count": 9,
+      "lee_yeon_micro_action": "chain_hold",
+      "visual_roles": ["route_cut", "sleeve_pin", "hostage_delay"],
+      "playback": {
+        "full": {"duration_sec": 18, "shot_ids": ["A01", "A02", "A03", "A04", "A05", "A06"]},
+        "summary": {"duration_sec": 8, "shot_ids": ["A01", "A03", "A04", "A06"]},
+        "result": {"duration_sec": 0, "apply_result_events": true}
+      },
+      "result_events": [
+        {"flag": "fugitive_state", "operation": "set", "value": "captured"},
+        {"flag": "innkeeper_state", "operation": "set", "value": "injured"},
+        {"flag": "waiter_state", "operation": "set", "value": "minor_injury"},
+        {"flag": "inn_damage", "operation": "set", "value": "minor"},
+        {"flag": "north_gate_clue_level", "operation": "increment", "value": 2}
+      ]
+    },
+    {
+      "id": "CIN-CH01-S07-PROTECT",
+      "source_scene": "S07B",
+      "source_choice": {"choice_id": "CH01-C06-PRIORITY", "value": "protect"},
+      "purpose_text_id": "CH01-CIN-S07-PROTECT-PURPOSE",
+      "formation_template": "NINE_9",
+      "sword_count": 9,
+      "lee_yeon_micro_action": "chain_hold",
+      "visual_roles": ["hostage_hand_stop", "fire_cut", "civilian_guard_line"],
+      "playback": {
+        "full": {"duration_sec": 15, "shot_ids": ["B01", "B02", "B03", "B04", "B05"]},
+        "summary": {"duration_sec": 8, "shot_ids": ["B01", "B03", "B04", "B05"]},
+        "result": {"duration_sec": 0, "apply_result_events": true}
+      },
+      "result_events": [
+        {"flag": "fugitive_state", "operation": "set", "value": "escaped"},
+        {"flag": "innkeeper_state", "operation": "set", "value": "safe"},
+        {"flag": "waiter_state", "operation": "set", "value": "safe"},
+        {"flag": "inn_damage", "operation": "set", "value": "none"},
+        {"flag": "courier_identity_partial", "operation": "set", "value": true},
+        {"flag": "clue_north_wagons", "operation": "set", "value": true}
+      ]
+    },
+    {
+      "id": "CIN-CH01-S07-LOCKDOWN",
+      "source_scene": "S07C",
+      "source_choice": {"choice_id": "CH01-C06-PRIORITY", "value": "lockdown"},
+      "purpose_text_id": "CH01-CIN-S07-LOCKDOWN-PURPOSE",
+      "formation_template": "NINE_9",
+      "sword_count": 9,
+      "lee_yeon_micro_action": "chain_hold",
+      "visual_roles": ["exit_link", "closed_formation", "non_hostile_lane"],
+      "playback": {
+        "full": {"duration_sec": 15, "shot_ids": ["C01", "C02", "C03", "C04", "C05"]},
+        "summary": {"duration_sec": 8, "shot_ids": ["C01", "C03", "C04", "C05"]},
+        "result": {"duration_sec": 0, "apply_result_events": true}
+      },
+      "result_events": [
+        {"flag": "fugitive_state", "operation": "set", "value": "captured"},
+        {"flag": "innkeeper_state", "operation": "set", "value": "safe"},
+        {"flag": "waiter_state", "operation": "set", "value": "minor_injury"},
+        {"flag": "inn_damage", "operation": "set", "value": "fire_damage"},
+        {"flag": "power_exposure", "operation": "set", "value": "high"},
+        {"flag": "faction_mark_evidence", "operation": "set", "value": true}
+      ]
+    },
+    {
+      "id": "CIN-CH01-S09-DEPARTURE",
+      "source_scene": "S09",
+      "source_choice": null,
+      "purpose_text_id": "CH01-CIN-S09-DEPARTURE-PURPOSE",
+      "formation_template": null,
+      "sword_count": 0,
+      "lee_yeon_micro_action": "wrap_chain_around_wrist",
+      "playback": {
+        "full": {"duration_sec": 8, "shot_ids": ["S09-END-01", "S09-END-02"]},
+        "summary": {"duration_sec": 5, "shot_ids": ["S09-END-02"]},
+        "result": {"duration_sec": 0, "apply_result_events": true}
+      },
+      "result_events": [
+        {"flag": "chapter_01_completed", "operation": "set", "value": true}
+      ]
+    }
+  ]
+}
