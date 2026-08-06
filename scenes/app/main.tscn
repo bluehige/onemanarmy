@@ -1,0 +1,10 @@
+[gd_scene format=3]
+
+[node name="Main" type="Node"]
+
+[node name="SceneStack" type="Node" parent="."]
+
+[node name="CinematicStage" type="Node3D" parent="."]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+layer = 10
