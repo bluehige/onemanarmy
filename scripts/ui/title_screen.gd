@@ -69,7 +69,7 @@ func _build_interface() -> void:
 	layout.add_child(eyebrow)
 
 	var title := Label.new()
-	title.text = "일인군격지\n검관을 여는 자"
+	title.text = "일인합격진\n검관을 끄는 남자"
 	title.add_theme_font_size_override("font_size", 62)
 	title.add_theme_color_override("font_color", InkTheme.PAPER_LIGHT)
 	layout.add_child(title)
