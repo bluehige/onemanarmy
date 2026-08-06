@@ -22,6 +22,19 @@
 5. 기준 branch, HEAD SHA, 실제 존재 경로를 확인한다.
 6. 구현 요청이면 Work Order와 검증 기준을 확인한다.
 
+## CH01 MVP 전체 일괄 구현
+
+사용자가 `1차 MVP 전체`, `한 번에 완성`, `Codex로 끝까지 구현`과 동등한 요청을 하면 다음 문서가 실행 권위다.
+
+1. `CODEX_MVP_START_HERE.md`
+2. `docs/production/CODEX_MVP_MASTER_EXECUTION_PLAN.md`
+3. `docs/production/CODEX_MVP_ONE_SHOT_PROMPT.md`
+4. `docs/production/CODEX_MVP_DELIVERY_CHECKLIST.md`
+
+이 요청에서는 계획·스캐폴드·한 장면 데모에서 멈추지 않는다. P0부터 P12까지 검사와 커밋을 거쳐 자동으로 진행하며, 진짜 차단 조건이 아니면 사용자에게 단계별 승인을 요구하지 않는다.
+
+제품 코드는 기본적으로 `codex/mvp-ch01-v1` branch에서 작성하고 PR로 제출한다. `main`에는 계획과 기준 문서만 직접 반영한다.
+
 ## 최우선 장르 계약
 
 **이 게임은 비주얼 노블이다.**
