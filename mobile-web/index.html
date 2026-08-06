@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#11100f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>일인합격진 CH01 모바일 MVP</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <canvas id="canvas" tabindex="0" aria-label="일인합격진 게임 화면">
+    이 브라우저는 HTML5 Canvas를 지원하지 않습니다.
+  </canvas>
+
+  <div id="rotate-overlay" class="overlay rotate-overlay" role="status" aria-live="polite">
+    <div class="ink-card compact-card">
+      <div class="seal">橫</div>
+      <h1>휴대폰을 가로로 돌려주세요</h1>
+      <p>이 MVP는 16:9 가로 화면과 터치 조작에 맞춰져 있습니다.</p>
+    </div>
+  </div>
+
+  <main id="launch-panel" class="overlay launch-overlay">
+    <section class="ink-card launch-card" aria-labelledby="launch-title">
+      <div class="eyebrow">PR #2 · MOBILE WEB PLAYTEST</div>
+      <h1 id="launch-title">일인합격진 CH01 MVP</h1>
+      <p class="subtitle">108개의 검을 운용하는 관천의 첫 장을 휴대폰에서 바로 테스트합니다.</p>
+
+      <div class="spec-grid" aria-label="테스트 빌드 정보">
+        <div><span>엔진</span><strong>Godot 4.6.3</strong></div>
+        <div><span>입력</span><strong>터치 · 홀드 · 드래그</strong></div>
+        <div><span>화면</span><strong>가로 모드 권장</strong></div>
+        <div><span>데이터</span><strong>약 48 MB</strong></div>
+      </div>
+
+      <button id="start-button" class="primary-button" type="button">
+        터치해서 MVP 실행
+      </button>
+      <p class="fine-print">첫 실행 시 Godot Web 런타임과 게임 데이터를 내려받습니다. Wi-Fi 환경을 권장합니다.</p>
+    </section>
+  </main>
+
+  <section id="status-panel" class="overlay status-overlay" hidden aria-live="polite" aria-busy="true">
+    <div class="ink-card status-card">
+      <div class="spinner" aria-hidden="true"></div>
+      <div id="status-stage" class="status-stage">준비 중</div>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <div class="status-row">
+        <span id="status-detail">모바일 실행 환경을 확인하고 있습니다.</span>
+        <strong id="status-percent">0%</strong>
+      </div>
+    </div>
+  </section>
+
+  <section id="error-panel" class="overlay error-overlay" hidden role="alert">
+    <div class="ink-card error-card">
+      <div class="eyebrow danger">MOBILE WEB STARTUP ERROR</div>
+      <h1>실행하지 못했습니다</h1>
+      <p id="error-message">알 수 없는 오류가 발생했습니다.</p>
+      <details>
+        <summary>진단 정보</summary>
+        <pre id="diagnostics"></pre>
+      </details>
+      <div class="button-row">
+        <button id="copy-diagnostics" class="secondary-button" type="button">진단 복사</button>
+        <button id="retry-button" class="primary-button" type="button">다시 시도</button>
+      </div>
+    </div>
+  </section>
+
+  <nav id="game-tools" class="game-tools" hidden aria-label="게임 도구">
+    <button id="fullscreen-button" type="button" aria-label="전체 화면 전환">전체화면</button>
+    <button id="reload-button" type="button" aria-label="게임 다시 불러오기">재실행</button>
+  </nav>
+
+  <noscript>
+    <div class="noscript">이 게임은 JavaScript가 필요합니다.</div>
+  </noscript>
+
+  <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ironkid90-s/lucky5-v7@48f525a6224ee61afea2ec046fb25c3f160d78d7/src/web/public/godot-cabinet/index.js" crossorigin="anonymous"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
