@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-06",
+  "phase": "P0_BOOTSTRAP",
+  "status": "PASS",
+  "commit": null,
+  "tests_run": [
+    "python scripts/validate_planning_repository.py",
+    ".tools/godot/Godot_v4.6.3-stable_win64_console.exe --version"
+  ],
+  "tests_passed": [
+    "planning repository validator",
+    "Godot exact version",
+    "project Skill count and hashes",
+    "implementation branch and base commit"
+  ],
+  "tests_not_run": [
+    "Godot editor boot (P1)",
+    "Windows export template check (required before P12 export)"
+  ],
+  "evidence": [
+    "reports/mvp/bootstrap_report.md",
+    "reports/mvp/skill_install_manifest.json"
+  ],
+  "known_issues": [],
+  "next_phase": "P1_GODOT_BASELINE"
+}
