@@ -3,8 +3,10 @@
   "updated_at": "2026-08-06",
   "phase": "P12_INTEGRATED_QA_BUILD",
   "status": "COMPLETE",
-  "commit": "cb96b67e4d57d76c348ea50513f9a6a9d2ec67be",
+  "commit": "b3aa1c2709b242a03a10dc98c972ff5f5ec64ac6",
   "build_source_commit": "ee0b76e0ba6c6fb7fd9cd41ad6b93cedfd138046",
+  "pull_request": "https://github.com/bluehige/onemanarmy/pull/2",
+  "pull_request_state": "READY_FOR_REVIEW",
   "tests_run": [
     "powershell -NoProfile -ExecutionPolicy Bypass -File tools/run_validation.ps1",
     "Godot 4.6.3 OpenGL Compatibility E2 capture via res://tests/visual/capture_e2.gd",
@@ -34,6 +36,8 @@
   ],
   "evidence": [
     "reports/mvp/MVP_COMPLETION_REPORT.md",
+    "reports/mvp/VALIDATION_SUMMARY.md",
+    "reports/mvp/BUILD_MANIFEST.json",
     "reports/mvp/bootstrap_report.md",
     "reports/mvp/skill_install_manifest.json",
     "reports/mvp/KNOWN_ISSUES.md",
@@ -50,13 +54,13 @@
     "build/windows/onemanarmy_ch01.exe",
     "build/windows/onemanarmy_ch01.pck",
     "build/windows/onemanarmy-ch01-mvp.zip",
-    "build/windows/onemanarmy-ch01-mvp.zip.sha256"
+    "build/windows/onemanarmy-ch01-mvp.zip.sha256",
+    ".game-wiki/handoffs/HANDOFF-MVP-CH01.md"
   ],
   "known_issues": [
     "Three generated CH01 art assets remain DRAFT pending owner approval.",
     "Nine production audio cues use approved silent MVP placeholders.",
-    "E4 human playtest, physical gamepad validation, and Forward+ release soak are NOT_RUN.",
-    "Pull Request is pending."
+    "E4 human playtest, physical gamepad validation, and Forward+ release soak are NOT_RUN."
   ],
   "next_phase": null,
   "phases": [
@@ -135,7 +139,7 @@
     {
       "phase": "P12_INTEGRATED_QA_BUILD",
       "status": "PASS_WITH_WARNINGS",
-      "commits": ["d5b6eff", "caddcbe", "a43b675", "6e97d23", "f5687c7", "ee0b76e", "d437c94", "cb96b67"],
+      "commits": ["d5b6eff", "caddcbe", "a43b675", "6e97d23", "f5687c7", "ee0b76e", "d437c94", "cb96b67", "b3aa1c2"],
       "summary": "Aggregate validation, render/performance evidence, Windows EXE/PCK/ZIP, and package exclusion gate completed; E4, physical gamepad, and Forward+ soak remain NOT_RUN."
     }
   ]

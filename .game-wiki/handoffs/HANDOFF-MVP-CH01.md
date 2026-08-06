@@ -10,7 +10,8 @@ engine: Godot 4.6.3
 automated_implementation: COMPLETE
 aggregate_validation: PASS
 product_keep: PENDING_E4
-pull_request: PENDING
+pull_request: https://github.com/bluehige/onemanarmy/pull/2
+pull_request_state: READY_FOR_REVIEW
 ```
 
 ## 현재 판정
@@ -30,7 +31,7 @@ CH01 Godot MVP의 자동 구현, 자동 검증, Windows 패키징은 완료됐�
 | ZIP | `build/windows/onemanarmy-ch01-mvp.zip` |
 | ZIP size | `41,695,843 bytes` |
 | ZIP SHA-256 | `F85B2402FA8582AD6606BABA1672390CD11DF38ED19BB9806AAEA0C906EF5A07` |
-| PR | `PENDING` — 부모 작업자가 생성 예정 |
+| PR | [#2](https://github.com/bluehige/onemanarmy/pull/2) — `READY_FOR_REVIEW` |
 
 E4와 후속 승인 검사는 위 source commit과 ZIP SHA-256을 고정 기준으로 사용한다. 다른 빌드에서 얻은 사람 평가를 이 handoff의 E4 증거로 합치지 않는다.
 
@@ -79,7 +80,7 @@ E4와 후속 승인 검사는 위 source commit과 ZIP SHA-256을 고정 기준�
 - 프로덕션 오디오 9개가 명시적 무음 placeholder
 - 생성 아트 3개가 최종 승인 전 `DRAFT`
 - 실제 사용자 반응에 근거한 제품 `KEEP` 결정
-- GitHub PR 생성 및 리뷰
+- PR #2의 reviewer 검수와 merge 결정
 
 자동 테스트가 통과했다는 이유로 위 항목을 `PASS`로 바꾸지 않는다.
 
@@ -91,7 +92,7 @@ E4와 후속 승인 검사는 위 source commit과 ZIP SHA-256을 고정 기준�
 4. `assets/art/ch01/ASSET_MANIFEST.json`의 아트 3개를 오너 승인하거나 승인된 교체 자산으로 갱신한다.
 5. `assets/audio/AUDIO_PLACEHOLDER_MANIFEST.json`의 무음 9개를 라이선스·경로·SHA-256이 기록된 승인 음원으로 교체하고 런타임 재생을 검증한다.
 6. Windows Forward+ export에서 장시간 soak와 복수 GPU 검사를 실행하고 profiler 증거를 남긴다.
-7. 부모 작업자가 `codex/mvp-ch01-v1`에서 PR을 생성하고 source commit·빌드 SHA·검증/미실행 항목을 PR 본문에 고정한다.
+7. [PR #2](https://github.com/bluehige/onemanarmy/pull/2)의 source commit·빌드 SHA·검증/미실행 항목을 검토하고 merge 여부를 결정한다.
 
 ## 다음 세션에서 먼저 읽을 것
 

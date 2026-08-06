@@ -14,7 +14,7 @@
 - Build SHA-256: `F85B2402FA8582AD6606BABA1672390CD11DF38ED19BB9806AAEA0C906EF5A07`
 - Automated aggregate validation: `PASS`
 - Product KEEP: `PENDING_E4`
-- Pull request: `PENDING`
+- Pull request: [#2](https://github.com/bluehige/onemanarmy/pull/2), `READY_FOR_REVIEW`
 
 ## Active owner decision
 
@@ -33,7 +33,7 @@
 3. `docs/production/CODEX_MVP_MASTER_EXECUTION_PLAN.md`
 4. `docs/production/CODEX_MVP_DELIVERY_CHECKLIST.md`
 
-이 entrypoint를 기준으로 `codex/mvp-ch01-v1`에서 CH01 자동 구현·검증·Windows 패키징까지 진행했다. PR 생성은 부모 작업자에게 남아 있다. 자동 완료는 E4 사람 평가 또는 제품 `KEEP` 승인을 뜻하지 않는다.
+이 entrypoint를 기준으로 `codex/mvp-ch01-v1`에서 CH01 자동 구현·검증·Windows 패키징까지 진행하고 [PR #2](https://github.com/bluehige/onemanarmy/pull/2)를 Ready for review로 전환했다. 자동 완료는 E4 사람 평가 또는 제품 `KEEP` 승인을 뜻하지 않는다.
 
 ## Canonical project entrypoint
 
@@ -158,7 +158,7 @@ S01 백야성 입성
 - production audio: 9 silent placeholders, `OPEN`
 - generated art: 3 assets remain `DRAFT`, `OPEN`
 - product `KEEP`: unconfirmed until E4
-- GitHub PR: `PENDING`
+- GitHub PR: [#2](https://github.com/bluehige/onemanarmy/pull/2), `READY_FOR_REVIEW`
 
 자동 mouse/keyboard/gamepad action fixture와 접근성 검사는 `PASS`지만 실제 물리 게임패드 검증을 대신하지 않는다. E2와 108검 개발 fixture도 Forward+ 출시 빌드의 장시간·복수 GPU 성능 승인을 대신하지 않는다.
 
@@ -169,7 +169,7 @@ S01 백야성 입성
 3. Make the product `KEEP / REDESIGN / REDUCE` decision from E4 evidence.
 4. Approve or replace the 3 DRAFT art assets and 9 silent audio placeholders.
 5. Run Windows Forward+ soak and multi-GPU/minimum-spec validation.
-6. Create and review the pending PR from `codex/mvp-ch01-v1`.
+6. Review [PR #2](https://github.com/bluehige/onemanarmy/pull/2) from `codex/mvp-ch01-v1` and decide whether to merge it.
 
 ## Do not touch
 

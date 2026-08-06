@@ -58,6 +58,14 @@
       "KNOWN_ISSUES.md"
     ]
   },
+  "artifact_policy": {
+    "canonical_tracked_distribution": "build/windows/onemanarmy-ch01-mvp.zip",
+    "checksum_sidecar": "build/windows/onemanarmy-ch01-mvp.zip.sha256",
+    "local_export_intermediates": [
+      "build/windows/onemanarmy_ch01.exe",
+      "build/windows/onemanarmy_ch01.pck"
+    ]
+  },
   "verification": {
     "release_export": {
       "status": "PASS"

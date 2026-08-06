@@ -9,7 +9,7 @@
 - 엔진: Godot `4.6.3.stable.official.7d41c59c4`
 - 실제 사람 E4 플레이테스트: **`NOT_RUN`**
 - 제품 `KEEP` 판정: **미확정**
-- Pull Request: **PENDING**
+- Pull Request: [#2](https://github.com/bluehige/onemanarmy/pull/2) — **Ready for review**
 
 여기서 `COMPLETE`는 P0~P12의 자동 구현·검증·Windows 패키징 종료 게이트를 충족했다는 뜻이다. 실제 플레이어 평가, 제품 `KEEP`, 최종 아트 승인 또는 출시 준비 완료를 뜻하지 않는다.
 
@@ -82,6 +82,8 @@ E2의 `PASS`는 위 OpenGL 오프스크린 캡처 범위에 한정되며 Forward
 
 ZIP은 E4에서 고정 사용할 동일 빌드이며 실행 파일, PCK, E4 안내서와 알려진 문제 문서를 포함한다. Godot 4.6.3 Windows release export preset은 테스트·reports·tools를 런타임 PCK에서 제외한다.
 
+Git에 추적되는 정식 배포물은 ZIP과 SHA-256 sidecar다. 표의 개별 EXE·PCK 경로는 로컬 export 중간물이며 동일 바이너리가 ZIP 안에 포함돼 있다.
+
 ## 알려진 콘텐츠·승인 공백
 
 치명적이거나 진행을 차단하는 확인된 known issue는 0개다. 다음 항목은 의도적으로 열린 상태다.
@@ -103,6 +105,6 @@ ZIP은 E4에서 고정 사용할 동일 빌드이며 실행 파일, PCK, E4 안�
 - branch: `codex/mvp-ch01-v1`
 - Windows 빌드 소스: `ee0b76e0ba6c6fb7fd9cd41ad6b93cedfd138046`
 - 최종 패키지 commit: `cb96b67e4d57d76c348ea50513f9a6a9d2ec67be`
-- Pull Request: `PENDING`
+- Pull Request: [#2](https://github.com/bluehige/onemanarmy/pull/2) — `READY_FOR_REVIEW`
 - E4 절차: `reports/mvp/E4_PLAYTEST_GUIDE.md`
 - E4 결과와 실제 사용자 응답이 수집되기 전에는 `PASS` 또는 제품 `KEEP`을 선언하지 않는다.

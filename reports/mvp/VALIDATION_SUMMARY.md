@@ -120,6 +120,8 @@ Godot 4.6.3의 OpenGL 3.3 Compatibility 실제 렌더 경로에서 1×1 host win
 - 새 폴더에 ZIP 추출 후 headless smoke: `PASS`, exit code 0
 - Windows renderer로 60프레임 실행: `PASS`, exit code 0
 
+Git에 추적되는 정식 배포물은 ZIP과 SHA-256 sidecar이며, 개별 EXE·PCK 경로는 로컬 export 중간물이다. 동일 EXE·PCK가 ZIP 안에 포함돼 있고 manifest의 크기·해시와 일치한다.
+
 초기 export 시 출력 경로가 없어 한 차례 실패했으며, 이는 환경 준비 문제였다. 대상 폴더를 만든 뒤 동일 release export를 재실행해 `PASS`했다.
 
 ## 미실행·후속 검증
