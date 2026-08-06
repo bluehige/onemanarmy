@@ -1,0 +1,222 @@
+        'linear-gradient(180deg, rgba(8, 8, 7, 0.16), rgba(5, 5, 4, 0.9))',
+        `url("${assetUrl(asset)}")`,
+      ].join(', ');
+    } else {
+      ui.backdrop.style.backgroundImage = [
+        'radial-gradient(circle at 63% 38%, rgba(126, 96, 56, 0.28), transparent 30%)',
+        'linear-gradient(180deg, rgba(18, 17, 14, 0.36), rgba(5, 5, 4, 0.95))',
+      ].join(', ');
+    }
+  }
+
+  function renderWaiting() {
+    cleanupActiveInteraction();
+    finishTypewriter();
+    updateScenePresentation();
+    ui.hud.hidden = false;
+
+    const step = runtime.pendingStep;
+    if (!step) {
+      showError(new Error('대기 중인 스토리 단계가 없습니다.'));
+      return;
+    }
+
+    switch (runtime.waitingKind) {
+      case 'line':
+        renderLine(step);
+        break;
+      case 'choice':
+        renderChoice(step);
+        break;
+      case 'interaction':
+        renderInteraction(step);
+        break;
+      case 'cinematic':
+        renderCinematic(step);
+        break;
+      case 'consequence':
+        renderConsequence(step);
+        break;
+      default:
+        showError(new Error(`지원하지 않는 대기 상태입니다: ${runtime.waitingKind}`));
+    }
+  }
+
+  function renderLine(step) {
+    const text = localize(step.text_id, '문장을 찾지 못했습니다.');
+    const speakerId = String(step.speaker_id || step.voice_id || '');
+    const speaker = SPEAKER_NAMES[speakerId] || (step.type === 'narrate' ? '' : speakerId);
+    ui.speakerName.textContent = speaker;
+    ui.advanceHint.textContent = '터치하여 계속';
+    showScreen(ui.storyScreen);
+    appendDialogueLog(speaker || '서술', text, step.text_id);
+    startTypewriter(text);
+  }
+
+  function startTypewriter(text) {
+    finishTypewriter();
+    fullDialogueText = text;
+    dialogueTyping = true;
+    ui.dialogueText.textContent = '';
+    let index = 0;
+    typewriterTimer = window.setInterval(() => {
+      index += 1;
+      ui.dialogueText.textContent = fullDialogueText.slice(0, index);
+      if (index >= fullDialogueText.length) finishTypewriter();
+    }, TYPEWRITER_INTERVAL_MS);
+  }
+
+  function finishTypewriter() {
+    if (typewriterTimer) window.clearInterval(typewriterTimer);
+    typewriterTimer = 0;
+    if (dialogueTyping) ui.dialogueText.textContent = fullDialogueText;
+    dialogueTyping = false;
+  }
+
+  function advanceLine() {
+    if (runtime?.waitingKind !== 'line') return;
+    if (dialogueTyping) {
+      finishTypewriter();
+      return;
+    }
+    clearWaiting();
+    drive();
+  }
+
+  function appendDialogueLog(speaker, text, textId) {
+    if (!runtime) return;
+    const existingLast = runtime.dialogueLog[runtime.dialogueLog.length - 1];
+    if (existingLast?.textId === textId && existingLast?.sceneId === runtime.sceneId) return;
+    runtime.dialogueLog.push({
+      speaker,
+      text,
+      textId,
+      sceneId: runtime.sceneId,
+      at: new Date().toISOString(),
+    });
+    if (runtime.dialogueLog.length > MAX_LOG_ENTRIES) runtime.dialogueLog.shift();
+  }
+
+  function renderChoice(step) {
+    ui.choiceOptions.replaceChildren();
+    for (const [index, option] of (step.options || []).entries()) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'choice-option';
+      const label = localize(option.label_text_id, option.id || '선택');
+      const description = localize(option.description_text_id, '');
+      button.innerHTML = `
+        <span class="choice-index">${index + 1}</span>
+        <span class="choice-copy">
+          <strong></strong>
+          <span></span>
+        </span>
+      `;
+      button.querySelector('strong').textContent = label;
+      button.querySelector('.choice-copy span').textContent = description;
+      button.addEventListener('click', () => selectChoice(step, option), { once: true });
+      ui.choiceOptions.appendChild(button);
+    }
+    showScreen(ui.choiceScreen);
+  }
+
+  function selectChoice(step, option) {
+    const outputFlag = String(step.output_flag || '');
+    if (!outputFlag) {
+      showError(new Error(`선택 ${step.choice_id || step.id}에 output_flag가 없습니다.`));
+      return;
+    }
+    runtime.flags[outputFlag] = option.value;
+    runtime.choices[String(step.choice_id || step.id)] = String(option.id || '');
+    clearWaiting();
+    saveSnapshot(AUTOSAVE_KEY, false);
+    drive();
+  }
+
+  function renderInteraction(step) {
+    const interactionId = String(step.interaction_id || '');
+    const contract = data.interactions.get(interactionId);
+    if (!contract) {
+      showError(new Error(`인터랙션 계약을 찾지 못했습니다: ${interactionId}`));
+      return;
+    }
+
+    ui.interactionType.textContent = `${contract.type || 'INTERACTION'} · ${interactionId}`;
+    ui.interactionTitle.textContent = interactionTitle(contract.type);
+    ui.interactionPrompt.textContent = localize(contract.prompt_key, contract.visible_change || '행동을 완료하십시오.');
+    ui.interactionBody.replaceChildren();
+    ui.interactionFallback.hidden = false;
+    currentInteractionComplete = (value) => completeInteraction(step, contract, value);
+    currentInteractionFallback = () => currentInteractionComplete?.(true);
+
+    if (contract.type === 'FOCUS_POINT' || contract.type === 'AFTERMATH_INSPECT') {
+      renderFocusInteraction(contract);
+    } else if (contract.type === 'CHAIN_PULL') {
+      renderDragInteraction();
+    } else {
+      renderHoldInteraction(contract);
+    }
+    showScreen(ui.interactionScreen);
+  }
+
+  function interactionTitle(type) {
+    switch (type) {
+      case 'FOCUS_POINT': return '먼저 읽을 대상을 고르십시오';
+      case 'AFTERMATH_INSPECT': return '선택 뒤 남은 흔적을 확인하십시오';
+      case 'CHAIN_PULL': return '검관의 잠금을 당기십시오';
+      case 'BLADE_RECALL': return '흩어진 검을 끝까지 거두십시오';
+      case 'HOLD_INTENT': return '결의를 놓지 마십시오';
+      default: return '행동을 완료하십시오';
+    }
+  }
+
+  function renderFocusInteraction(contract) {
+    const route = String(runtime.flags.priority_choice || '').toUpperCase();
+    const grid = document.createElement('div');
+    grid.className = 'focus-grid';
+    const points = (contract.points || []).filter((point) => {
+      const pointRoute = String(point.route || '').toUpperCase();
+      return !pointRoute || !route || pointRoute === route;
+    });
+
+    currentInteractionFallback = () => currentInteractionComplete?.(points[0]?.id ?? true);
+
+    for (const point of points) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'focus-point';
+      button.textContent = localize(point.label_text_id, point.id);
+      button.addEventListener('click', () => currentInteractionComplete?.(point.id), { once: true });
+      grid.appendChild(button);
+    }
+    ui.interactionBody.appendChild(grid);
+  }
+
+  function renderHoldInteraction(contract) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'hold-control';
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'hold-button';
+    button.innerHTML = '<span class="hold-fill"></span><span>손가락을 떼지 말고 누르기</span>';
+    const fill = button.querySelector('.hold-fill');
+    const meta = document.createElement('div');
+    meta.className = 'hold-meta';
+    meta.textContent = contract.type === 'BLADE_RECALL'
+      ? `${Number(contract.sword_count || 9)}검 회수 준비`
+      : '약 1초간 유지하면 완료됩니다.';
+    wrapper.append(button, meta);
+    ui.interactionBody.appendChild(wrapper);
+
+    let frame = 0;
+    let startedAt = 0;
+    const duration = HOLD_DURATION_MS;
+
+    const cancel = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      startedAt = 0;
+      fill.style.width = '0%';
+    };
+
+    const tick = (timestamp) => {
