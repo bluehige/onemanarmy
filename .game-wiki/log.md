@@ -23,4 +23,11 @@
 - Updated Prompt 04 art and image-generation rules for Story / Focus / Choice & Intent / Cinematic / Consequence screens.
 - Updated planning validator to require seven Skills and enforce visual-novel genre flags.
 - Recorded active decision `DEC-0002`.
-- Current phase set to `VISUAL_NOVEL_CORE_RENORMALIZATION_COMPLETE`.
+- Visual-novel core renormalization completed.
+- Added `CODEX_MVP_START_HERE.md` as the end-to-end execution entrypoint.
+- Added `CODEX_MVP_MASTER_EXECUTION_PLAN.md` with P0-P12 implementation, validation, build, and PR phases.
+- Added `CODEX_MVP_ONE_SHOT_PROMPT.md` as the ready-to-paste Codex objective.
+- Added `CODEX_MVP_DELIVERY_CHECKLIST.md` as the final completion gate.
+- Updated AGENTS, GamePlanner config, current-state, and planning validator for `CODEX_MVP_EXECUTION_READY`.
+- Planned implementation branch: `codex/mvp-ch01-v1`.
+- Runtime code and Godot project remain uncreated; next action is running the one-shot prompt in Codex.
