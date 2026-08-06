@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "package_id": "CH01_AUDIO_PLACEHOLDERS",
+  "policy": "Every absent production audio asset is explicitly tagged; AudioService preserves semantic cue calls without loading missing files.",
+  "release_behavior": "silent_semantic_cues",
+  "placeholders": [
+    {
+      "id": "SFX_SWORD_COFFIN_WHEEL",
+      "category": "sfx",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "SFX_IRON_CHAIN",
+      "category": "sfx",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "SFX_SWORD_COFFIN_LOCK",
+      "category": "sfx",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "SFX_NINE_SWORD_RESONANCE",
+      "category": "sfx",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "SFX_108_SWORD_RESONANCE",
+      "category": "sfx",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "AMB_RAIN_GORGE",
+      "category": "ambience",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "AMB_CHEONGU_INN",
+      "category": "ambience",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "AMB_INN_FIRE",
+      "category": "ambience",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "AudioService cue signal only"
+    },
+    {
+      "id": "MIX_CHOICE_SILENCE_DUCK",
+      "category": "mix",
+      "status": "APPROVED_MVP_PLACEHOLDER",
+      "required_for_final": true,
+      "runtime_fallback": "No-op mix cue"
+    }
+  ],
+  "missing_unmanifested_assets": 0
+}
