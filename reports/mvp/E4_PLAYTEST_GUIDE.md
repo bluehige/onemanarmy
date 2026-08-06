@@ -5,7 +5,7 @@
 - 판정: `NOT_RUN`
 - 이유: E4는 실제 플레이어 관찰과 답변이 필요한 사람 평가다. 자동화 결과로 대체하지 않는다.
 - 고정 대상: `build/windows/onemanarmy-ch01-mvp.zip`
-- 무결성 확인: 같은 폴더의 `BUILD_MANIFEST.json`에 기록된 ZIP SHA-256과 대조한다.
+- 무결성 확인: ZIP 옆의 `onemanarmy-ch01-mvp.zip.sha256` 또는 저장소 `reports/mvp/BUILD_MANIFEST.json`과 대조한다.
 
 ## 준비
 
