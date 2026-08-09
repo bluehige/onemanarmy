@@ -1,13 +1,16 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-06",
-  "phase": "P12_INTEGRATED_QA_BUILD",
-  "status": "COMPLETE",
-  "commit": "b3aa1c2709b242a03a10dc98c972ff5f5ec64ac6",
-  "build_source_commit": "ee0b76e0ba6c6fb7fd9cd41ad6b93cedfd138046",
-  "pull_request": "https://github.com/bluehige/onemanarmy/pull/2",
+  "updated_at": "2026-08-09",
+  "phase": "P13_CH01_REDESIGN_V2",
+  "status": "PASS_WITH_WARNINGS",
+  "commit": "b8c49a27c5ec503bd79e3040f897c8eb42ab4ded",
+  "build_source_commit": "7c68fc4e2e622452ab704c0fd62dd1e5e1491510",
+  "pull_request": "https://github.com/bluehige/onemanarmy/pull/3",
   "pull_request_state": "READY_FOR_REVIEW",
   "tests_run": [
+    "Godot 4.6.3 Vulkan Forward+ V2 E2 capture via res://tests/visual/capture_e2.gd",
+    "Godot 4.6.3 Vulkan Forward+ V2 108-sword performance fixture with and without VSync",
+    "Godot 4.6.3 V2 Windows Desktop release export and extracted smoke",
     "powershell -NoProfile -ExecutionPolicy Bypass -File tools/run_validation.ps1",
     "Godot 4.6.3 OpenGL Compatibility E2 capture via res://tests/visual/capture_e2.gd",
     "Godot 4.6.3 108-sword performance fixture via res://tests/performance/test_heaviest_scene.gd",
@@ -15,6 +18,12 @@
     "SHA-256 verification for EXE, PCK, and ZIP"
   ],
   "tests_passed": [
+    "CH01 redesign V2 aggregate validation with 12 scenes and 206 story steps",
+    "All 18 redesigned CH01 route combinations completed",
+    "Nine new production runtime illustrations loaded through the visual catalog",
+    "Fourteen deterministic synthesized audio cues routed and regression-tested",
+    "Vulkan Forward+ V2 captures for title, story, focus interactions, branch cinematics, and chapter endings",
+    "V2 Windows ZIP with exactly four entries and SHA-256 2E260A6261B1D8EBB3737E593F2982D6B827B9E949C2573C5B8F7C48235FBC72",
     "E0 planning, content, project-contract, and forbidden-module static validation",
     "E1 boot, unit, integration, aggregate sanity, and Main-flow validation",
     "All 12 CH01 scenes and 185 story steps validated",
@@ -35,6 +44,15 @@
     "CPU/GPU split frame timing, 1% low, and draw-submission profiling"
   ],
   "evidence": [
+    "docs/production/WO-CH01-REDESIGN-V2.md",
+    "reports/mvp/CH01_REDESIGN_V2_VALIDATION.md",
+    "reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json",
+    "reports/mvp/CH01_REDESIGN_V2_KNOWN_ISSUES.md",
+    "reports/mvp/CH01_REDESIGN_V2_PLAYTEST_GUIDE.md",
+    "assets/art/ch01-redesign-v2/ASSET_MANIFEST.json",
+    "build/windows/onemanarmy-ch01-redesign-v2.zip",
+    "build/windows/onemanarmy-ch01-redesign-v2.zip.sha256",
+    ".game-wiki/handoffs/HANDOFF-CH01-REDESIGN-V2.md",
     "reports/mvp/MVP_COMPLETION_REPORT.md",
     "reports/mvp/VALIDATION_SUMMARY.md",
     "reports/mvp/BUILD_MANIFEST.json",
@@ -58,11 +76,12 @@
     ".game-wiki/handoffs/HANDOFF-MVP-CH01.md"
   ],
   "known_issues": [
-    "Three generated CH01 art assets remain DRAFT pending owner approval.",
-    "Nine production audio cues use approved silent MVP placeholders.",
-    "E4 human playtest, physical gamepad validation, and Forward+ release soak are NOT_RUN."
+    "E4 human playtest and product KEEP decision are NOT_RUN.",
+    "Physical gamepad validation, release profiler and long soak, and cross-GPU/minimum-spec tests are NOT_RUN.",
+    "Runtime audio is deterministic synthesized temporary audio, not a final commercial mix.",
+    "Some S07-S09 backgrounds remain existing KF fallback art; CH02 final art is out of scope."
   ],
-  "next_phase": null,
+  "next_phase": "E4_HUMAN_PLAYTEST",
   "phases": [
     {
       "phase": "P0_BOOTSTRAP",
@@ -141,6 +160,12 @@
       "status": "PASS_WITH_WARNINGS",
       "commits": ["d5b6eff", "caddcbe", "a43b675", "6e97d23", "f5687c7", "ee0b76e", "d437c94", "cb96b67", "b3aa1c2"],
       "summary": "Aggregate validation, render/performance evidence, Windows EXE/PCK/ZIP, and package exclusion gate completed; E4, physical gamepad, and Forward+ soak remain NOT_RUN."
+    },
+    {
+      "phase": "P13_CH01_REDESIGN_V2",
+      "status": "PASS_WITH_WARNINGS",
+      "commits": ["7c68fc4", "b8c49a2"],
+      "summary": "Rewritten CH01 story and dialogue, persistent branch costs, nine production runtime illustrations, scene-led interactions, branch-specific cinematics, synthesized semantic audio, Forward+ captures, full regression, and verified Windows V2 package completed; E4 and hardware/soak approvals remain NOT_RUN."
     }
   ]
 }

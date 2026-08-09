@@ -1,175 +1,91 @@
 # Current State
 
-- Date: 2026-08-06
-- Phase: `CH01_MVP_AUTOMATED_COMPLETE_E4_PENDING`
+- Date: 2026-08-09
+- Phase: `CH01_REDESIGN_V2_AUTOMATED_COMPLETE_E4_PENDING`
 - Engine: Godot 4.6.3
-- Runtime project: created and packaged
-- Current canonical branch: `main`
-- Current implementation branch: `codex/mvp-ch01-v1`
-- Build ID: `onemanarmy-ch01-mvp`
-- Build source: `ee0b76e0ba6c6fb7fd9cd41ad6b93cedfd138046`
-- Build package commit: `cb96b67e4d57d76c348ea50513f9a6a9d2ec67be`
-- Build ZIP: `build/windows/onemanarmy-ch01-mvp.zip`
-- Build ZIP size: `41,695,843 bytes`
-- Build SHA-256: `F85B2402FA8582AD6606BABA1672390CD11DF38ED19BB9806AAEA0C906EF5A07`
+- Base branch: `codex/mvp-ch01-v1`
+- Implementation branch: `codex/ch01-redesign-v2`
+- Base commit: `604c1c624b8c536929f4b7863b428c272a567a26`
+- Runtime source commit: `7c68fc4e2e622452ab704c0fd62dd1e5e1491510`
+- Package record commit: `b8c49a27c5ec503bd79e3040f897c8eb42ab4ded`
+- Build ID: `onemanarmy-ch01-redesign-v2`
+- Build ZIP: `build/windows/onemanarmy-ch01-redesign-v2.zip`
+- Build ZIP size: `58,288,774 bytes`
+- Build SHA-256: `2E260A6261B1D8EBB3737E593F2982D6B827B9E949C2573C5B8F7C48235FBC72`
 - Automated aggregate validation: `PASS`
+- Vulkan Forward+ E2 capture: `PASS`
+- Windows export and extracted smoke: `PASS`
 - Product KEEP: `PENDING_E4`
-- Pull request: [#2](https://github.com/bluehige/onemanarmy/pull/2), `READY_FOR_REVIEW`
+- Pull request: [#3](https://github.com/bluehige/onemanarmy/pull/3), `READY_FOR_REVIEW`
 
 ## Active owner decision
 
 **일인합격진은 하드보일드 무협 다회차 비주얼 노블이다.**
 
-- 수동 전투 없음
-- 전술 배치 없음
-- 검대 조작 없음
+- 수동 전투와 전술 배치 없음
+- 검대 직접 조작 없음
 - 실패 없는 짧은 감정 인터랙션 허용
-- 108검은 선택 뒤 재생되는 시네마틱 서사 언어
+- 108검은 선택의 대가를 보여 주는 시네마틱 서사 언어
+- 자동 테스트를 근거로 재미 또는 제품 `KEEP`을 선언하지 않음
 
-## Codex MVP execution entrypoint
+## CH01 리디자인 V2 결과
 
-1. `CODEX_MVP_START_HERE.md`
-2. `docs/production/CODEX_MVP_ONE_SHOT_PROMPT.md`
-3. `docs/production/CODEX_MVP_MASTER_EXECUTION_PLAN.md`
-4. `docs/production/CODEX_MVP_DELIVERY_CHECKLIST.md`
+사용자가 지적한 세 가지 문제를 같은 작업 계약에서 교정했다.
 
-이 entrypoint를 기준으로 `codex/mvp-ch01-v1`에서 CH01 자동 구현·검증·Windows 패키징까지 진행하고 [PR #2](https://github.com/bluehige/onemanarmy/pull/2)를 Ready for review로 전환했다. 자동 완료는 E4 사람 평가 또는 제품 `KEEP` 승인을 뜻하지 않는다.
+1. **재미와 대사:** 강진오의 이름 있는 검, 지워진 108명, 조문탁의 정정 장부 원본을 CH01의 중심 미스터리로 묶고 S00~S09 대사를 다시 썼다.
+2. **비장미와 선택 비용:** 생포는 문서를 얻는 대신 수레 차축을 잃고, 길 우선은 피난민을 살리는 대신 지휘관의 경고를 허용한다. S06 세 분기도 부상·정보·정체 노출을 남긴다.
+3. **보이는 그래픽:** 신규 런타임 PNG 9개와 장면별 시각 카탈로그를 연결하고, 대화 패널을 낮춰 화면의 약 74~78%가 장면으로 보이게 했다. 실제 장면 위 포커스 인터랙션, 분기별 108검 CG, 9검 CG를 적용했다.
 
-## Canonical project entrypoint
+런타임에는 14개 의미 기반 임시 합성 음향 cue도 연결됐다. 무음 placeholder보다 장면 구분은 명확해졌지만 최종 상용 음향 믹스 승인을 뜻하지 않는다.
 
-1. `AGENTS.md`
-2. `docs/foundation/VISUAL_NOVEL_CORE_CONTRACT.md`
-3. `docs/foundation/GAME_CONTRACT.md`
-4. `docs/design/GAME_DESIGN_SPEC.md`
-5. `docs/design/INTERACTION_LANGUAGE.md`
-6. 관련 프로젝트 Skill
-7. 관련 스토리·UI·기술 문서
+## 자동화·렌더 증거
 
-## Completed planning package
+- `tools/run_validation.ps1`: `VALIDATION_ALL_PASS`
+- 콘텐츠: 12개 장면, 206 steps, 3 choices, 9 interactions, 7 cinematics
+- 전체 경로: S00 2 × S02 3 × S06 3 = 18개 조합 완주
+- 검: 9, `12 × 9 = 108`, duplicate slots 0
+- 실제 Windows Vulkan Forward+ 캡처: `E2_CAPTURE_PASS`
+- 108검 Forward+ fixture: VSync 평균 16.668 ms, 무제한 평균 0.099 ms, 두 실행 모두 `PASS`
+- Windows release export, ZIP 4개 엔트리와 해시 대조, 추출 headless/Forward+ smoke: `PASS`
 
-- visual-novel core contract
-- interaction language
-- project genre and README
-- AGENTS rules
-- GamePlanner config
-- game contract
-- prototype brief
-- risk register
-- GDD
-- story and route architecture
-- formation cinematic language
-- visual-novel UI/UX spec
-- Godot technical plan
-- vertical slice plan
-- CH01 production request
-- CH01 full script
-- CH01 cinematic storyboard
-- CH01 graphic asset request
-- prompt-04 canonical visual style
-- image generation guide
-- planning repository validator
-- seven project-specific Agent Skills
-- Codex MVP master execution plan
-- Codex one-shot prompt
-- Codex delivery checklist
-- root start entrypoint
+대표 시각 증거는 `reports/mvp/evidence/`의 타이틀, S00 대화, S00/S04 포커스, 두 108검 분기, 9검, 세 장 종료 PNG다.
 
-## Completed runtime MVP
+## 고정 산출물
 
-- Godot 4.6.3 프로젝트와 Main 앱 흐름
-- CH01 S00~S09 런타임 콘텐츠
-- StoryRuntime과 18개 선택 조합 완주
-- Dialogue·Choice·Log·Auto·읽은 문장 Skip UI
-- 실패 없는 InteractionDirector와 접근성 대체 입력
-- CinematicDirector 전체·요약·결과·스킵
-- FormationVisualDirector 9검·108검, 중복 슬롯 0
-- Consequence와 Chapter End 세 분기
-- autosave/manual save, pending snapshot restore
-- global seen text/cinematic/completed interaction과 slot state 분리
-- 1280×720·1920×1080 E2 렌더 증거
-- aggregate validation `PASS`
-- Windows EXE·PCK·ZIP 패키지와 SHA-256
+| 파일 | 크기 | SHA-256 |
+|---|---:|---|
+| EXE | 104,518,656 B | `FDA69AD440435BD93D7C0DFCC43F717BADD5E051F1B3A19D60AA281E526B8CAB` |
+| PCK | 22,360,496 B | `F5835005400B52CD82E75D9CE8C5E907513F380EEBFC1D6F66B9024592857B8D` |
+| ZIP | 58,288,774 B | `2E260A6261B1D8EBB3737E593F2982D6B827B9E949C2573C5B8F7C48235FBC72` |
 
-상세 구현·검증 경계는 `.game-wiki/handoffs/HANDOFF-MVP-CH01.md`를 따른다.
+ZIP 안에는 EXE, PCK, `PLAYTEST_GUIDE.md`, `KNOWN_ISSUES.md`의 정확히 4개 엔트리가 있다. 상세 기록은 `reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json`을 따른다.
 
-## Project Skills
+## 명시적으로 열린 검증
 
-- `onemanarmy-production-router`
-- `onemanarmy-foundation`
-- `onemanarmy-story-route-director`
-- `onemanarmy-interactive-vn-director`
-- `onemanarmy-formation-director`
-- `onemanarmy-ui-ux`
-- `onemanarmy-godot-director`
-
-## CH01 canonical flow
-
-```text
-S00 관천협
-  FOCUS_POINT
-  → 지휘관 생포 / 길 우선 선택
-  → HOLD_INTENT / CHAIN_PULL
-  → 108검 시네마틱
-  → BLADE_RECALL
-
-S01 백야성 입성
-→ S02 북문 계약과 질문 선택
-→ S03 청우객잔
-→ S04 FOCUS_POINT
-→ S05 구검 공통 제압 시네마틱
-→ S06 추적 / 수호 / 봉쇄 일반 VN 선택
-  → HOLD_INTENT
-  → 선택별 9검 시네마틱
-→ S08 AFTERMATH_INSPECT / BLADE_RECALL
-→ S09 북문 출발
-```
-
-## Forbidden runtime modules
-
-- BattleResolver
-- FormationBattleRuntime
-- TacticalGrid
-- SquadPlacementUI
-- TurnManager
-- CombatStats
-- DamageCalculator
-- EnemyCombatAI
-- QTE success state
-
-## Official visual style
-
-`docs/art/06_CANONICAL_VISUAL_STYLE_PROMPT.md`
-
-- prompt 04
-- warm bone paper
-- strong black-white contrast
-- crisp pen line on face, hand, sword, coffin
-- broad dry ink brush for cloth, terrain, rain, smoke
-- dried-blood red under 5%
-- visual-novel editorial UI
-- no action-RPG or tactical HUD
-
-## Open validation and approvals
-
-- E4 human user test: `NOT_RUN`
-- physical gamepad completion: `NOT_RUN`
-- Windows Forward+ performance and long soak: `NOT_RUN`
-- other GPUs and minimum-spec PC: `NOT_RUN`
-- production audio: 9 silent placeholders, `OPEN`
-- generated art: 3 assets remain `DRAFT`, `OPEN`
-- product `KEEP`: unconfirmed until E4
-- GitHub PR: [#2](https://github.com/bluehige/onemanarmy/pull/2), `READY_FOR_REVIEW`
-
-자동 mouse/keyboard/gamepad action fixture와 접근성 검사는 `PASS`지만 실제 물리 게임패드 검증을 대신하지 않는다. E2와 108검 개발 fixture도 Forward+ 출시 빌드의 장시간·복수 GPU 성능 승인을 대신하지 않는다.
+- E4 실제 사람 재미·감정·대사 평가: `NOT_RUN`
+- 실제 물리 게임패드 전체 완주: `NOT_RUN`
+- Windows release profiler, 1% low, 장시간 soak: `NOT_RUN`
+- 다른 GPU와 최소 사양 PC: `NOT_RUN`
+- 상용 음향 믹스와 기기별 청감: `NOT_RUN`
+- CH02 이후 신규 최종 아트: `OUT_OF_SCOPE`
+- 제품 `KEEP`: `PENDING_E4`
 
 ## Next safe action
 
-1. Verify the ZIP SHA-256 and run `reports/mvp/E4_PLAYTEST_GUIDE.md` against that exact build.
-2. Complete all three final branches with a physical gamepad and record device details.
-3. Make the product `KEEP / REDESIGN / REDUCE` decision from E4 evidence.
-4. Approve or replace the 3 DRAFT art assets and 9 silent audio placeholders.
-5. Run Windows Forward+ soak and multi-GPU/minimum-spec validation.
-6. Review [PR #2](https://github.com/bluehige/onemanarmy/pull/2) from `codex/mvp-ch01-v1` and decide whether to merge it.
+1. ZIP SHA-256을 확인한다.
+2. `reports/mvp/CH01_REDESIGN_V2_PLAYTEST_GUIDE.md`의 두 오프닝과 세 최종 분기를 실제 사람에게 실행한다.
+3. 첫 10분의 미스터리 이해, 선택의 대가, 비장미, 장소 구분, 포커스 장면성, 108검·9검의 의도, 음향 구분, 지루함 구간을 관찰한다.
+4. E4 증거로만 `KEEP / REDESIGN / REDUCE`를 결정한다.
+5. 별도로 물리 게임패드와 release soak·복수 GPU 검증을 진행한다.
+
+## 다음 세션에서 먼저 읽을 것
+
+1. `.game-wiki/handoffs/HANDOFF-CH01-REDESIGN-V2.md`
+2. `docs/production/WO-CH01-REDESIGN-V2.md`
+3. `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`
+4. `reports/mvp/CH01_REDESIGN_V2_KNOWN_ISSUES.md`
+5. `reports/mvp/CH01_REDESIGN_V2_PLAYTEST_GUIDE.md`
+6. `reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json`
 
 ## Do not touch
 
@@ -183,4 +99,4 @@ S01 백야성 입성
 - prompt-04 visual style
 - sword coffin as a low, long wheeled carrier
 - interactions support emotion and never decide combat success
-- product code must be implemented on a branch and submitted through PR
+- product code must remain on a branch and go through PR review
