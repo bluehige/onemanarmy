@@ -12,6 +12,7 @@ build/windows/*
 !build/windows/onemanarmy-ch01-redesign-v2.zip
 !build/windows/onemanarmy-ch01-redesign-v2.zip.sha256
 dist/
+output/
 *.tmp
 *.bak
 .DS_Store

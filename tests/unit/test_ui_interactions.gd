@@ -35,6 +35,12 @@ func _test_story_screen() -> void:
 	screen.finish_typing()
 	_expect(screen.is_text_fully_visible(), "Story text should support immediate display.")
 	_expect(screen.get_log_entries().size() == 1, "Displayed line should enter dialogue log.")
+	var pointer_advances: Array[bool] = []
+	screen.advance_requested.connect(func() -> void: pointer_advances.append(true))
+	var touch_advance := InputEventScreenTouch.new()
+	touch_advance.pressed = true
+	screen._gui_input(touch_advance)
+	_expect(pointer_advances.size() == 1, "Touching the story surface should advance fully displayed dialogue.")
 	screen.show_choices({"options": [
 		{"id": "A", "value": "a", "label": "지휘관을 묶는다", "description": "명령을 끊는다."},
 		{"id": "B", "value": "b", "label": "길을 먼저 연다", "description": "사람을 보낸다."}

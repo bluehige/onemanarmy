@@ -6,7 +6,7 @@ signal content_load_failed(errors: Array[String])
 const STORY_DIRECTORY := "res://data/story/ch01"
 const INTERACTION_DIRECTORY := "res://data/interactions/ch01"
 const CINEMATIC_MANIFEST_PATH := "res://data/cinematics/ch01_manifest.json"
-const LOCALIZATION_PATH := "res://data/localization/ko/ch01.csv"
+const LOCALIZATION_PATH := "res://data/localization/ko/ch01.ko.translation"
 
 var _chapter_manifest: Dictionary = {}
 var _cinematic_manifest: Dictionary = {}
@@ -171,30 +171,19 @@ func _load_cinematic_manifest() -> void:
 
 
 func _load_localization() -> void:
-	var file := FileAccess.open(LOCALIZATION_PATH, FileAccess.READ)
-	if file == null:
-		_record_error("Cannot open localization file %s: %s" % [LOCALIZATION_PATH, error_string(FileAccess.get_open_error())])
+	var resource := load(LOCALIZATION_PATH)
+	if not resource is Translation:
+		_record_error("Cannot load localization resource %s" % LOCALIZATION_PATH)
 		return
-	var header := file.get_csv_line()
-	if header.size() < 2 or header[0] != "key" or header[1] != "ko":
-		_record_error("Localization header must start with key,ko in %s" % LOCALIZATION_PATH)
-		return
-	var line_number := 1
-	while not file.eof_reached():
-		line_number += 1
-		var row := file.get_csv_line()
-		if row.is_empty() or (row.size() == 1 and row[0].is_empty()):
-			continue
-		if row.size() < 2:
-			_record_error("Localization row %d has fewer than 2 columns" % line_number)
-			continue
-		var text_id := str(row[0])
+	var translation := resource as Translation
+	for message_id in translation.get_message_list():
+		var text_id := str(message_id)
 		if text_id.is_empty():
-			_record_error("Localization row %d has an empty key" % line_number)
+			_record_error("Localization resource contains an empty key in %s" % LOCALIZATION_PATH)
 		elif _ko_text.has(text_id):
 			_record_error("Duplicate localization key %s" % text_id)
 		else:
-			_ko_text[text_id] = str(row[1])
+			_ko_text[text_id] = str(translation.get_message(message_id))
 
 
 func _json_paths(directory_path: String) -> Array[String]:

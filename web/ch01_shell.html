@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+		<meta name="theme-color" content="#171513">
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<title>$GODOT_PROJECT_NAME</title>
+		<style>
+:root {
+	color-scheme: dark;
+	--ink: #171513;
+	--ink-deep: #090807;
+	--paper: #f1ebdd;
+	--paper-soft: #cfc6b7;
+	--blood: #7f2b23;
+	--line: rgba(241, 235, 221, 0.38);
+}
+
+@font-face {
+	font-family: "Onemanarmy Shell";
+	src: url("./NotoSansKR-Shell.woff2") format("woff2");
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+}
+
+* {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: transparent;
+}
+
+html,
+body,
+#canvas {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	height: 100dvh;
+	overflow: hidden;
+	background: var(--ink-deep);
+	overscroll-behavior: none;
+	touch-action: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+}
+
+body {
+	color: var(--paper);
+	font-family: "Onemanarmy Shell", "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+
+#canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+
+#canvas:focus {
+	outline: none;
+}
+
+#canvas:focus-visible {
+	outline: 2px solid var(--paper);
+	outline-offset: -2px;
+}
+
+#status,
+#status-splash,
+#status-progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+}
+
+#status,
+#status-splash {
+	top: 0;
+	bottom: 0;
+}
+
+#status {
+	z-index: 20;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 18px;
+	visibility: hidden;
+	background:
+		radial-gradient(circle at 50% 42%, rgba(127, 43, 35, 0.18), transparent 34%),
+		linear-gradient(180deg, #211e1b, var(--ink-deep));
+}
+
+#status-title {
+	margin: 0;
+	font-family: "Onemanarmy Shell", "Noto Serif KR", "Batang", serif;
+	font-size: clamp(26px, 5vw, 48px);
+	font-weight: 700;
+	letter-spacing: -0.04em;
+}
+
+#status-copy {
+	margin: -8px 0 0;
+	color: var(--paper-soft);
+	font-size: 14px;
+	letter-spacing: 0.08em;
+}
+
+#status-splash {
+	max-width: min(60vw, 640px);
+	max-height: 42vh;
+	margin: auto;
+	opacity: 0.2;
+	object-fit: contain;
+}
+
+#status-splash.show-image--false {
+	display: none;
+}
+
+#status-splash.fullsize--true {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	opacity: 0.28;
+}
+
+#status-splash.use-filter--false {
+	image-rendering: pixelated;
+}
+
+#status-progress,
+#status-notice {
+	display: none;
+}
+
+#status-progress {
+	position: relative;
+	bottom: auto;
+	width: min(460px, 68vw);
+	height: 7px;
+	margin: 8px auto 0;
+	accent-color: var(--blood);
+}
+
+#status-notice {
+	z-index: 1;
+	max-width: min(640px, calc(100vw - 48px));
+	margin: 0 24px;
+	border: 1px solid rgba(181, 73, 63, 0.72);
+	border-radius: 4px;
+	padding: 18px;
+	background: rgba(63, 27, 24, 0.94);
+	color: var(--paper);
+	font-size: 15px;
+	line-height: 1.6;
+	text-align: center;
+}
+
+#landscape-notice {
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	padding:
+		max(28px, env(safe-area-inset-top))
+		max(28px, env(safe-area-inset-right))
+		max(28px, env(safe-area-inset-bottom))
+		max(28px, env(safe-area-inset-left));
+	background:
+		radial-gradient(circle at 50% 40%, rgba(127, 43, 35, 0.22), transparent 32%),
+		var(--ink);
+	text-align: center;
+}
+
+.landscape-seal {
+	display: grid;
+	width: 56px;
+	height: 56px;
+	margin: 0 auto 18px;
+	place-items: center;
+	border: 2px solid #c87b70;
+	background: var(--blood);
+	font-family: Georgia, serif;
+	font-size: 28px;
+	font-weight: 800;
+	transform: rotate(-3deg);
+}
+
+#landscape-notice h1 {
+	margin: 0 0 10px;
+	font-family: "Onemanarmy Shell", "Noto Serif KR", "Batang", serif;
+	font-size: 26px;
+}
+
+#landscape-notice p {
+	max-width: 480px;
+	margin: 0;
+	color: var(--paper-soft);
+	font-size: 16px;
+	line-height: 1.65;
+}
+
+#fullscreen-button {
+	position: fixed;
+	top: max(10px, env(safe-area-inset-top));
+	right: max(10px, env(safe-area-inset-right));
+	z-index: 120;
+	display: none;
+	min-width: 48px;
+	min-height: 48px;
+	border: 1px solid var(--line);
+	border-radius: 3px;
+	padding: 8px 12px;
+	background: rgba(23, 21, 19, 0.82);
+	color: var(--paper);
+	font: 700 13px/1.2 inherit;
+	backdrop-filter: blur(8px);
+	cursor: pointer;
+}
+
+#fullscreen-button.supported {
+	display: block;
+}
+
+#touch-hint {
+	position: fixed;
+	left: 50%;
+	top: max(12px, env(safe-area-inset-top));
+	z-index: 110;
+	max-width: calc(100vw - 160px);
+	transform: translateX(-50%);
+	border: 1px solid rgba(241, 235, 221, 0.24);
+	border-radius: 999px;
+	padding: 9px 14px;
+	background: rgba(23, 21, 19, 0.82);
+	color: var(--paper-soft);
+	font-size: 12px;
+	font-weight: 700;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 180ms ease;
+}
+
+#touch-hint.visible {
+	opacity: 1;
+}
+
+@media (pointer: coarse) {
+	#touch-hint.visible {
+		display: block;
+	}
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+	#landscape-notice {
+		display: flex;
+	}
+
+	#fullscreen-button,
+	#touch-hint {
+		display: none !important;
+	}
+
+	#canvas,
+	#status {
+		visibility: hidden !important;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#touch-hint {
+		transition: none;
+	}
+}
+		</style>
+		$GODOT_HEAD_INCLUDE
+	</head>
+	<body>
+		<canvas id="canvas" aria-label="일인합격진 게임 화면">
+			이 브라우저는 게임 캔버스를 지원하지 않습니다.
+		</canvas>
+
+		<noscript>
+			이 게임을 실행하려면 JavaScript가 필요합니다.
+		</noscript>
+
+		<div id="status" role="status" aria-live="polite">
+			<img id="status-splash" class="$GODOT_SPLASH_CLASSES" src="$GODOT_SPLASH" alt="">
+			<h1 id="status-title">일인합격진</h1>
+			<p id="status-copy">검관을 여는 중</p>
+			<progress id="status-progress"></progress>
+			<div id="status-notice"></div>
+		</div>
+
+		<div id="landscape-notice" role="status" aria-live="assertive" aria-labelledby="landscape-title">
+			<div>
+				<div class="landscape-seal" aria-hidden="true">橫</div>
+				<h1 id="landscape-title">휴대폰을 가로로 돌려주세요</h1>
+				<p>대사와 선택지를 읽기 쉬운 16:9 가로 화면으로 준비했습니다.</p>
+			</div>
+		</div>
+
+		<button id="fullscreen-button" type="button" aria-label="전체화면으로 전환">전체화면</button>
+		<div id="touch-hint" aria-hidden="true">화면과 버튼을 터치해 진행하세요</div>
+
+		<script src="$GODOT_URL"></script>
+		<script>
+const GODOT_CONFIG = $GODOT_CONFIG;
+const GODOT_THREADS_ENABLED = $GODOT_THREADS_ENABLED;
+const engine = new Engine(GODOT_CONFIG);
+
+(function () {
+	const statusOverlay = document.getElementById('status');
+	const statusProgress = document.getElementById('status-progress');
+	const statusNotice = document.getElementById('status-notice');
+	const fullscreenButton = document.getElementById('fullscreen-button');
+	const touchHint = document.getElementById('touch-hint');
+
+	let initializing = true;
+	let statusMode = '';
+
+	function setStatusMode(mode) {
+		if (statusMode === mode || !initializing) {
+			return;
+		}
+		if (mode === 'hidden') {
+			statusOverlay.remove();
+			initializing = false;
+			return;
+		}
+		statusOverlay.style.visibility = 'visible';
+		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
+		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		statusMode = mode;
+	}
+
+	function setStatusNotice(text) {
+		statusNotice.replaceChildren();
+		text.split('\n').forEach((line) => {
+			statusNotice.appendChild(document.createTextNode(line));
+			statusNotice.appendChild(document.createElement('br'));
+		});
+	}
+
+	function displayFailureNotice(err) {
+		console.error(err);
+		const message = err instanceof Error
+			? err.message
+			: typeof err === 'string'
+				? err
+				: '알 수 없는 오류가 발생했습니다.';
+		setStatusNotice(message);
+		setStatusMode('notice');
+		initializing = false;
+	}
+
+	function hideTouchHint() {
+		touchHint.classList.remove('visible');
+	}
+
+	if (matchMedia('(pointer: coarse)').matches) {
+		touchHint.classList.add('visible');
+		window.addEventListener('pointerdown', hideTouchHint, { once: true, passive: true });
+		window.setTimeout(hideTouchHint, 4500);
+	}
+
+	if (document.documentElement.requestFullscreen) {
+		fullscreenButton.classList.add('supported');
+		fullscreenButton.addEventListener('click', async (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+			try {
+				if (document.fullscreenElement) {
+					await document.exitFullscreen();
+				} else {
+					await document.documentElement.requestFullscreen();
+					if (screen.orientation && screen.orientation.lock) {
+						await screen.orientation.lock('landscape').catch(() => {});
+					}
+				}
+			} catch (err) {
+				console.warn('Fullscreen request was declined.', err);
+			}
+		});
+		document.addEventListener('fullscreenchange', () => {
+			fullscreenButton.textContent = document.fullscreenElement ? '창으로' : '전체화면';
+		});
+	}
+
+	document.addEventListener('contextmenu', (event) => event.preventDefault());
+	document.addEventListener('touchmove', (event) => {
+		if (event.target instanceof HTMLCanvasElement) {
+			event.preventDefault();
+		}
+	}, { passive: false });
+
+	const missing = Engine.getMissingFeatures({
+		threads: GODOT_THREADS_ENABLED,
+	});
+
+	if (missing.length !== 0) {
+		const missingMessage = '게임 실행에 필요한 브라우저 기능이 없습니다:\n';
+		displayFailureNotice(missingMessage + missing.join('\n'));
+	} else {
+		setStatusMode('progress');
+		engine.startGame({
+			'onProgress': function (current, total) {
+				if (current > 0 && total > 0) {
+					statusProgress.value = current;
+					statusProgress.max = total;
+				} else {
+					statusProgress.removeAttribute('value');
+					statusProgress.removeAttribute('max');
+				}
+			},
+		}).then(() => {
+			setStatusMode('hidden');
+		}, displayFailureNotice);
+	}
+}());
+		</script>
+	</body>
+</html>

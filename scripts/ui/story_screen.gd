@@ -35,6 +35,7 @@ var _auto_enabled := false
 var _skip_enabled := false
 var _current_scene_id := ""
 var _visual_catalog := VisualCatalog.new()
+var _last_pointer_advance_ms := -1000
 
 
 func _ready() -> void:
@@ -67,6 +68,29 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("advance_dialogue") and _choice_box.get_child_count() == 0:
 		request_advance()
 		get_viewport().set_input_as_handled()
+
+
+func _gui_input(event: InputEvent) -> void:
+	_handle_pointer_advance(event)
+
+
+func _handle_pointer_advance(event: InputEvent) -> void:
+	if not visible or _log_overlay.visible or _choice_box.get_child_count() > 0:
+		return
+	var is_pointer_press := false
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		is_pointer_press = mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed
+	elif event is InputEventScreenTouch:
+		is_pointer_press = (event as InputEventScreenTouch).pressed
+	if not is_pointer_press:
+		return
+	var now_ms := Time.get_ticks_msec()
+	if now_ms - _last_pointer_advance_ms < 120:
+		return
+	_last_pointer_advance_ms = now_ms
+	request_advance()
+	get_viewport().set_input_as_handled()
 
 
 func show_scene(scene_id: String, title: String = "", texture_path: String = "") -> void:
@@ -261,6 +285,7 @@ func _build_interface() -> void:
 	_dialogue_panel.offset_right = -54
 	_dialogue_panel.offset_bottom = -22
 	_dialogue_panel.add_theme_stylebox_override("panel", InkTheme.panel_style(0.92, InkTheme.INK))
+	_dialogue_panel.gui_input.connect(_handle_pointer_advance)
 	add_child(_dialogue_panel)
 
 	var dialogue_stack := VBoxContainer.new()
@@ -275,6 +300,7 @@ func _build_interface() -> void:
 	_body_label.bbcode_enabled = false
 	_body_label.fit_content = false
 	_body_label.scroll_active = false
+	_body_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_body_label.custom_minimum_size.y = 86
 	_body_label.add_theme_font_size_override("normal_font_size", 28)
 	_body_label.add_theme_color_override("default_color", InkTheme.INK)
