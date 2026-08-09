@@ -1,7 +1,7 @@
 # WO-CH01-WEB-PREVIEW
 
 ```yaml
-status: APPROVED_IMPLEMENTING
+status: IMPLEMENTED_VALIDATED_DEPLOYED
 approved_by: direct_owner_request_2026-08-09
 branch: codex/ch01-redesign-v2
 engine: Godot 4.6.3
@@ -72,6 +72,21 @@ manual_combat: false
 - 콘솔의 uncaught error, WebAssembly/PCK 404, WebGL 초기화 실패가 0이다.
 - 기존 `tools/run_validation.ps1`이 계속 `VALIDATION_ALL_PASS`다.
 - GitHub Pages 공개 주소가 HTTP 200을 반환하고 배포 commit을 가리킨다.
+
+## Deployment evidence
+
+- Public URL: <https://bluehige.github.io/onemanarmy/>
+- Source commit: `351270193e760fc460d2730cc50954ab4b2fb5eb`
+- GitHub Actions run: <https://github.com/bluehige/onemanarmy/actions/runs/31306306418> (`success`, attempt 2)
+- Deployment ID: `5817435811`
+- Pages mode: `workflow`, HTTPS enforced
+- Public HTTP: `200`; HTML shell marker present
+- Public artifact requests: HTML, JS, WASM, PCK, icon and shell WOFF2 all `200`
+- Public Chromium console: errors `0`, warnings `0`
+- Public mobile landscape `844×390`: title, new game, dialogue and touch advance `PASS`
+- Public iPhone 15 portrait `393×659`: canvas hidden, rotate notice and shell font `PASS`
+- Local mobile flow: focus, choice, hold, pull and cinematic touch path `PASS`
+- Physical iOS Safari and Android hardware: `NOT_RUN`
 
 ## Verification
 

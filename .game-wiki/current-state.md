@@ -1,7 +1,7 @@
 # Current State
 
 - Date: 2026-08-09
-- Phase: `CH01_REDESIGN_V2_AUTOMATED_COMPLETE_E4_PENDING`
+- Phase: `CH01_REDESIGN_V2_WEB_PREVIEW_DEPLOYED_E4_PENDING`
 - Engine: Godot 4.6.3
 - Base branch: `codex/mvp-ch01-v1`
 - Implementation branch: `codex/ch01-redesign-v2`
@@ -17,6 +17,9 @@
 - Windows export and extracted smoke: `PASS`
 - Product KEEP: `PENDING_E4`
 - Pull request: [#3](https://github.com/bluehige/onemanarmy/pull/3), `READY_FOR_REVIEW`
+- Web preview: <https://bluehige.github.io/onemanarmy/>
+- Web source commit: `351270193e760fc460d2730cc50954ab4b2fb5eb`
+- Web deploy run: [31306306418](https://github.com/bluehige/onemanarmy/actions/runs/31306306418), `PASS`
 
 ## Active owner decision
 
@@ -37,6 +40,20 @@
 3. **보이는 그래픽:** 신규 런타임 PNG 9개와 장면별 시각 카탈로그를 연결하고, 대화 패널을 낮춰 화면의 약 74~78%가 장면으로 보이게 했다. 실제 장면 위 포커스 인터랙션, 분기별 108검 CG, 9검 CG를 적용했다.
 
 런타임에는 14개 의미 기반 임시 합성 음향 cue도 연결됐다. 무음 placeholder보다 장면 구분은 명확해졌지만 최종 상용 음향 믹스 승인을 뜻하지 않는다.
+
+## Web preview 결과
+
+Godot 4.6.3 single-thread WebGL 2 Compatibility 빌드를 GitHub Pages에 공개했다. Noto Sans KR 전체 글꼴을 게임 PCK에, 27.6 KB WOFF2 subset을 HTML shell에 포함했다. 세로 휴대폰에는 축소된 게임 대신 가로 회전 안내가 표시된다.
+
+Web export에서 원본 CSV가 빠져 `CONTENT_LOAD_FAILED`가 나던 문제는 non-compressed `Translation` 리소스 로딩으로 교정했다. 대화 본문의 GUI가 포인터 입력을 삼켜 모바일 터치 진행이 막히던 문제도 대화 영역 터치 처리와 회귀 테스트로 교정했다.
+
+- 공개 URL HTTP `200`
+- HTML, JS, WASM, PCK, WOFF2 요청 성공
+- 공개 Chromium console error/warning `0/0`
+- 1280×720 desktop title/story `PASS`
+- 844×390 mobile touch title → dialogue → focus → choice → hold → pull → cinematic `PASS`
+- iPhone 15 portrait 393×659 rotate notice `PASS`
+- `tools/run_validation.ps1`: `VALIDATION_ALL_PASS`
 
 ## 자동화·렌더 증거
 
@@ -67,25 +84,28 @@ ZIP 안에는 EXE, PCK, `PLAYTEST_GUIDE.md`, `KNOWN_ISSUES.md`의 정확히 4개
 - Windows release profiler, 1% low, 장시간 soak: `NOT_RUN`
 - 다른 GPU와 최소 사양 PC: `NOT_RUN`
 - 상용 음향 믹스와 기기별 청감: `NOT_RUN`
+- 물리 iOS Safari·Android 브라우저 Web preview: `NOT_RUN`
 - CH02 이후 신규 최종 아트: `OUT_OF_SCOPE`
 - 제품 `KEEP`: `PENDING_E4`
 
 ## Next safe action
 
-1. ZIP SHA-256을 확인한다.
+1. 휴대폰을 가로로 돌리고 <https://bluehige.github.io/onemanarmy/>를 연다.
 2. `reports/mvp/CH01_REDESIGN_V2_PLAYTEST_GUIDE.md`의 두 오프닝과 세 최종 분기를 실제 사람에게 실행한다.
 3. 첫 10분의 미스터리 이해, 선택의 대가, 비장미, 장소 구분, 포커스 장면성, 108검·9검의 의도, 음향 구분, 지루함 구간을 관찰한다.
 4. E4 증거로만 `KEEP / REDESIGN / REDUCE`를 결정한다.
-5. 별도로 물리 게임패드와 release soak·복수 GPU 검증을 진행한다.
+5. 별도로 물리 iOS Safari·Android 브라우저, 게임패드, release soak·복수 GPU 검증을 진행한다.
 
 ## 다음 세션에서 먼저 읽을 것
 
-1. `.game-wiki/handoffs/HANDOFF-CH01-REDESIGN-V2.md`
-2. `docs/production/WO-CH01-REDESIGN-V2.md`
-3. `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`
-4. `reports/mvp/CH01_REDESIGN_V2_KNOWN_ISSUES.md`
-5. `reports/mvp/CH01_REDESIGN_V2_PLAYTEST_GUIDE.md`
-6. `reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json`
+1. `.game-wiki/handoffs/HANDOFF-CH01-WEB-PREVIEW.md`
+2. `.game-wiki/handoffs/HANDOFF-CH01-REDESIGN-V2.md`
+3. `docs/production/WO-CH01-WEB-PREVIEW.md`
+4. `docs/production/WO-CH01-REDESIGN-V2.md`
+5. `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`
+6. `reports/mvp/CH01_REDESIGN_V2_KNOWN_ISSUES.md`
+7. `reports/mvp/CH01_REDESIGN_V2_PLAYTEST_GUIDE.md`
+8. `reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json`
 
 ## Do not touch
 
