@@ -10,7 +10,7 @@
       "type": "FOCUS_POINT",
       "prompt_key": "CH01-INT-S04-FOCUS-PROMPT",
       "emotional_purpose": "객잔의 세 위협과 정보 중 이연이 먼저 읽는 단서를 선택한다.",
-      "expected_duration_sec": 8.0,
+      "expected_duration_sec": 3.0,
       "failure_state": null,
       "score": null,
       "timing_bonus": null,
@@ -29,9 +29,9 @@
       "required_selections": 1,
       "optional_more": true,
       "points": [
-        {"id": "window", "label_text_id": "CH01-INT-S04-FOCUS-WINDOW"},
-        {"id": "lamp", "label_text_id": "CH01-INT-S04-FOCUS-LAMP"},
-        {"id": "courier_hand", "label_text_id": "CH01-INT-S04-FOCUS-COURIER-HAND"}
+        {"id": "window", "label_text_id": "CH01-INT-S04-FOCUS-WINDOW", "screen_position": [0.09, 0.27]},
+        {"id": "lamp", "label_text_id": "CH01-INT-S04-FOCUS-LAMP", "screen_position": [0.50, 0.11]},
+        {"id": "courier_hand", "label_text_id": "CH01-INT-S04-FOCUS-COURIER-HAND", "screen_position": [0.65, 0.59]}
       ],
       "on_complete_event": "interaction_completed"
     }

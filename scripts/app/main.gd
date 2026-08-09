@@ -7,7 +7,7 @@ signal fatal_error_presented(payload: Dictionary)
 const CHAPTER_ID := "CH-MVP-001"
 const AUTOSAVE_SLOT_ID := "autosave"
 const MANUAL_SLOT_ID := "manual_01"
-const CINEMATIC_DURATION_SCALE := 0.05
+const CINEMATIC_DURATION_SCALE := 1.0
 
 const SPEAKER_NAMES := {
 	"bokchil": "복칠",
@@ -37,6 +37,7 @@ const SPEAKER_NAMES := {
 @onready var _consequence_screen: ConsequenceScreen = $UILayer/ConsequenceScreen
 @onready var _chapter_end_screen: ChapterEndScreen = $UILayer/ChapterEndScreen
 @onready var _settings_screen: SettingsScreen = $UILayer/SettingsScreen
+@onready var _runtime_audio: RuntimeAudioPlayer = $RuntimeAudioPlayer
 
 var _app_state: Node
 var _content_registry: Node
@@ -146,6 +147,7 @@ func return_to_title() -> void:
 	_chapter_end_screen.hide()
 	_settings_screen.hide()
 	_story_screen.hide()
+	_runtime_audio.stop_all()
 	_clear_fatal_error()
 	_title_screen.show()
 	_title_screen.configure(
@@ -251,6 +253,10 @@ func _connect_signals() -> void:
 	_cinematic_presenter.summary_requested.connect(_on_cinematic_summary_requested)
 	_cinematic_presenter.skip_requested.connect(_on_cinematic_skip_requested)
 	_cinematic_director.completed.connect(_on_cinematic_completed)
+	_cinematic_director.camera_cue_requested.connect(_on_cinematic_camera_cue_requested)
+	_cinematic_director.animation_cue_requested.connect(_on_cinematic_animation_cue_requested)
+	_cinematic_director.audio_cue_requested.connect(_on_cinematic_audio_cue_requested)
+	_cinematic_director.vfx_cue_requested.connect(_on_cinematic_vfx_cue_requested)
 	_consequence_screen.continued.connect(_on_consequence_continued)
 	_chapter_end_screen.replay_requested.connect(start_new_game)
 	_chapter_end_screen.title_requested.connect(return_to_title)
@@ -334,6 +340,9 @@ func _on_scene_changed(payload: Dictionary) -> void:
 	var scene: Dictionary = _content_registry.call("get_scene", scene_id)
 	var title := str(_content_registry.call("get_ko_text", str(scene.get("title_text_id", "")), ""))
 	_story_screen.show_scene(scene_id, title)
+	_runtime_audio.transition_scene_ambience(StringName(scene_id), {"restart": false})
+	if scene_id == "S00":
+		_runtime_audio.play_cue(&"SFX_SWORD_COFFIN_WHEEL", {"volume_db": -5.0})
 	var manifest: Dictionary = _content_registry.call("get_chapter_manifest", CHAPTER_ID)
 	_story_screen.set_chapter_label(
 		str(_content_registry.call("get_ko_text", str(manifest.get("chapter_title_text_id", "")), "第一章"))
@@ -349,6 +358,11 @@ func _on_line_requested(payload: Dictionary) -> void:
 	_active_line_was_seen = _global_id_seen("seen_text_ids", _active_line_id)
 	_active_line_marked_seen = _active_line_was_seen
 	var display_payload := payload.duplicate(true)
+	var text_id := str(display_payload.get("text_id", ""))
+	if text_id == "CH01-S04-009":
+		_runtime_audio.play_cue(&"SFX_PAPER")
+	elif text_id in ["CH01-S05-001A", "CH01-S05-001B"]:
+		_runtime_audio.play_cue(&"SFX_BOW_TENSION", {"volume_db": -4.0})
 	var speaker_id := str(display_payload.get("speaker_id", ""))
 	if not speaker_id.is_empty():
 		display_payload["speaker_name"] = str(SPEAKER_NAMES.get(speaker_id, speaker_id))
@@ -374,10 +388,18 @@ func _on_interaction_requested(payload: Dictionary) -> void:
 	_clear_line_state()
 	_title_screen.hide()
 	_story_screen.show()
+	_story_screen.set_interaction_mode(true)
 	_consequence_screen.hide()
 	_chapter_end_screen.hide()
 	_cinematic_presenter.dismiss()
 	var contract: Dictionary = payload.get("contract", {}).duplicate(true)
+	match str(contract.get("type", "")):
+		"HOLD_INTENT", "WEIGHTED_CONFIRM":
+			_runtime_audio.play_cue(&"SFX_IRON_CHAIN_GRIP")
+		"CHAIN_PULL":
+			_runtime_audio.play_cue(&"SFX_IRON_CHAIN_PULL")
+		"BLADE_RECALL":
+			_runtime_audio.play_cue(&"SFX_BLADE_RECALL")
 	var flags: Dictionary = get_runtime_snapshot().get("flags", {})
 	var route := str(flags.get("priority_choice", "")).to_upper()
 	var localized_points: Array = []
@@ -520,6 +542,35 @@ func _on_cinematic_completed(payload: Dictionary) -> void:
 	_story_screen.show()
 	var mode := "skip" if bool(payload.get("skipped", false)) else str(payload.get("mode", "full"))
 	_story_runtime.call("complete_cinematic", cinematic_id, mode)
+
+
+func _on_cinematic_camera_cue_requested(cue: Dictionary) -> void:
+	if _flow_state == "cinematic":
+		_cinematic_presenter.apply_camera_cue(cue)
+
+
+func _on_cinematic_animation_cue_requested(cue: Dictionary) -> void:
+	if _flow_state == "cinematic":
+		_cinematic_presenter.apply_animation_cue(cue)
+
+
+func _on_cinematic_audio_cue_requested(cue: Dictionary) -> void:
+	if _flow_state != "cinematic":
+		return
+	var cue_id := StringName(str(cue.get("id", cue.get("cue_id", ""))))
+	if cue_id.is_empty():
+		return
+	var options := {}
+	if cue.has("volume_db"):
+		options["volume_db"] = cue["volume_db"]
+	if cue.has("pitch_scale"):
+		options["pitch_scale"] = cue["pitch_scale"]
+	_runtime_audio.play_cue(cue_id, options)
+
+
+func _on_cinematic_vfx_cue_requested(cue: Dictionary) -> void:
+	if _flow_state == "cinematic":
+		_cinematic_presenter.apply_vfx_cue(cue)
 
 
 func _on_consequence_continued() -> void:

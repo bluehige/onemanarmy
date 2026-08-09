@@ -6,20 +6,36 @@
   "route": "COMMON",
   "title_text_id": "CH01-UI-S01-TITLE",
   "location_text_id": "CH01-UI-S01-LOCATION",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#s01--검관이-백야성에-들어오다",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#v03-s01--이름이-먼저-들어오는-성",
   "steps": [
-    {"id": "S01-001", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S01-001"},
-    {"id": "S01-002", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-002"},
-    {"id": "S01-003", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S01-003"},
-    {"id": "S01-004", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-004"},
-    {"id": "S01-005", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S01-005"},
-    {"id": "S01-006", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-006"},
-    {"id": "S01-007", "type": "say", "speaker_id": "merchant", "text_id": "CH01-S01-007"},
-    {"id": "S01-008", "type": "say", "speaker_id": "child", "text_id": "CH01-S01-008"},
-    {"id": "S01-009", "type": "say", "speaker_id": "guardian", "text_id": "CH01-S01-009"},
-    {"id": "S01-010", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-010"},
-    {"id": "S01-011", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S01-011"},
-    {"id": "S01-012", "type": "set_flag", "flag": "entered_baekya_city", "operation": "set", "value": true},
-    {"id": "S01-013", "type": "jump", "target": "S02"}
+    {
+      "id": "S01-001",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "cold_open_choice", "equals": "capture"},
+          "steps": [
+            {"id": "S01-001A-01", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S01-001A"},
+            {"id": "S01-001A-02", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S01-002A"},
+            {"id": "S01-001A-03", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-003A"}
+          ]
+        },
+        {
+          "when": {"flag": "cold_open_choice", "equals": "open_path"},
+          "steps": [
+            {"id": "S01-001B-01", "type": "say", "speaker_id": "refugee_man", "text_id": "CH01-S01-001B"},
+            {"id": "S01-001B-02", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S01-002B"},
+            {"id": "S01-001B-03", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-003B"}
+          ]
+        }
+      ]
+    },
+    {"id": "S01-002", "type": "say", "speaker_id": "child", "text_id": "CH01-S01-004"},
+    {"id": "S01-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-005"},
+    {"id": "S01-004", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S01-006"},
+    {"id": "S01-005", "type": "set_flag", "flag": "entered_baekya_city", "operation": "set", "value": true},
+    {"id": "S01-006", "type": "set_flag", "flag": "entry_record_created", "operation": "set", "value": true},
+    {"id": "S01-007", "type": "jump", "target": "S02"}
   ]
 }

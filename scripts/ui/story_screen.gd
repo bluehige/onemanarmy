@@ -10,9 +10,7 @@ signal save_requested
 signal load_requested
 signal settings_requested
 
-const ART_CANYON := "res://assets/art/ch01/kf-001-gwancheon-108-swords.png"
-const ART_INN := "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png"
-const ART_NORTH_GATE := "res://assets/art/ch01/kf-007-north-gate-road.png"
+const VisualCatalog := preload("res://scripts/data/ch01_visual_catalog.gd")
 
 var _background: TextureRect
 var _scene_wash: ColorRect
@@ -35,6 +33,8 @@ var _current_text := ""
 var _log_entries: Array[String] = []
 var _auto_enabled := false
 var _skip_enabled := false
+var _current_scene_id := ""
+var _visual_catalog := VisualCatalog.new()
 
 
 func _ready() -> void:
@@ -70,14 +70,16 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func show_scene(scene_id: String, title: String = "", texture_path: String = "") -> void:
+	_current_scene_id = scene_id
+	var visual: Dictionary = _visual_catalog.scene_visual(scene_id)
 	var selected_path := texture_path
 	if selected_path.is_empty():
-		selected_path = _default_art_for_scene(scene_id)
+		selected_path = str(visual.get("resolved_background", ""))
 	if ResourceLoader.exists(selected_path):
 		_background.texture = load(selected_path)
 	_location_label.text = title
 	_location_label.visible = not title.is_empty()
-	_scene_wash.color = _wash_for_scene(scene_id)
+	_scene_wash.color = _wash_for_visual(visual)
 	modulate = Color(1, 1, 1, 0)
 	var tween := create_tween()
 	tween.tween_property(self, "modulate", Color.WHITE, 0.35)
@@ -104,6 +106,7 @@ func show_line(payload: Dictionary, instant: bool = false) -> void:
 
 func show_choices(payload: Dictionary) -> void:
 	clear_choices()
+	_dialogue_panel.visible = false
 	_progress_label.modulate.a = 0.0
 	var options: Array = payload.get("options", [])
 	for option_variant in options:
@@ -114,7 +117,7 @@ func show_choices(payload: Dictionary) -> void:
 		button.text = label if description.is_empty() else "%s\n%s" % [label, description]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		button.custom_minimum_size = Vector2(760, 76)
+		button.custom_minimum_size = Vector2(590, 78)
 		InkTheme.style_button(button)
 		var option_id := str(option.get("id", ""))
 		var value: Variant = option.get("value", option_id)
@@ -184,6 +187,22 @@ func get_log_entries() -> Array[String]:
 	return _log_entries.duplicate()
 
 
+func get_current_scene_id() -> String:
+	return _current_scene_id
+
+
+func get_dialogue_height_ratio() -> float:
+	if size.y <= 0.0:
+		return 0.0
+	return _dialogue_panel.size.y / size.y
+
+
+func set_interaction_mode(enabled: bool) -> void:
+	if enabled:
+		_dialogue_panel.hide()
+		clear_choices()
+
+
 func _build_interface() -> void:
 	_background = TextureRect.new()
 	_background.name = "Background"
@@ -225,11 +244,11 @@ func _build_interface() -> void:
 
 	_choice_box = VBoxContainer.new()
 	_choice_box.name = "Choices"
-	_choice_box.set_anchors_preset(Control.PRESET_CENTER)
-	_choice_box.offset_left = -380
+	_choice_box.set_anchors_preset(Control.PRESET_CENTER_RIGHT)
+	_choice_box.offset_left = -650
 	_choice_box.offset_top = -220
-	_choice_box.offset_right = 380
-	_choice_box.offset_bottom = 180
+	_choice_box.offset_right = -54
+	_choice_box.offset_bottom = 220
 	_choice_box.add_theme_constant_override("separation", 12)
 	_choice_box.visible = false
 	add_child(_choice_box)
@@ -237,11 +256,11 @@ func _build_interface() -> void:
 	_dialogue_panel = PanelContainer.new()
 	_dialogue_panel.name = "DialoguePanel"
 	_dialogue_panel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	_dialogue_panel.offset_left = 46
-	_dialogue_panel.offset_top = -292
-	_dialogue_panel.offset_right = -46
-	_dialogue_panel.offset_bottom = -34
-	_dialogue_panel.add_theme_stylebox_override("panel", InkTheme.panel_style())
+	_dialogue_panel.offset_left = 54
+	_dialogue_panel.offset_top = -266
+	_dialogue_panel.offset_right = -54
+	_dialogue_panel.offset_bottom = -22
+	_dialogue_panel.add_theme_stylebox_override("panel", InkTheme.panel_style(0.92, InkTheme.INK))
 	add_child(_dialogue_panel)
 
 	var dialogue_stack := VBoxContainer.new()
@@ -256,8 +275,8 @@ func _build_interface() -> void:
 	_body_label.bbcode_enabled = false
 	_body_label.fit_content = false
 	_body_label.scroll_active = false
-	_body_label.custom_minimum_size.y = 105
-	_body_label.add_theme_font_size_override("normal_font_size", 29)
+	_body_label.custom_minimum_size.y = 86
+	_body_label.add_theme_font_size_override("normal_font_size", 28)
 	_body_label.add_theme_color_override("default_color", InkTheme.INK)
 	dialogue_stack.add_child(_body_label)
 
@@ -315,6 +334,8 @@ func _add_toolbar_button(parent: Control, text: String, callback: Callable) -> B
 	var button := Button.new()
 	button.text = text
 	InkTheme.style_small_button(button)
+	button.custom_minimum_size = Vector2(72, 34)
+	button.add_theme_font_size_override("font_size", 15)
 	button.pressed.connect(callback)
 	parent.add_child(button)
 	return button
@@ -331,17 +352,8 @@ func _append_log(speaker: String, text: String) -> void:
 	_log_entries.append(text if speaker.is_empty() else "%s\n%s" % [speaker, text])
 
 
-func _default_art_for_scene(scene_id: String) -> String:
-	if scene_id == "S00":
-		return ART_CANYON
-	if scene_id == "S09":
-		return ART_NORTH_GATE
-	return ART_INN
-
-
-func _wash_for_scene(scene_id: String) -> Color:
-	if scene_id == "S00":
-		return Color(0.05, 0.055, 0.06, 0.12)
-	if scene_id == "S09":
-		return Color(InkTheme.PAPER.r, InkTheme.PAPER.g, InkTheme.PAPER.b, 0.05)
-	return Color(0.035, 0.03, 0.027, 0.24)
+func _wash_for_visual(visual: Dictionary) -> Color:
+	var values: Variant = visual.get("wash", [])
+	if values is Array and values.size() == 4:
+		return Color(float(values[0]), float(values[1]), float(values[2]), float(values[3]))
+	return Color(0.035, 0.03, 0.027, 0.16)

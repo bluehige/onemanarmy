@@ -5,49 +5,67 @@
   "id": "S04",
   "route": "COMMON",
   "title_text_id": "CH01-UI-S04-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#s04--물-한-잔",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#v03-s04--눈이-먼저-값을-매긴다",
   "steps": [
     {"id": "S04-001", "type": "say", "speaker_id": "bokchil", "text_id": "CH01-S04-001"},
     {"id": "S04-002", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S04-002"},
-    {"id": "S04-003", "type": "say", "speaker_id": "bokchil", "text_id": "CH01-S04-003"},
-    {"id": "S04-004", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S04-004"},
-    {"id": "S04-005", "type": "say", "speaker_id": "swordsman", "text_id": "CH01-S04-005"},
-    {"id": "S04-006", "type": "say", "speaker_id": "other_swordsman", "text_id": "CH01-S04-006"},
-    {"id": "S04-007", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S04-007"},
     {
-      "id": "S04-008",
+      "id": "S04-003",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "cold_open_choice", "equals": "capture"},
+          "steps": [
+            {"id": "S04-003A", "type": "say", "speaker_id": "swordsman", "text_id": "CH01-S04-003A"}
+          ]
+        },
+        {
+          "when": {"flag": "cold_open_choice", "equals": "open_path"},
+          "steps": [
+            {"id": "S04-003B", "type": "say", "speaker_id": "swordsman", "text_id": "CH01-S04-003B"}
+          ]
+        }
+      ]
+    },
+    {"id": "S04-004", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S04-004"},
+    {
+      "id": "S04-005",
       "type": "focus_interaction",
       "interaction_id": "INT-CH01-S04-FOCUS",
       "output_flag": "inn_first_focus"
     },
     {
-      "id": "S04-009",
+      "id": "S04-006",
       "type": "conditional",
       "mode": "first_match",
       "branches": [
         {
           "when": {"flag": "inn_first_focus", "equals": "window"},
           "steps": [
-            {"id": "S04-009A", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-008A"}
+            {"id": "S04-006A", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-008A"}
           ]
         },
         {
           "when": {"flag": "inn_first_focus", "equals": "lamp"},
           "steps": [
-            {"id": "S04-009B", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-008B"}
+            {"id": "S04-006B", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-008B"}
           ]
         },
         {
           "when": {"flag": "inn_first_focus", "equals": "courier_hand"},
           "steps": [
-            {"id": "S04-009C", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-008C"}
+            {"id": "S04-006C", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-008C"}
           ]
         }
       ]
     },
-    {"id": "S04-010", "type": "say", "speaker_id": "note", "text_id": "CH01-S04-009"},
-    {"id": "S04-011", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-010"},
-    {"id": "S04-012", "type": "set_flag", "flag": "courier_note_received", "operation": "set", "value": true},
+    {"id": "S04-007", "type": "say", "speaker_id": "note", "text_id": "CH01-S04-009"},
+    {"id": "S04-008", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S04-010"},
+    {"id": "S04-009", "type": "set_flag", "flag": "courier_note_received", "operation": "set", "value": true},
+    {"id": "S04-010", "type": "set_flag", "flag": "hongryeon_knows_ledger", "operation": "set", "value": true},
+    {"id": "S04-011", "type": "set_flag", "flag": "information_debt_seeded", "operation": "set", "value": true},
+    {"id": "S04-012", "type": "set_flag", "flag": "attack_objective_understood", "operation": "set", "value": true},
     {"id": "S04-013", "type": "autosave", "save_id": "SAVE-CH01-003"},
     {"id": "S04-014", "type": "jump", "target": "S05"}
   ]

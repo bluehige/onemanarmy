@@ -47,7 +47,7 @@
       "type": "BLADE_RECALL",
       "prompt_key": "CH01-INT-S08-RECALL-PROMPT",
       "emotional_purpose": "선택의 흔적을 본 뒤 아홉 검을 빠짐없이 거두는 이연의 책임을 체감한다.",
-      "expected_duration_sec": 6.0,
+      "expected_duration_sec": 2.8,
       "failure_state": null,
       "score": null,
       "timing_bonus": null,

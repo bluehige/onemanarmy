@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "kind": "chapter_visual_manifest",
+  "chapter_id": "CH-MVP-001",
+  "source": "docs/production/WO-CH01-REDESIGN-V2.md",
+  "title": {
+    "background": "res://assets/art/ch01-redesign-v2/CH01_TITLE_CLOSED_COFFIN_v001.png",
+    "fallback": "res://assets/art/ch01/kf-007-north-gate-road.png"
+  },
+  "scenes": {
+    "S00": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v001.png",
+      "fallback": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png",
+      "wash": [0.025, 0.028, 0.032, 0.10]
+    },
+    "S01": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_SIDEGATE_v001.png",
+      "fallback": "res://assets/art/ch01/kf-007-north-gate-road.png",
+      "wash": [0.025, 0.028, 0.032, 0.13]
+    },
+    "S02": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_ALLEY_CONTRACT_v001.png",
+      "fallback": "res://assets/art/ch01/kf-007-north-gate-road.png",
+      "wash": [0.035, 0.030, 0.028, 0.16]
+    },
+    "S03": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_INN_EXT_v001.png",
+      "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
+      "wash": [0.030, 0.027, 0.024, 0.13]
+    },
+    "S04": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_INN_INT_CALM_v001.png",
+      "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
+      "wash": [0.030, 0.027, 0.024, 0.12]
+    },
+    "S05": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_INN_INT_CALM_v001.png",
+      "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
+      "wash": [0.030, 0.027, 0.024, 0.18]
+    },
+    "S06": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v001.png",
+      "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
+      "wash": [0.030, 0.027, 0.024, 0.15]
+    },
+    "S07A": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "wash": [0.035, 0.030, 0.027, 0.20]},
+    "S07B": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "wash": [0.030, 0.035, 0.032, 0.16]},
+    "S07C": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "wash": [0.045, 0.025, 0.020, 0.22]},
+    "S08": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "wash": [0.030, 0.027, 0.024, 0.17]},
+    "S09": {"fallback": "res://assets/art/ch01/kf-007-north-gate-road.png", "wash": [0.030, 0.032, 0.035, 0.10]}
+  },
+  "cinematics": {
+    "CIN-CH01-S00-CAPTURE": {
+      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v001.png",
+      "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_CANYON_CAPTURE_v001.png",
+      "fallback": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png",
+      "formation_profile": "canyon_capture"
+    },
+    "CIN-CH01-S00-OPEN-PATH": {
+      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v001.png",
+      "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_CANYON_OPEN_PATH_v001.png",
+      "fallback": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png",
+      "formation_profile": "canyon_open_path"
+    },
+    "CIN-CH01-S05-COMMON": {
+      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_INN_INT_CALM_v001.png",
+      "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v001.png",
+      "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
+      "formation_profile": "inn_nine"
+    },
+    "CIN-CH01-S07-TRACK": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "formation_profile": "inn_nine"},
+    "CIN-CH01-S07-PROTECT": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "formation_profile": "inn_nine"},
+    "CIN-CH01-S07-LOCKDOWN": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "formation_profile": "inn_nine"},
+    "CIN-CH01-S09-DEPARTURE": {"fallback": "res://assets/art/ch01/kf-007-north-gate-road.png", "formation_profile": "none"}
+  }
+}

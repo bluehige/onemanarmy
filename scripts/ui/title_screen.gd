@@ -6,11 +6,12 @@ signal continue_requested
 signal load_requested
 signal settings_requested
 
-const ART_CANYON := "res://assets/art/ch01/kf-001-gwancheon-108-swords.png"
+const VisualCatalog := preload("res://scripts/data/ch01_visual_catalog.gd")
 
 var _continue_button: Button
 var _new_game_button: Button
 var _load_button: Button
+var _visual_catalog := VisualCatalog.new()
 
 
 func _ready() -> void:
@@ -40,13 +41,14 @@ func _build_interface() -> void:
 	background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if ResourceLoader.exists(ART_CANYON):
-		background.texture = load(ART_CANYON)
+	var title_art := _visual_catalog.title_art()
+	if ResourceLoader.exists(title_art):
+		background.texture = load(title_art)
 	add_child(background)
 
 	var wash := ColorRect.new()
 	wash.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	wash.color = Color(0.025, 0.022, 0.02, 0.48)
+	wash.color = Color(0.025, 0.022, 0.02, 0.34)
 	wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(wash)
 
@@ -63,7 +65,7 @@ func _build_interface() -> void:
 	margin.add_child(layout)
 
 	var eyebrow := Label.new()
-	eyebrow.text = "CHAPTER 01  ·  아홉 검의 객잔"
+	eyebrow.text = "CHAPTER 01  ·  백여덟 이름의 첫 장"
 	eyebrow.add_theme_font_size_override("font_size", 21)
 	eyebrow.add_theme_color_override("font_color", InkTheme.PAPER_LIGHT)
 	layout.add_child(eyebrow)
@@ -75,7 +77,7 @@ func _build_interface() -> void:
 	layout.add_child(title)
 
 	var description := Label.new()
-	description.text = "이연과 검관 108자루의 첫 번째 기록"
+	description.text = "지워진 이름이 돌아오기 전에는, 검도 돌아가지 않는다."
 	description.add_theme_font_size_override("font_size", 24)
 	description.add_theme_color_override("font_color", Color(0.87, 0.84, 0.78))
 	layout.add_child(description)

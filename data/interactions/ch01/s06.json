@@ -10,7 +10,7 @@
       "type": "HOLD_INTENT",
       "prompt_key": "CH01-INT-S06-HOLD-PROMPT",
       "emotional_purpose": "이미 읽고 고른 대가를 거두지 않는 이연의 결의를 짧은 정적으로 체감한다.",
-      "expected_duration_sec": 1.8,
+      "expected_duration_sec": 1.2,
       "failure_state": null,
       "score": null,
       "timing_bonus": null,

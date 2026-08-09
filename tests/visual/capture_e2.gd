@@ -29,8 +29,21 @@ func _run() -> void:
 	await process_frame
 	await _capture_title()
 	await _capture_story_s00()
-	await _capture_interaction_focus()
-	await _capture_cinematic_108()
+	await _capture_interaction_focus_s00()
+	await _capture_interaction_focus_s04()
+	await _capture_cinematic_108(
+		"CIN-CH01-S00-CAPTURE",
+		"e2_cinematic_108_capture_1920x1080.png",
+		"e2_cinematic_108_capture_reveal_1920x1080.png",
+		"지휘관과 명령선을 한 번에 고립한다."
+	)
+	await _capture_cinematic_108(
+		"CIN-CH01-S00-OPEN-PATH",
+		"e2_cinematic_108_open_path_1920x1080.png",
+		"e2_cinematic_108_open_path_reveal_1920x1080.png",
+		"피란민이 빠져나갈 길을 먼저 연다.",
+		"e2_cinematic_108_1920x1080.png"
+	)
 	await _capture_cinematic_9()
 	await _capture_chapter_end("TRACK", "e2_chapter_end_track_1280x720.png")
 	await _capture_chapter_end("PROTECT", "e2_chapter_end_protect_1280x720.png")
@@ -65,29 +78,93 @@ func _capture_story_s00() -> void:
 	await _release_viewport(viewport)
 
 
-func _capture_cinematic_108() -> void:
+func _capture_cinematic_108(
+	cinematic_id: String,
+	filename: String,
+	reveal_filename: String,
+	purpose: String,
+	legacy_filename: String = ""
+) -> void:
 	var viewport := _make_viewport()
 	var presenter: Control = CINEMATIC_SCENE.instantiate()
 	viewport.add_child(presenter)
 	await process_frame
 	presenter.present({
 		"scene_id": "S00",
-		"purpose": "길과 결과를 한 번에 고정한다.",
+		"purpose": purpose,
 		"settings": {"motion_reduction": true},
 		"cinematic": {
-			"id": "CIN-CH01-S00-OPEN-PATH",
+			"id": cinematic_id,
 			"source_scene": "S00",
 			"sword_count": 108,
 		},
 	}, "full")
+	presenter.apply_camera_cue({"shot_id": "S00-12-CUT"})
+	_expect(presenter.get_visible_sword_count() == 108, "Authored reveal must expose all 108 slots.")
+	await _save_capture(viewport, reveal_filename, LOGICAL_SIZE)
+	presenter.show_final_state()
 	_expect(presenter.get_sword_count() == 108, "Cinematic capture must contain exactly 108 swords.")
 	_expect(presenter.get_squad_count() == 12, "Cinematic capture must contain exactly 12 squads.")
 	_expect(presenter.get_duplicate_slot_count() == 0, "Cinematic capture must not duplicate sword slots.")
-	await _save_capture(viewport, "e2_cinematic_108_1920x1080.png", LOGICAL_SIZE)
+	_expect(
+		presenter.get_formation_overlay_opacity() <= 0.01,
+		"Final cinematic art must not retain the procedural sword overlay."
+	)
+	_expect(presenter.get_ui_coverage_estimate() < 0.10, "Cinematic UI must stay below ten percent.")
+	_expect(not presenter.shows_qa_counter(), "Cinematic capture must not show QA counters.")
+	await _save_capture(viewport, filename, LOGICAL_SIZE)
+	if not legacy_filename.is_empty():
+		await _save_capture(viewport, legacy_filename, LOGICAL_SIZE)
 	await _release_viewport(viewport)
 
 
-func _capture_interaction_focus() -> void:
+func _capture_interaction_focus_s00() -> void:
+	var viewport := _make_viewport()
+	var story: Control = STORY_SCENE.instantiate()
+	viewport.add_child(story)
+	await process_frame
+	story.show_scene("S00", "관천협")
+	story.set_chapter_label("서장 · 관천협")
+	var dialogue_panel := story.get_node_or_null("DialoguePanel") as Control
+	if dialogue_panel != null:
+		dialogue_panel.hide()
+
+	var director: InteractionDirector = INTERACTION_SCENE.instantiate()
+	viewport.add_child(director)
+	await process_frame
+	var completion: Array[Dictionary] = []
+	director.completed.connect(func(result: Dictionary) -> void: completion.append(result))
+	director.start({
+		"id": "INT-CH01-S00-FOCUS",
+		"scene_id": "S00",
+		"type": "FOCUS_POINT",
+		"prompt_key": "CH01-INT-S00-FOCUS-PROMPT",
+		"emotional_purpose": "이연이 위협보다 먼저 사람과 명령 구조 중 무엇을 읽는지 체감한다.",
+		"expected_duration_sec": 3.0,
+		"failure_state": null,
+		"alternative_input": "keyboard_or_gamepad_focus_navigation",
+		"replay_behavior": "auto_complete_with_saved_first_focus_or_skip",
+		"on_complete_event": "interaction_completed",
+		"points": [
+			{"id": "refugees", "label": "피란민 행렬", "screen_position": [0.50, 0.60]},
+			{"id": "commander", "label": "기병대 지휘관", "screen_position": [0.76, 0.37]},
+		],
+	}, {
+		"prompt": "무엇을 먼저 본다",
+		"settings": {"interaction_auto_complete": false},
+		"replay_seen": false,
+	})
+	await process_frame
+	await process_frame
+	_expect(director.visible, "S00 focus interaction must remain visible before selection.")
+	_expect(completion.is_empty(), "S00 focus interaction must not auto-complete during capture.")
+	_expect(_count_visible_buttons(director) == 2, "S00 focus capture must show exactly two points.")
+	_expect(not director.has_fail_state(), "S00 focus interaction must expose no fail state.")
+	await _save_capture(viewport, "e2_interaction_focus_s00_1280x720.png", HD_SIZE)
+	await _release_viewport(viewport)
+
+
+func _capture_interaction_focus_s04() -> void:
 	var viewport := _make_viewport()
 	var story: Control = STORY_SCENE.instantiate()
 	viewport.add_child(story)
@@ -135,6 +212,7 @@ func _capture_interaction_focus() -> void:
 	_expect(completion.is_empty(), "Focus interaction must not auto-complete during its E2 capture.")
 	_expect(_count_visible_buttons(director) >= 2, "Focus interaction must show at least two selectable points.")
 	_expect(not director.has_fail_state(), "Focus interaction must expose no fail state.")
+	await _save_capture(viewport, "e2_interaction_focus_s04_1280x720.png", HD_SIZE)
 	await _save_capture(viewport, "e2_interaction_focus_1280x720.png", HD_SIZE)
 	await _release_viewport(viewport)
 
@@ -155,9 +233,19 @@ func _capture_cinematic_9() -> void:
 			"sword_count": 9,
 		},
 	}, "full")
+	presenter.apply_camera_cue({"shot_id": "09_CONTROL"})
+	_expect(presenter.get_visible_sword_count() == 9, "Authored S05 reveal must expose all nine slots.")
+	await _save_capture(viewport, "e2_cinematic_9_reveal_1920x1080.png", LOGICAL_SIZE)
+	presenter.show_final_state()
 	_expect(presenter.get_sword_count() == 9, "S05 NINE_9 capture must contain exactly 9 swords.")
 	_expect(presenter.get_squad_count() == 1, "S05 NINE_9 capture must contain exactly 1 squad.")
 	_expect(presenter.get_duplicate_slot_count() == 0, "S05 NINE_9 capture must not duplicate sword slots.")
+	_expect(
+		presenter.get_formation_overlay_opacity() <= 0.01,
+		"Final S05 art must own its nine sword silhouettes without procedural duplicates."
+	)
+	_expect(presenter.get_ui_coverage_estimate() < 0.10, "S05 cinematic UI must stay below ten percent.")
+	_expect(not presenter.shows_qa_counter(), "S05 cinematic capture must not show QA counters.")
 	await _save_capture(viewport, "e2_cinematic_9_1920x1080.png", LOGICAL_SIZE)
 	await _release_viewport(viewport)
 
@@ -169,10 +257,10 @@ func _capture_chapter_end(route: String, filename: String) -> void:
 	await process_frame
 	screen.show_completion({
 		"completion_title": "제1장 완료",
-		"completion_subtitle": "아홉 검을 모두 되찾았고, 북문은 아직 닫히지 않았다.",
+		"completion_subtitle": "아홉 검은 돌아왔다. 백여덟 이름은 아직 돌아오지 않았다.",
 		"choices": {"CH01-C06-PRIORITY": route},
 		"flags": {"priority_choice": route, "swords_recalled": 9},
-		"next_title": "다음 기록 · 백야의 북문",
+		"next_title": "다음 · 해 뜨기 전의 북문",
 	})
 	await create_timer(0.38, true, false, true).timeout
 	await _save_capture(viewport, filename, HD_SIZE)

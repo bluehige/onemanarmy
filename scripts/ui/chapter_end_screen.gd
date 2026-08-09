@@ -23,7 +23,7 @@ func _ready() -> void:
 
 func show_completion(payload: Dictionary) -> void:
 	_completion_title.text = str(payload.get("completion_title", "제1장 완료"))
-	_completion_subtitle.text = str(payload.get("completion_subtitle", "아홉 검은 모두 돌아왔고, 북문은 아직 닫혀 있다."))
+	_completion_subtitle.text = str(payload.get("completion_subtitle", "아홉 검은 돌아왔다. 백여덟 이름은 아직 돌아오지 않았다."))
 	var choices: Dictionary = payload.get("choices", {})
 	var flags: Dictionary = payload.get("flags", {})
 	var priority := str(choices.get("CH01-C06-PRIORITY", flags.get("priority_choice", ""))).to_upper()
@@ -136,11 +136,11 @@ func _build_interface() -> void:
 func _route_label(priority: String) -> String:
 	match priority:
 		"TRACK":
-			return "추적 · 놓치지 않았다"
+			return "추적 · 정보를 얻고 사람에게 빚졌다"
 		"PROTECT":
-			return "수호 · 사람을 먼저 남겼다"
+			return "수호 · 사람을 남기고 정보를 놓쳤다"
 		"LOCKDOWN":
-			return "봉쇄 · 객잔을 닫았다"
+			return "봉쇄 · 원본을 남기고 이름을 드러냈다"
 		_:
 			return "북문 · 계약은 계속된다"
 
@@ -149,11 +149,11 @@ func _result_copy(priority: String, flags: Dictionary) -> Array[String]:
 	var lines: Array[String] = []
 	match priority:
 		"TRACK":
-			lines = ["도주자는 붙잡혔다.", "객잔에는 작은 상처가 남았다.", "북문 단서는 두 겹 깊어졌다."]
+			lines = ["남은 빚: 다친 사람", "곽노삼 어깨 부상 · 복칠 경상", "도주자 생포 · 북문 기록고 방화 시각 확보"]
 		"PROTECT":
-			lines = ["조문탁과 복칠은 무사하다.", "도주자는 빗속으로 사라졌다.", "봉인 마차와 연락책의 흔적을 얻었다."]
+			lines = ["남은 빚: 놓친 정보", "곽노삼과 복칠 무사", "도주자 탈출 · 봉인 마차 정보 일부 확보"]
 		"LOCKDOWN":
-			lines = ["도주자는 객잔 안에 묶였다.", "복칠과 객잔에는 불의 흔적이 남았다.", "이연의 힘을 본 눈이 늘었다."]
+			lines = ["남은 빚: 공개된 이름", "원본을 노린 자 전원 현장 제압", "객잔 화재 손상 · 이연의 이름 공개"]
 		_:
 			lines = ["아홉 검은 모두 검관으로 돌아왔다."]
 	if int(flags.get("swords_recalled", 9)) == 9:

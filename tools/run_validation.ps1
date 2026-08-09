@@ -145,6 +145,20 @@ try {
         "--script",
         "res://tests/unit/test_ui_interactions.gd"
     )
+    Invoke-ValidationStep "runtime audio" $godotExecutable @(
+        "--headless",
+        "--path",
+        $repoRoot,
+        "--script",
+        "res://tests/unit/test_runtime_audio_player.gd"
+    )
+    Invoke-ValidationStep "chapter visual catalog" $godotExecutable @(
+        "--headless",
+        "--path",
+        $repoRoot,
+        "--script",
+        "res://tests/unit/test_ch01_visual_catalog.gd"
+    )
     Invoke-ValidationStep "cinematic directors" $godotExecutable @(
         "--headless",
         "--path",

@@ -3,7 +3,7 @@ extends Control
 
 signal continued
 
-const ART_INN := "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png"
+const ART_INN := "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v001.png"
 
 var _background: TextureRect
 var _route_label: Label

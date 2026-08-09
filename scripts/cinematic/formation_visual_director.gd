@@ -38,22 +38,54 @@ const FULL_SQUAD_CENTERS: Array[Vector2] = [
 	Vector2(650.0, 250.0),
 ]
 
-@export var blade_length := 48.0
-@export var blade_width := 6.0
+const CAPTURE_SQUAD_CENTERS: Array[Vector2] = [
+	Vector2(-570.0, -220.0), Vector2(-280.0, -250.0),
+	Vector2(280.0, -250.0), Vector2(570.0, -220.0),
+	Vector2(-670.0, 0.0), Vector2(-440.0, 70.0),
+	Vector2(440.0, 70.0), Vector2(670.0, 0.0),
+	Vector2(-330.0, 245.0), Vector2(0.0, 275.0),
+	Vector2(330.0, 245.0), Vector2(0.0, -30.0),
+]
+
+const OPEN_PATH_SQUAD_CENTERS: Array[Vector2] = [
+	Vector2(-420.0, -285.0), Vector2(-420.0, -170.0),
+	Vector2(-420.0, -55.0), Vector2(-420.0, 60.0),
+	Vector2(-420.0, 175.0), Vector2(-420.0, 290.0),
+	Vector2(420.0, -285.0), Vector2(420.0, -170.0),
+	Vector2(420.0, -55.0), Vector2(420.0, 60.0),
+	Vector2(420.0, 175.0), Vector2(420.0, 290.0),
+]
+
+const INN_NINE_SLOTS: Array[Vector2] = [
+	Vector2(-650.0, -165.0),
+	Vector2(-405.0, -35.0),
+	Vector2(-155.0, -155.0),
+	Vector2(-270.0, 175.0),
+	Vector2(-35.0, 185.0),
+	Vector2(205.0, -70.0),
+	Vector2(420.0, 5.0),
+	Vector2(610.0, -115.0),
+	Vector2(665.0, 225.0),
+]
+
+@export var blade_length := 56.0
+@export var blade_width := 4.0
 
 var _squad_nodes: Array[Node2D] = []
+var _blade_nodes: Array[Node2D] = []
 var _slot_records: Array[Dictionary] = []
 var _slot_keys: Dictionary = {}
 var _duplicate_slot_count := 0
+var _profile := "default"
 
 
 class BladeVisual:
 	extends Node2D
 
-	var _blade_length := 48.0
-	var _blade_width := 6.0
-	var _blade_color := Color("b8b5ad")
-	var _ink_color := Color("1b1a18")
+	var _blade_length := 56.0
+	var _blade_width := 4.0
+	var _blade_color := Color("8f8a82")
+	var _ink_color := Color("24211f")
 
 
 	func configure(length: float, width: float, shade: float) -> void:
@@ -77,20 +109,35 @@ class BladeVisual:
 				Vector2(-half_width, shoulder),
 			]
 		)
-		draw_colored_polygon(blade_points, _blade_color)
-		draw_polyline(blade_points, _ink_color, 1.25, true)
+		draw_colored_polygon(blade_points, Color(_blade_color, 0.22))
+		draw_polyline(blade_points, Color(_ink_color, 0.62), 1.2, true)
+		draw_line(
+			Vector2(0.0, shoulder + 3.0),
+			Vector2(0.0, heel - 3.0),
+			Color(_blade_color, 0.36),
+			0.7,
+			true
+		)
 		draw_line(
 			Vector2(-_blade_width * 1.35, heel),
 			Vector2(_blade_width * 1.35, heel),
-			_ink_color,
-			2.0
+			Color(_ink_color, 0.54),
+			1.4
 		)
 		draw_line(
 			Vector2(0.0, heel),
 			Vector2(0.0, _blade_length * 0.54),
-			_ink_color,
-			3.0
+			Color(_ink_color, 0.48),
+			1.6
 		)
+
+
+func set_profile(profile: String) -> void:
+	_profile = profile if not profile.is_empty() else "default"
+
+
+func get_profile() -> String:
+	return _profile
 
 
 func build_formation(squad_count: int = FULL_SQUAD_COUNT, role_overrides: Array = []) -> Dictionary:
@@ -130,6 +177,7 @@ func clear_formation() -> void:
 			remove_child(squad)
 		squad.free()
 	_squad_nodes.clear()
+	_blade_nodes.clear()
 	_slot_records.clear()
 	_slot_keys.clear()
 	_duplicate_slot_count = 0
@@ -138,6 +186,44 @@ func clear_formation() -> void:
 
 func get_sword_count() -> int:
 	return _slot_records.size()
+
+
+func get_visible_sword_count() -> int:
+	var count := 0
+	for blade in _blade_nodes:
+		if is_instance_valid(blade) and blade.visible:
+			count += 1
+	return count
+
+
+func set_reveal_squad_count(count: int, animate: bool = true) -> void:
+	set_reveal_blade_count(clampi(count, 0, _squad_nodes.size()) * SWORDS_PER_SQUAD, animate)
+
+
+func set_reveal_blade_count(count: int, animate: bool = true) -> void:
+	var visible_count := clampi(count, 0, _blade_nodes.size())
+	for index in range(_blade_nodes.size()):
+		var blade := _blade_nodes[index]
+		var should_show := index < visible_count
+		if should_show and not blade.visible:
+			blade.visible = true
+			if animate:
+				blade.modulate = Color(1, 1, 1, 0)
+				blade.scale = Vector2.ONE * 0.62
+				var tween := create_tween().set_parallel(true)
+				tween.tween_property(blade, "modulate", Color(1, 1, 1, 0.82), 0.20)
+				tween.tween_property(blade, "scale", Vector2.ONE, 0.24).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		elif not should_show:
+			blade.visible = false
+
+
+func pulse_visible_blades() -> void:
+	for blade in _blade_nodes:
+		if not is_instance_valid(blade) or not blade.visible:
+			continue
+		var tween := create_tween()
+		tween.tween_property(blade, "modulate", Color(0.78, 0.72, 0.66, 0.64), 0.08)
+		tween.tween_property(blade, "modulate", Color(1, 1, 1, 0.82), 0.18)
 
 
 func get_squad_count() -> int:
@@ -183,6 +269,7 @@ func get_formation_snapshot() -> Dictionary:
 		"swords_per_squad": SWORDS_PER_SQUAD,
 		"sword_count": get_sword_count(),
 		"duplicate_slot_count": get_duplicate_slot_count(),
+		"profile": _profile,
 		"squad_roles": get_squad_roles(),
 		"squad_centers": get_squad_centers(),
 		"squad_instance_counts": get_squad_instance_counts(),
@@ -216,8 +303,9 @@ func _add_blade(
 	blade.set_meta("squad_index", squad_index)
 	blade.set_meta("slot_index", slot_index)
 	blade.set_meta("role", role)
-	blade.configure(blade_length, blade_width, 0.68 + float(squad_index % 4) * 0.045)
+	blade.configure(blade_length, blade_width, 0.52 + float(squad_index % 4) * 0.025)
 	squad.add_child(blade)
+	_blade_nodes.append(blade)
 
 	_slot_records.append(
 		{
@@ -235,6 +323,10 @@ func _add_blade(
 func _center_for_squad(squad_count: int, squad_index: int) -> Vector2:
 	if squad_count == 1:
 		return Vector2.ZERO
+	if _profile == "canyon_capture":
+		return CAPTURE_SQUAD_CENTERS[squad_index]
+	if _profile == "canyon_open_path":
+		return OPEN_PATH_SQUAD_CENTERS[squad_index]
 	return FULL_SQUAD_CENTERS[squad_index]
 
 
@@ -245,6 +337,10 @@ func _role_for_squad(squad_index: int, role_overrides: Array) -> StringName:
 
 
 func _authored_slot_transform(squad_index: int, slot_index: int) -> Transform2D:
+	if _profile == "inn_nine" and squad_index == 0:
+		var position := INN_NINE_SLOTS[slot_index]
+		var rotation := deg_to_rad([-90.0, -86.0, -90.0, -92.0, -88.0, -90.0, -90.0, -90.0, 0.0][slot_index])
+		return Transform2D(rotation, position)
 	match squad_index % 4:
 		0:
 			return _row_transform(slot_index)

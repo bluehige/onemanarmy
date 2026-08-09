@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "package_id": "CH01_REDESIGN_V2_RUNTIME_ART",
+  "generated_on": "2026-08-09",
+  "hash_algorithm": "SHA-256",
+  "asset_count": 9,
+  "asset_classes": {
+    "title": 1,
+    "environment": 5,
+    "title_and_environment_total": 6,
+    "cinematic_cg": 3
+  },
+  "assets": [
+    {
+      "id": "CH01-TITLE-CLOSED-COFFIN",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_TITLE_CLOSED_COFFIN_v001.png",
+      "bytes": 2342695,
+      "sha256": "febe3aab5bd232873117eb89e79bedd7f0316fd607099b4fa7f58f9b8d472658",
+      "usage": "Title-screen background centered on Lee Yeon and the closed sword coffin without revealing the deployed 108 swords.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-ENV-CANYON-PREDEPLOY",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v001.png",
+      "bytes": 3002977,
+      "sha256": "88de794e0777ee3a2bcc49a4120ad7dc7e22f4f8766c95b49360e48053a4f261",
+      "usage": "S00 story and focus background plus the opening background for both S00 cinematic variants.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-ENV-SIDEGATE",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_ENV_SIDEGATE_v001.png",
+      "bytes": 2460203,
+      "sha256": "7a2203fb1413bdcd5f52d099901596fc81bdba1cc258d14c30fe505406cc7a0b",
+      "usage": "S01 Baekya City side-gate visual-novel background.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-ENV-ALLEY-CONTRACT",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_ENV_ALLEY_CONTRACT_v001.png",
+      "bytes": 2476376,
+      "sha256": "72fa3a52342ae0c2e26975eb5539edfd344a92208756137c27e3c9dd95227470",
+      "usage": "S02 alley-contract visual-novel background for the bronze badge, sealed document tube, and question choice.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-ENV-INN-EXTERIOR",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_ENV_INN_EXT_v001.png",
+      "bytes": 2536255,
+      "sha256": "3dd49f5761ed9fa78881778e087b2a84ed190d303e38972d76f87519c2336782",
+      "usage": "S03 Cheongu Inn exterior and courtyard visual-novel background.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-ENV-INN-INTERIOR-CALM",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_ENV_INN_INT_CALM_v001.png",
+      "bytes": 2448337,
+      "sha256": "1b56895d640d962ef3d1e5d0f9244777527b178407d1b2120fea853f9ae27fbc",
+      "usage": "S04 and S05 inn-interior story and focus background plus the opening background for the S05 cinematic.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-CG-CANYON-CAPTURE",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_CG_CANYON_CAPTURE_v001.png",
+      "bytes": 2767448,
+      "sha256": "abf01e7c35716aef75a228e8071b215010a9221f2bbc857f695e79e6c5982fcc",
+      "usage": "Final authored background for CIN-CH01-S00-CAPTURE, emphasizing commander containment after the common 108-sword deployment.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-CG-CANYON-OPEN-PATH",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_CG_CANYON_OPEN_PATH_v001.png",
+      "bytes": 3029423,
+      "sha256": "dd603236b836f689ae441c8aab7a528cebc22ebb2f37400d2adc066eabb9be1b",
+      "usage": "Final authored background for CIN-CH01-S00-OPEN-PATH, emphasizing the protected refugee corridor after the common 108-sword deployment.",
+      "status": "production"
+    },
+    {
+      "id": "CH01-CG-INN-NINE-SWORDS",
+      "relative_path": "assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v001.png",
+      "bytes": 2801909,
+      "sha256": "412ab9b7f20e1286fed114cc4d2673e4129103f94b9138e9317acab90a2c8ea7",
+      "usage": "Final authored background for CIN-CH01-S05-COMMON and the S06 transition, showing the nine distinct restraint and protection roles.",
+      "status": "production"
+    }
+  ]
+}

@@ -214,7 +214,7 @@ Main
   "id": "CH01_INT_TRACK",
   "type": "HOLD_INTENT",
   "prompt_key": "ui_hold_chain",
-  "duration_sec": 1.8,
+  "duration_sec": 1.2,
   "alternative_mode": "toggle",
   "failure": null,
   "on_complete": [

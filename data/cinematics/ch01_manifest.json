@@ -50,8 +50,35 @@
         {"squads": ["SQ12"], "role": "commander_containment"}
       ],
       "playback": {
-        "full": {"duration_sec": 29, "shot_ids": ["S00-09", "S00-10", "S00-11", "S00-12", "S00-13A", "S00-14"]},
-        "summary": {"duration_sec": 12, "shot_ids": ["S00-09", "S00-12", "S00-13A", "S00-14"]},
+        "full": {
+          "duration_sec": 10.5,
+          "shot_ids": ["S00-EYE-CHAIN", "S00-LOCKS", "S00-FIRST-NINE", "S00-ARROW-36", "S00-REDIRECT-36", "S00-CUT-27", "S00-CAPTURE", "S00-FINAL"],
+          "audio_cues": [
+            {"id": "SFX_IRON_CHAIN_PULL", "time_sec": 0.0},
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.7},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 2.0},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 3.5},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 5.0, "pitch_scale": 0.86},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 6.8, "pitch_scale": 0.78},
+            {"id": "SFX_SWORD_STOP", "time_sec": 8.8}
+          ],
+          "vfx_cues": [
+            {"id": "FX_LOCK_WASH", "time_sec": 0.7},
+            {"id": "FX_INTERCEPT", "time_sec": 3.5},
+            {"id": "FX_CUT_BLOOD", "time_sec": 6.8},
+            {"id": "FX_FINAL_STOP", "time_sec": 8.8}
+          ]
+        },
+        "summary": {
+          "duration_sec": 5.5,
+          "shot_ids": ["S00-LOCKS", "S00-FIRST-NINE", "S00-CUT-27", "S00-CAPTURE", "S00-FINAL"],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.0},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.1},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 2.5},
+            {"id": "SFX_SWORD_STOP", "time_sec": 4.3}
+          ]
+        },
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": [
@@ -75,8 +102,35 @@
         {"squads": ["SQ11", "SQ12"], "role": "refugee_path_guard"}
       ],
       "playback": {
-        "full": {"duration_sec": 29, "shot_ids": ["S00-09", "S00-10", "S00-11", "S00-12", "S00-13B", "S00-14"]},
-        "summary": {"duration_sec": 12, "shot_ids": ["S00-09", "S00-12", "S00-13B", "S00-14"]},
+        "full": {
+          "duration_sec": 10.5,
+          "shot_ids": ["S00-EYE-CHAIN", "S00-LOCKS", "S00-FIRST-NINE", "S00-ARROW-36", "S00-REDIRECT-36", "S00-CUT-27", "S00-OPEN-PATH", "S00-FINAL"],
+          "audio_cues": [
+            {"id": "SFX_IRON_CHAIN_PULL", "time_sec": 0.0},
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.7},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 2.0},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 3.5},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 5.0, "pitch_scale": 0.86},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 6.8, "pitch_scale": 0.78},
+            {"id": "SFX_SWORD_STOP", "time_sec": 8.8}
+          ],
+          "vfx_cues": [
+            {"id": "FX_LOCK_WASH", "time_sec": 0.7},
+            {"id": "FX_INTERCEPT", "time_sec": 3.5},
+            {"id": "FX_CUT_BLOOD", "time_sec": 6.8},
+            {"id": "FX_FINAL_STOP", "time_sec": 8.8}
+          ]
+        },
+        "summary": {
+          "duration_sec": 5.5,
+          "shot_ids": ["S00-LOCKS", "S00-FIRST-NINE", "S00-CUT-27", "S00-OPEN-PATH", "S00-FINAL"],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.0},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.1},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 2.5},
+            {"id": "SFX_SWORD_STOP", "time_sec": 4.3}
+          ]
+        },
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": [
@@ -104,8 +158,34 @@
         {"slot": 9, "role": "lee_yeon_reserve"}
       ],
       "playback": {
-        "full": {"duration_sec": 29, "shot_ids": ["S05-01", "S05-02", "S05-03", "S05-04", "S05-05", "S05-06", "S05-07", "S05-08", "S05-09", "S05-10"]},
-        "summary": {"duration_sec": 10, "shot_ids": ["S05-03", "S05-05", "S05-08", "S05-10"]},
+        "full": {
+          "duration_sec": 8.5,
+          "shot_ids": ["S05-LAMP", "S05-EYE-CUP", "S05-LOCK", "S05-INTERCEPT", "S05-PIN-STAIR", "S05-CIVILIAN", "S05-CONTROL", "S05-WIDE"],
+          "audio_cues": [
+            {"id": "SFX_LAMP_OUT", "time_sec": 0.0},
+            {"id": "SFX_CUP_DOWN", "time_sec": 0.8},
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 1.6, "pitch_scale": 0.72},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 2.4},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 3.2},
+            {"id": "SFX_SWORD_STOP", "time_sec": 5.3},
+            {"id": "SFX_SWORD_STOP", "time_sec": 7.0, "pitch_scale": 0.82}
+          ],
+          "vfx_cues": [
+            {"id": "FX_LAMP_OUT", "time_sec": 0.0},
+            {"id": "FX_INTERCEPT", "time_sec": 3.2},
+            {"id": "FX_FINAL_STOP", "time_sec": 7.0}
+          ]
+        },
+        "summary": {
+          "duration_sec": 5.0,
+          "shot_ids": ["S05-EYE-CUP", "S05-INTERCEPT", "S05-CIVILIAN", "S05-CONTROL", "S05-WIDE"],
+          "audio_cues": [
+            {"id": "SFX_CUP_DOWN", "time_sec": 0.0},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 0.8},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 1.6},
+            {"id": "SFX_SWORD_STOP", "time_sec": 3.8}
+          ]
+        },
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": []

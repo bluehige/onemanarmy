@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "sample_rate": 22050,
+  "scene_ambience": {
+    "S00": "AMB_RAIN_GORGE",
+    "S01": "AMB_RAIN_GORGE",
+    "S02": "AMB_RAIN_GORGE",
+    "S03": "AMB_RAIN_INN",
+    "S04": "AMB_RAIN_INN",
+    "S05": "AMB_RAIN_INN"
+  },
+  "cues": {
+    "AMB_RAIN_GORGE": {
+      "kind": "rain",
+      "duration": 2.4,
+      "sample_rate": 22050,
+      "gain": 0.34,
+      "volume_db": -7.0,
+      "seed": 1103,
+      "loop": true
+    },
+    "AMB_RAIN_INN": {
+      "kind": "rain",
+      "duration": 2.1,
+      "sample_rate": 22050,
+      "gain": 0.22,
+      "volume_db": -10.0,
+      "seed": 2207,
+      "loop": true
+    },
+    "SFX_SWORD_COFFIN_WHEEL": {
+      "kind": "wagon",
+      "duration": 1.25,
+      "gain": 0.58,
+      "seed": 301,
+      "volume_db": -3.0
+    },
+    "SFX_IRON_CHAIN_GRIP": {
+      "kind": "chain",
+      "mode": "grip",
+      "duration": 0.24,
+      "frequency": 1060.0,
+      "frequency_2": 1620.0,
+      "gain": 0.63,
+      "seed": 401
+    },
+    "SFX_IRON_CHAIN_PULL": {
+      "kind": "chain",
+      "mode": "pull",
+      "duration": 0.72,
+      "frequency": 690.0,
+      "frequency_2": 1210.0,
+      "gain": 0.55,
+      "seed": 409
+    },
+    "SFX_SWORD_COFFIN_LOCKS_12": {
+      "kind": "locks",
+      "duration": 1.08,
+      "pulse_count": 12,
+      "gain": 0.69,
+      "seed": 503
+    },
+    "SFX_SWORD_LAUNCH": {
+      "kind": "sword",
+      "mode": "launch",
+      "duration": 0.42,
+      "gain": 0.64,
+      "seed": 601
+    },
+    "SFX_SWORD_INTERCEPT": {
+      "kind": "sword",
+      "mode": "intercept",
+      "duration": 0.52,
+      "gain": 0.72,
+      "seed": 607
+    },
+    "SFX_SWORD_STOP": {
+      "kind": "sword",
+      "mode": "stop",
+      "duration": 0.31,
+      "gain": 0.61,
+      "seed": 613
+    },
+    "SFX_BLADE_RECALL": {
+      "kind": "sword",
+      "mode": "recall",
+      "duration": 0.58,
+      "gain": 0.59,
+      "seed": 617
+    },
+    "SFX_LAMP_OUT": {
+      "kind": "lamp",
+      "duration": 0.33,
+      "gain": 0.46,
+      "seed": 701
+    },
+    "SFX_CUP_DOWN": {
+      "kind": "impact",
+      "duration": 0.25,
+      "frequency": 318.0,
+      "decay": 19.0,
+      "gain": 0.58,
+      "seed": 809
+    },
+    "SFX_PAPER": {
+      "kind": "paper",
+      "duration": 0.64,
+      "gain": 0.41,
+      "seed": 907
+    },
+    "SFX_BOW_TENSION": {
+      "kind": "bow",
+      "duration": 0.92,
+      "gain": 0.53,
+      "seed": 1009
+    }
+  }
+}

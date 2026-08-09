@@ -77,7 +77,7 @@ state_output:
 ```yaml
 id: INT-HOLD-001
 prompt: "쇠사슬을 쥔다"
-duration: 1.8
+duration: 1.2
 input:
   mouse: left_hold
   keyboard: space_hold
