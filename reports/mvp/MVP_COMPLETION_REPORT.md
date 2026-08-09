@@ -1,5 +1,7 @@
 # CH01 MVP 완료 보고서
 
+> 최신 상태: CH01 리디자인 V2가 브랜치 `codex/ch01-redesign-v2`, 런타임 소스 `7c68fc4e2e622452ab704c0fd62dd1e5e1491510`에서 구현·자동 검증·Windows 패키징을 통과했다. 최신 산출물은 `build/windows/onemanarmy-ch01-redesign-v2.zip`, 검증 기록은 `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`다. E4 사람 평가는 여전히 `NOT_RUN`이다. 아래 내용은 이전 V1 고정 빌드의 이력으로 보존한다.
+
 ## 결과
 
 - 상태: **`COMPLETE` — 자동화된 CH01 MVP 종료 게이트 기준**

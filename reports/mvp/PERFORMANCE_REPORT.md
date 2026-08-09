@@ -1,5 +1,20 @@
 # CH01 MVP 성능 보고서
 
+## 2026-08-09 리디자인 V2 Forward+ fixture
+
+리디자인 V2 소스 `7c68fc4e2e622452ab704c0fd62dd1e5e1491510`에서 Vulkan Forward+로 108검 최중량 fixture를 다시 실행했다.
+
+| 조건 | 평균 프레임 | 관측 최대 | 환산 FPS | 검 / 검대 / 중복 | 결과 |
+|---|---:|---:|---:|---:|---|
+| VSync 기본 | 16.668 ms | 16.959 ms | 60.0 | 108 / 12 / 0 | `PASS` |
+| `--disable-vsync` | 0.099 ms | 0.395 ms | 10,133.4 | 108 / 12 / 0 | `PASS` |
+
+- 환경: Windows, NVIDIA GeForce RTX 5080, Vulkan 1.4.325, Forward+, 1920×1080 `SubViewport`
+- 표본: 180프레임, 노드 144, orphan 0, static memory 76,250,725 B
+- 두 실행 종료 표식: `HEAVIEST_SCENE_PERFORMANCE_TEST_PASS`
+
+이 결과는 개발 실행의 단일 108검 fixture만 증명한다. Windows release 전체 profiler, CPU/GPU 분리 시간, 1% low, 장시간 soak, 다른 GPU와 최소 사양은 계속 `NOT_RUN`이다. V2 전체 검증은 `CH01_REDESIGN_V2_VALIDATION.md`를 따른다.
+
 ## 판정
 
 - **108검 개발용 fixture:** `PASS`

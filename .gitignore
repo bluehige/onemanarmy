@@ -3,6 +3,14 @@
 .import/
 export/
 build/
+!build/
+build/*
+!build/windows/
+build/windows/*
+!build/windows/onemanarmy-ch01-mvp.zip
+!build/windows/onemanarmy-ch01-mvp.zip.sha256
+!build/windows/onemanarmy-ch01-redesign-v2.zip
+!build/windows/onemanarmy-ch01-redesign-v2.zip.sha256
 dist/
 *.tmp
 *.bak

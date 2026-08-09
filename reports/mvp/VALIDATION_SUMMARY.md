@@ -1,5 +1,7 @@
 # CH01 MVP 검증 요약
 
+> 최신 검증: 리디자인 V2는 `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`와 `reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json`을 따른다. V2 aggregate validation, Vulkan Forward+ 실제 렌더, Windows export·추출 smoke는 `PASS`이며 E4는 `NOT_RUN`이다. 아래 표와 수치는 이전 V1 빌드 이력이다.
+
 ## 최종 판정
 
 | 범위 | 판정 |
