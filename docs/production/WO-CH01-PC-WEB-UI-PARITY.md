@@ -1,13 +1,24 @@
 # WO-CH01-PC-WEB-UI-PARITY
 
 ```yaml
-status: OWNER_APPROVED_IMPLEMENTING
+status: IMPLEMENTED_VALIDATED_DEPLOYED_E4_PENDING
 date: 2026-08-10
 branch: codex/ch01-redesign-v2
 engine: Godot 4.6.3
 genre_contract: visual_novel
 owner_request: game-specific-ui-skill-and-pc-web-font-design-parity
 ```
+
+## 2026-08-10 release evidence
+
+- Runtime source: `07b2fc92d09ebae1da413fb81a73aba947eab087`; branch: `codex/ch01-redesign-v2`.
+- Engine and targets: Godot `4.6.3.stable.official.7d41c59c4`; Windows Forward+ and Web GL Compatibility.
+- `tools/run_validation.ps1`: `VALIDATION_ALL_PASS`; Windows PCK check: 114 files / `PASS`; exported Windows EXE headless smoke: exit `0`.
+- PC/Web 1280x720 capture parity: title `PASS` (mean error `0.00598663`, visible `0.02357313`); story `PASS` (mean error `0.00829525`, visible `0.03226020`).
+- Web: desktop 1280x720 canvas has no browser overlays; 844x390 touch title-to-story `PASS`; 393x659 portrait rotation overlay `PASS`.
+- Public deployment: [GitHub Pages workflow run 31377062188](https://github.com/bluehige/onemanarmy/actions/runs/31377062188) succeeded; [Pages build 07b2fc9](https://bluehige.github.io/onemanarmy/?build=07b2fc9) returned HTTP `200`.
+
+This record verifies PC/Web baseline and font synchronization only. It does **not** claim that the current generic UI aesthetic is approved or redesigned. Human E4, physical gamepad, long soak, and cross-GPU testing remain `NOT_RUN` / `PENDING`.
 
 ## Player-facing result
 

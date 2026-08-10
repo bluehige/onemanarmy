@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "build_id": "onemanarmy-ch01-redesign-v2",
-  "generated_at": "2026-08-09T15:14:43+09:00",
+  "generated_at": "2026-08-10T19:00:03+09:00",
   "branch": "codex/ch01-redesign-v2",
-  "runtime_source_commit": "7c68fc4e2e622452ab704c0fd62dd1e5e1491510",
+  "runtime_source_commit": "07b2fc92d09ebae1da413fb81a73aba947eab087",
   "engine": "Godot 4.6.3.stable.official.7d41c59c4",
   "export_preset": "Windows Desktop",
   "platform": "Windows x86_64",
@@ -15,8 +15,8 @@
     },
     "pck": {
       "package_path": "onemanarmy_ch01_redesign_v2.pck",
-      "bytes": 22360496,
-      "sha256": "F5835005400B52CD82E75D9CE8C5E907513F380EEBFC1D6F66B9024592857B8D"
+      "bytes": 29107508,
+      "sha256": "E92BEACA263D3A599FE7A52496237CAC9B7E3B3549CCE141CE778E066E820FD7"
     },
     "playtest_guide": {
       "package_path": "PLAYTEST_GUIDE.md",
@@ -30,22 +30,30 @@
     },
     "zip": {
       "repo_path": "build/windows/onemanarmy-ch01-redesign-v2.zip",
-      "bytes": 58288774,
-      "sha256": "2E260A6261B1D8EBB3737E593F2982D6B827B9E949C2573C5B8F7C48235FBC72",
+      "bytes": 65018685,
+      "sha256": "C4C938A794005C03A5516171951643DE7898A40A4080EB13998C2995F54888CA",
       "entry_count": 4
     },
     "sha256_sidecar": {
       "repo_path": "build/windows/onemanarmy-ch01-redesign-v2.zip.sha256",
       "bytes": 98,
-      "sha256": "AB39931C1F91FD07807C51BF25C482F8B33FF753B1BDAE6771F2999D18C2B219"
+      "sha256": "2232B119CCD0AFC7C80D956C3ED688313CB77BE77A0BCE0FCB0912DAF3986AAE"
     }
   },
   "verification": {
     "aggregate_validation": "PASS",
-    "forward_plus_render_capture": "PASS",
+    "windows_forward_plus_pck_check": "PASS (114 files)",
+    "windows_forward_plus_render_capture": "PASS",
     "zip_entry_and_hash_check": "PASS",
-    "extracted_headless_smoke_exit_code": 0,
-    "extracted_forward_plus_smoke_exit_code": 0,
+    "windows_exported_exe_headless_smoke_exit_code": 0,
+    "extracted_windows_exe_headless_smoke_exit_code": 0,
+    "pc_web_title_1280x720": "PASS (mean_error=0.00598663, visible=0.02357313)",
+    "pc_web_story_1280x720": "PASS (mean_error=0.00829525, visible=0.03226020)",
+    "web_desktop_canvas_1280x720": "PASS (browser overlays absent)",
+    "web_touch_844x390_title_to_story": "PASS",
+    "web_portrait_393x659_rotation_overlay": "PASS",
+    "github_pages_workflow": "PASS (run 31377062188)",
+    "github_pages_public_http": "PASS (HTTP 200)",
     "human_e4_playtest": "NOT_RUN",
     "physical_gamepad": "NOT_RUN",
     "release_profiler_and_long_soak": "NOT_RUN",
