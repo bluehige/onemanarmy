@@ -1,25 +1,29 @@
 # Current State
 
-- Date: 2026-08-09
-- Phase: `CH01_REDESIGN_V2_WEB_PREVIEW_DEPLOYED_E4_PENDING`
+- Date: 2026-08-10
+- Phase: `CH01_PC_WEB_PARITY_RELEASE_RECORDED_E4_PENDING`
 - Engine: Godot 4.6.3
 - Base branch: `codex/mvp-ch01-v1`
 - Implementation branch: `codex/ch01-redesign-v2`
 - Base commit: `604c1c624b8c536929f4b7863b428c272a567a26`
-- Runtime source commit: `7c68fc4e2e622452ab704c0fd62dd1e5e1491510`
-- Package record commit: `b8c49a27c5ec503bd79e3040f897c8eb42ab4ded`
+- Runtime source commit: `07b2fc92d09ebae1da413fb81a73aba947eab087`
+- Package record commit: `bde38fb4ce4b78ff88af96f62a5c6fab29825f42`
 - Build ID: `onemanarmy-ch01-redesign-v2`
 - Build ZIP: `build/windows/onemanarmy-ch01-redesign-v2.zip`
-- Build ZIP size: `58,288,774 bytes`
-- Build SHA-256: `2E260A6261B1D8EBB3737E593F2982D6B827B9E949C2573C5B8F7C48235FBC72`
+- Build ZIP size: `65,018,685 bytes`
+- Build SHA-256: `C4C938A794005C03A5516171951643DE7898A40A4080EB13998C2995F54888CA`
 - Automated aggregate validation: `PASS`
 - Vulkan Forward+ E2 capture: `PASS`
 - Windows export and extracted smoke: `PASS`
 - Product KEEP: `PENDING_E4`
 - Pull request: [#3](https://github.com/bluehige/onemanarmy/pull/3), `READY_FOR_REVIEW`
 - Web preview: <https://bluehige.github.io/onemanarmy/>
-- Web source commit: `351270193e760fc460d2730cc50954ab4b2fb5eb`
-- Web deploy run: [31306306418](https://github.com/bluehige/onemanarmy/actions/runs/31306306418), `PASS`
+- Web source commit: `07b2fc92d09ebae1da413fb81a73aba947eab087`
+- Web deploy run: [31377062188](https://github.com/bluehige/onemanarmy/actions/runs/31377062188), `PASS`
+
+## 2026-08-10 current release authority
+
+PC/Web baseline and bundled-font parity are recorded as `PASS` for runtime source `07b2fc92d09ebae1da413fb81a73aba947eab087`: aggregate validation passed, Windows Forward+ PCK (114 files) passed, Windows exported EXE headless smoke exited 0, PC/Web title and story captures passed at 1280x720, and the public Pages URL returned HTTP 200. The release does not approve or claim a redesign of the current generic UI aesthetic. Human E4, physical gamepad, long soak, and cross-GPU checks remain `NOT_RUN` / `PENDING`.
 
 ## Active owner decision
 
@@ -72,8 +76,8 @@ Web export에서 원본 CSV가 빠져 `CONTENT_LOAD_FAILED`가 나던 문제는 
 | 파일 | 크기 | SHA-256 |
 |---|---:|---|
 | EXE | 104,518,656 B | `FDA69AD440435BD93D7C0DFCC43F717BADD5E051F1B3A19D60AA281E526B8CAB` |
-| PCK | 22,360,496 B | `F5835005400B52CD82E75D9CE8C5E907513F380EEBFC1D6F66B9024592857B8D` |
-| ZIP | 58,288,774 B | `2E260A6261B1D8EBB3737E593F2982D6B827B9E949C2573C5B8F7C48235FBC72` |
+| PCK | 29,107,508 B | `E92BEACA263D3A599FE7A52496237CAC9B7E3B3549CCE141CE778E066E820FD7` |
+| ZIP | 65,018,685 B | `C4C938A794005C03A5516171951643DE7898A40A4080EB13998C2995F54888CA` |
 
 ZIP 안에는 EXE, PCK, `PLAYTEST_GUIDE.md`, `KNOWN_ISSUES.md`의 정확히 4개 엔트리가 있다. 상세 기록은 `reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json`을 따른다.
 
@@ -98,10 +102,10 @@ ZIP 안에는 EXE, PCK, `PLAYTEST_GUIDE.md`, `KNOWN_ISSUES.md`의 정확히 4개
 
 ## 다음 세션에서 먼저 읽을 것
 
-1. `.game-wiki/handoffs/HANDOFF-CH01-WEB-PREVIEW.md`
-2. `.game-wiki/handoffs/HANDOFF-CH01-REDESIGN-V2.md`
-3. `docs/production/WO-CH01-WEB-PREVIEW.md`
-4. `docs/production/WO-CH01-REDESIGN-V2.md`
+1. `.game-wiki/handoffs/HANDOFF-CH01-PC-WEB-UI-PARITY.md`
+2. `.game-wiki/handoffs/HANDOFF-CH01-WEB-PREVIEW.md`
+3. `.game-wiki/handoffs/HANDOFF-CH01-REDESIGN-V2.md`
+4. `docs/production/WO-CH01-PC-WEB-UI-PARITY.md`
 5. `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`
 6. `reports/mvp/CH01_REDESIGN_V2_KNOWN_ISSUES.md`
 7. `reports/mvp/CH01_REDESIGN_V2_PLAYTEST_GUIDE.md`
