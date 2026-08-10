@@ -93,6 +93,8 @@
 | 대화창, 선택, 포커스 UI, 결과, 접근성 | `onemanarmy-ui-ux` |
 | Godot 코드, 데이터, 시네마틱, 저장, 테스트 | `onemanarmy-godot-director` |
 
+`UI, UX, UI 수정, UI 개선, 레이아웃, 대화창, 선택지, 폰트, 타이포그래피, 가독성, 화면 깨짐, 웹 UI, PC UI, PC/Web 시각 일치` 요청은 표현이 짧더라도 항상 `onemanarmy-ui-ux`를 먼저 사용한다. 입력 의미가 바뀌면 `onemanarmy-interactive-vn-director`, 실제 Godot 구현이면 `onemanarmy-godot-director`를 이어서 사용한다.
+
 `전투`, `검진`, `전장`이라는 단어가 나와도 별도 지시가 없으면 **조작 가능한 전투가 아니라 비주얼 노블 시네마틱 장면**으로 해석한다.
 
 ## 구현 전 게이트

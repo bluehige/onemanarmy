@@ -69,12 +69,13 @@ func _capture_story_s00() -> void:
 	screen.show_scene("S00", "관천협")
 	screen.set_chapter_label("제1장 · 관천협")
 	screen.show_line({
-		"text_id": "CH01-S00-E2",
-		"speaker_name": "이연",
-		"text": "앞에 사람이 있군.",
+		"text_id": "CH01-S00-001",
+		"speaker_name": "",
+		"text": "금이 간 황동 코등이에 강진오 세 글자가 빗물 아래 드러났다.",
 	}, true)
 	await create_timer(0.40, true, false, true).timeout
 	await _save_capture(viewport, "e2_story_s00_1920x1080.png", LOGICAL_SIZE)
+	await _save_capture(viewport, "e2_story_s00_1280x720.png", HD_SIZE)
 	await _release_viewport(viewport)
 
 

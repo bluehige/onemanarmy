@@ -1,5 +1,6 @@
 .godot/
 .tools/
+.playwright-cli/
 .import/
 export/
 build/
@@ -13,6 +14,7 @@ build/windows/*
 !build/windows/onemanarmy-ch01-redesign-v2.zip.sha256
 dist/
 output/
+reports/**/*.png.import
 *.tmp
 *.bak
 .DS_Store

@@ -8,6 +8,7 @@ on:
       - docs/**
       - .game-wiki/**
       - reports/**
+      - build/**
   workflow_dispatch:
 
 permissions:

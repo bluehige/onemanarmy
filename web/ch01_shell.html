@@ -373,6 +373,13 @@ const engine = new Engine(GODOT_CONFIG);
 		touchHint.classList.remove('visible');
 	}
 
+	function enterGameSurface() {
+		hideTouchHint();
+		fullscreenButton.remove();
+		touchHint.remove();
+		setStatusMode('hidden');
+	}
+
 	if (matchMedia('(pointer: coarse)').matches) {
 		touchHint.classList.add('visible');
 		window.addEventListener('pointerdown', hideTouchHint, { once: true, passive: true });
@@ -428,9 +435,7 @@ const engine = new Engine(GODOT_CONFIG);
 					statusProgress.removeAttribute('max');
 				}
 			},
-		}).then(() => {
-			setStatusMode('hidden');
-		}, displayFailureNotice);
+		}).then(enterGameSurface, displayFailureNotice);
 	}
 }());
 		</script>

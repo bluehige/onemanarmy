@@ -19,10 +19,10 @@ Read in order:
 ## Current phase
 
 ```text
-VISUAL_NOVEL_CORE_RENORMALIZATION
+READ_FROM .game-wiki/current-state.md AND THE ACTIVE WORK ORDER
 ```
 
-The next product work is CH01 visual-novel integration, not a combat prototype or tactical UI.
+Do not retain a copied phase or branch in this router. The current state and an owner-approved active Work Order are authoritative. Regardless of phase, route this project as a visual novel rather than a combat prototype or tactical UI.
 
 ## Classification
 
@@ -80,7 +80,7 @@ router → story facts → formation-director → canonical art style → output
 route_packet:
   request_summary: ""
   visual_novel_contract_checked: true
-  current_phase: VISUAL_NOVEL_CORE_RENORMALIZATION
+  current_phase: "read from .game-wiki/current-state.md and active Work Order"
   selected_skills: []
   forbidden_expansion: []
   required_documents: []
