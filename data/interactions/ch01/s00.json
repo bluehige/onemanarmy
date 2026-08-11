@@ -10,7 +10,7 @@
       "type": "FOCUS_POINT",
       "prompt_key": "CH01-INT-S00-FOCUS-PROMPT",
       "emotional_purpose": "이연이 위협보다 먼저 사람과 명령 구조 중 무엇을 읽는지 체감한다.",
-      "expected_duration_sec": 6.0,
+      "expected_duration_sec": 3.0,
       "failure_state": null,
       "score": null,
       "timing_bonus": null,
@@ -29,8 +29,8 @@
       "required_selections": 1,
       "optional_more": false,
       "points": [
-        {"id": "refugees", "label_text_id": "CH01-INT-S00-FOCUS-REFUGEES"},
-        {"id": "commander", "label_text_id": "CH01-INT-S00-FOCUS-COMMANDER"}
+        {"id": "refugees", "label_text_id": "CH01-INT-S00-FOCUS-REFUGEES", "screen_position": [0.50, 0.60]},
+        {"id": "commander", "label_text_id": "CH01-INT-S00-FOCUS-COMMANDER", "screen_position": [0.76, 0.37]}
       ],
       "on_complete_event": "interaction_completed"
     },
@@ -40,7 +40,7 @@
       "type": "HOLD_INTENT",
       "prompt_key": "CH01-INT-S00-HOLD-PROMPT",
       "emotional_purpose": "선택한 뒤 쇠사슬을 쥐는 정적으로 이연의 결의를 체감한다.",
-      "expected_duration_sec": 1.8,
+      "expected_duration_sec": 1.2,
       "failure_state": null,
       "score": null,
       "timing_bonus": null,
@@ -63,7 +63,7 @@
       "type": "CHAIN_PULL",
       "prompt_key": "CH01-INT-S00-PULL-PROMPT",
       "emotional_purpose": "검관의 열두 잠금을 여는 물리적 감각으로 108검 전개를 시작한다.",
-      "expected_duration_sec": 2.0,
+      "expected_duration_sec": 0.9,
       "failure_state": null,
       "score": null,
       "timing_bonus": null,
@@ -87,7 +87,7 @@
       "type": "BLADE_RECALL",
       "prompt_key": "CH01-INT-S00-RECALL-PROMPT",
       "emotional_purpose": "이연이 전장을 떠나기 전에 백여덟 검을 끝까지 책임지는 태도를 체감한다.",
-      "expected_duration_sec": 12.0,
+      "expected_duration_sec": 2.8,
       "failure_state": null,
       "score": null,
       "timing_bonus": null,
@@ -101,9 +101,10 @@
       "alternative_input": "single_press_toggle_or_auto_complete",
       "replay_behavior": "auto_complete_or_skip",
       "resume_behavior": "preserve_progress",
-      "groups": [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
+      "groups": [36, 36, 27, 8, 1],
       "sword_count": 108,
       "last_blade_inspection": true,
+      "last_blade_label": "마지막 검 · 강진오",
       "visible_change": "검대 단위로 귀환하고 마지막 한 자루는 이연이 직접 회수한다.",
       "on_complete_event": "interaction_completed"
     }

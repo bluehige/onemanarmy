@@ -1,0 +1,138 @@
+name: Deploy CH01 Web Preview
+
+on:
+  push:
+    branches:
+      - codex/ch01-redesign-v2
+    paths-ignore:
+      - docs/**
+      - .game-wiki/**
+      - reports/**
+      - build/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-ch01-web-preview
+  cancel-in-progress: true
+
+env:
+  GODOT_RELEASE: 4.6.3-stable
+  GODOT_TEMPLATE_VERSION: 4.6.3.stable
+  GODOT_EDITOR_SHA256: d0bc2113065e481c9c2c2b2c37daa4e8be3fe9e27f0ab9ab0b6096e9a37907f3
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out preview branch
+        uses: actions/checkout@v4
+
+      - name: Restore Godot Web toolchain
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.local/bin/godot
+            ~/.local/share/godot/export_templates/${{ env.GODOT_TEMPLATE_VERSION }}/web_nothreads_release.zip
+          key: godot-${{ runner.os }}-${{ env.GODOT_RELEASE }}-web-nothreads-v1
+
+      - name: Install Godot editor and Web template
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          editor_url="https://github.com/godotengine/godot-builds/releases/download/${GODOT_RELEASE}/Godot_v${GODOT_RELEASE}_linux.x86_64.zip"
+          editor_zip="$RUNNER_TEMP/godot-linux.zip"
+          editor_dir="$RUNNER_TEMP/godot-linux"
+          template_dir="$HOME/.local/share/godot/export_templates/${GODOT_TEMPLATE_VERSION}"
+
+          mkdir -p "$HOME/.local/bin" "$editor_dir" "$template_dir"
+          curl --fail --location --retry 5 --retry-delay 2 "$editor_url" --output "$editor_zip"
+          echo "${GODOT_EDITOR_SHA256}  ${editor_zip}" | sha256sum --check --strict
+          unzip -q "$editor_zip" -d "$editor_dir"
+          install -m 0755 "$(find "$editor_dir" -maxdepth 1 -type f -name 'Godot_*linux.x86_64' -print -quit)" "$HOME/.local/bin/godot"
+
+          python3 -m pip install --disable-pip-version-check --no-cache-dir remotezip==0.12.3
+          python3 tools/web/install_godot_web_template.py --destination "$template_dir"
+
+      - name: Verify Godot Web toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          template="$HOME/.local/share/godot/export_templates/${GODOT_TEMPLATE_VERSION}/web_nothreads_release.zip"
+          chmod +x "$HOME/.local/bin/godot"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/godot" --version
+          test -s "$template"
+          echo "1446f79dc12f60ce5d244c39fb6628ec298337ca5c4f91a16491feea72aa1bc9  ${template}" | sha256sum --check --strict
+          test -s assets/fonts/NotoSansKR-VF.ttf
+          test -s assets/fonts/OFL.txt
+          test -s web/NotoSansKR-Shell.woff2
+
+      - name: Import project and export Web Preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          godot --headless --path "$GITHUB_WORKSPACE" --editor --quit \
+            --rendering-method gl_compatibility --rendering-driver opengl3
+          mkdir -p build/web
+          godot --headless --path "$GITHUB_WORKSPACE" \
+            --rendering-method gl_compatibility --rendering-driver opengl3 \
+            --export-release "Web Preview" build/web/index.html
+          install -m 0644 web/NotoSansKR-Shell.woff2 build/web/NotoSansKR-Shell.woff2
+
+      - name: Verify Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s build/web/index.html
+          test -s build/web/index.js
+          test -s build/web/index.wasm
+          test -s build/web/index.pck
+          test -s build/web/NotoSansKR-Shell.woff2
+          godot --headless --path tools/pck_inspector --script inspect.gd -- \
+            "--pack=$GITHUB_WORKSPACE/build/web/index.pck"
+          test -z "$(find build/web -type l -print -quit)"
+          grep -q '<html lang="ko">' build/web/index.html
+          grep -q '휴대폰을 가로로 돌려주세요' build/web/index.html
+          grep -q 'NotoSansKR-Shell.woff2' build/web/index.html
+          if grep -q '\$GODOT_' build/web/index.html; then
+            echo "Unresolved Godot shell placeholder found" >&2
+            exit 1
+          fi
+          : > build/web/.nojekyll
+          (
+            cd build/web
+            find . -maxdepth 1 -type f ! -name SHA256SUMS.txt -print0 \
+              | sort -z \
+              | xargs -0 sha256sum > SHA256SUMS.txt
+          )
+          find build/web -maxdepth 1 -type f -printf '%f %s bytes\n' | sort
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,5 +1,7 @@
 # CH01 MVP 검증 요약
 
+> 최신 검증: source `8df1feeba2642bc19599f97c74c67e71c83e33f7`의 V5 후보는 `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`와 `reports/mvp/BUILD_MANIFEST_CH01_REDESIGN_V2.json`을 따른다. 12 scenes/256 steps와 18개 경로, Windows/Web PCK 각 179파일, Windows 4-entry ZIP, Forward+/Compatibility GPU fixture, [Pages run 31494196219](https://github.com/bluehige/onemanarmy/actions/runs/31494196219)는 통과했다. 전체 draw calls는 목표 `≤40`보다 높은 49라 `PASS_WITH_WARNING`이며, E4는 `NOT_RUN`, 제품 `KEEP`은 `PENDING_E4`다. 아래 표와 수치는 이전 V1 빌드 이력이다.
+
 ## 최종 판정
 
 | 범위 | 판정 |

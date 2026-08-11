@@ -5,7 +5,7 @@
   "id": "S09",
   "route": "BRANCH_MERGE",
   "title_text_id": "CH01-UI-S09-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#s09--해-뜨기-전의-북문",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s09--네-번째-종의-북문",
   "steps": [
     {
       "id": "S09-001",
@@ -55,7 +55,23 @@
         {"id": "S09-003C", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-003C"}
       ]
     },
+    {"id": "S09-003D", "type": "narrate", "text_id": "CH01-S09-004"},
+    {"id": "S09-003E", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S09-005"},
+    {"id": "S09-003F", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-006"},
     {"id": "S09-004", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S09-DEPARTURE"},
+    {"id": "S09-004A", "type": "narrate", "text_id": "CH01-S09-007"},
+    {"id": "S09-004B", "type": "narrate", "text_id": "CH01-S09-008"},
+    {"id": "S09-004C", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S09-009"},
+    {"id": "S09-004D", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-010"},
+    {"id": "S09-004E", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S09-011"},
+    {"id": "S09-004F", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S09-012"},
+    {"id": "S09-004G", "type": "narrate", "text_id": "CH01-S09-013"},
+    {"id": "S09-005A", "type": "set_flag", "flag": "fourth_bell_north_gate_blocked", "operation": "set", "value": true},
+    {"id": "S09-005B", "type": "set_flag", "flag": "refugees_admitted_side_gate", "operation": "set", "value": true},
+    {"id": "S09-005C", "type": "set_flag", "flag": "sealed_wagons_inspected", "operation": "set", "value": true},
+    {"id": "S09-005D", "type": "set_flag", "flag": "correction_ledger_officially_received", "operation": "set", "value": true},
+    {"id": "S09-005E", "type": "set_flag", "flag": "kang_jino_record_restored", "operation": "set", "value": true},
+    {"id": "S09-005F", "type": "set_flag", "flag": "rogue_wagon_escaped", "operation": "set", "value": true},
     {"id": "S09-005", "type": "set_flag", "flag": "chapter_01_completed", "operation": "set", "value": true},
     {
       "id": "S09-006",

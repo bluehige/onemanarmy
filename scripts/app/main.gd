@@ -7,7 +7,11 @@ signal fatal_error_presented(payload: Dictionary)
 const CHAPTER_ID := "CH-MVP-001"
 const AUTOSAVE_SLOT_ID := "autosave"
 const MANUAL_SLOT_ID := "manual_01"
-const CINEMATIC_DURATION_SCALE := 0.05
+const CINEMATIC_DURATION_SCALE := 1.0
+const DESKTOP_CONTENT_SIZE := Vector2i(1920, 1080)
+const COMPACT_CONTENT_SIZE := Vector2i(1280, 720)
+const MIN_TOUCH_TARGET_PHYSICAL := 44.0
+const WEB_VIEWPORT_ENVIRONMENT_SCRIPT := "JSON.stringify({width:window.innerWidth,height:window.innerHeight})"
 
 const SPEAKER_NAMES := {
 	"bokchil": "복칠",
@@ -37,6 +41,7 @@ const SPEAKER_NAMES := {
 @onready var _consequence_screen: ConsequenceScreen = $UILayer/ConsequenceScreen
 @onready var _chapter_end_screen: ChapterEndScreen = $UILayer/ChapterEndScreen
 @onready var _settings_screen: SettingsScreen = $UILayer/SettingsScreen
+@onready var _runtime_audio: RuntimeAudioPlayer = $RuntimeAudioPlayer
 
 var _app_state: Node
 var _content_registry: Node
@@ -55,6 +60,73 @@ var _line_serial := 0
 var _auto_enabled := false
 var _skip_enabled := false
 var _last_error: Dictionary = {}
+var _compact_content_active := false
+
+
+func _enter_tree() -> void:
+	var root_window := get_tree().root
+	if not root_window.size_changed.is_connected(_on_root_window_size_changed):
+		root_window.size_changed.connect(_on_root_window_size_changed)
+	_apply_responsive_content_scale()
+
+
+func _exit_tree() -> void:
+	var root_window := get_tree().root
+	if root_window.size_changed.is_connected(_on_root_window_size_changed):
+		root_window.size_changed.disconnect(_on_root_window_size_changed)
+
+
+static func content_size_for_environment(
+	viewport_size: Vector2i
+) -> Vector2i:
+	if viewport_size.x <= viewport_size.y or viewport_size.x <= 0 or viewport_size.y <= 0:
+		return DESKTOP_CONTENT_SIZE
+	var desktop_scale := minf(
+		float(viewport_size.x) / float(DESKTOP_CONTENT_SIZE.x),
+		float(viewport_size.y) / float(DESKTOP_CONTENT_SIZE.y)
+	)
+	if desktop_scale * InkTheme.TOUCH_ROW_MIN < MIN_TOUCH_TARGET_PHYSICAL:
+		return COMPACT_CONTENT_SIZE
+	return DESKTOP_CONTENT_SIZE
+
+
+func is_compact_content_active() -> bool:
+	return _compact_content_active
+
+
+func _on_root_window_size_changed() -> void:
+	_apply_responsive_content_scale.call_deferred()
+
+
+func _apply_responsive_content_scale() -> void:
+	var root_window := get_tree().root
+	var viewport_size := root_window.size
+	if OS.has_feature("web"):
+		var environment := _read_web_viewport_environment()
+		viewport_size = Vector2i(
+			int(environment.get("width", viewport_size.x)),
+			int(environment.get("height", viewport_size.y))
+		)
+	var selected_size := content_size_for_environment(viewport_size)
+	if root_window.content_scale_size != selected_size:
+		root_window.content_scale_size = selected_size
+	_compact_content_active = selected_size == COMPACT_CONTENT_SIZE
+
+
+func _read_web_viewport_environment() -> Dictionary:
+	if not OS.has_feature("web"):
+		return {}
+	var json_value: Variant = JavaScriptBridge.eval(WEB_VIEWPORT_ENVIRONMENT_SCRIPT, true)
+	if not json_value is String:
+		return {}
+	var parsed: Variant = JSON.parse_string(json_value)
+	if not parsed is Dictionary:
+		return {}
+	var values := parsed as Dictionary
+	return {
+		"width": int(values.get("width", 0)),
+		"height": int(values.get("height", 0)),
+	}
 
 
 func _ready() -> void:
@@ -146,6 +218,7 @@ func return_to_title() -> void:
 	_chapter_end_screen.hide()
 	_settings_screen.hide()
 	_story_screen.hide()
+	_runtime_audio.stop_all()
 	_clear_fatal_error()
 	_title_screen.show()
 	_title_screen.configure(
@@ -251,6 +324,10 @@ func _connect_signals() -> void:
 	_cinematic_presenter.summary_requested.connect(_on_cinematic_summary_requested)
 	_cinematic_presenter.skip_requested.connect(_on_cinematic_skip_requested)
 	_cinematic_director.completed.connect(_on_cinematic_completed)
+	_cinematic_director.camera_cue_requested.connect(_on_cinematic_camera_cue_requested)
+	_cinematic_director.animation_cue_requested.connect(_on_cinematic_animation_cue_requested)
+	_cinematic_director.audio_cue_requested.connect(_on_cinematic_audio_cue_requested)
+	_cinematic_director.vfx_cue_requested.connect(_on_cinematic_vfx_cue_requested)
 	_consequence_screen.continued.connect(_on_consequence_continued)
 	_chapter_end_screen.replay_requested.connect(start_new_game)
 	_chapter_end_screen.title_requested.connect(return_to_title)
@@ -334,6 +411,9 @@ func _on_scene_changed(payload: Dictionary) -> void:
 	var scene: Dictionary = _content_registry.call("get_scene", scene_id)
 	var title := str(_content_registry.call("get_ko_text", str(scene.get("title_text_id", "")), ""))
 	_story_screen.show_scene(scene_id, title)
+	_runtime_audio.transition_scene_ambience(StringName(scene_id), {"restart": false})
+	if scene_id == "S00":
+		_runtime_audio.play_cue(&"SFX_SWORD_COFFIN_WHEEL", {"volume_db": -5.0})
 	var manifest: Dictionary = _content_registry.call("get_chapter_manifest", CHAPTER_ID)
 	_story_screen.set_chapter_label(
 		str(_content_registry.call("get_ko_text", str(manifest.get("chapter_title_text_id", "")), "第一章"))
@@ -349,6 +429,11 @@ func _on_line_requested(payload: Dictionary) -> void:
 	_active_line_was_seen = _global_id_seen("seen_text_ids", _active_line_id)
 	_active_line_marked_seen = _active_line_was_seen
 	var display_payload := payload.duplicate(true)
+	var text_id := str(display_payload.get("text_id", ""))
+	if text_id == "CH01-S04-009":
+		_runtime_audio.play_cue(&"SFX_PAPER")
+	elif text_id in ["CH01-S05-001A", "CH01-S05-001B"]:
+		_runtime_audio.play_cue(&"SFX_BOW_TENSION", {"volume_db": -4.0})
 	var speaker_id := str(display_payload.get("speaker_id", ""))
 	if not speaker_id.is_empty():
 		display_payload["speaker_name"] = str(SPEAKER_NAMES.get(speaker_id, speaker_id))
@@ -374,10 +459,18 @@ func _on_interaction_requested(payload: Dictionary) -> void:
 	_clear_line_state()
 	_title_screen.hide()
 	_story_screen.show()
+	_story_screen.set_interaction_mode(true)
 	_consequence_screen.hide()
 	_chapter_end_screen.hide()
 	_cinematic_presenter.dismiss()
 	var contract: Dictionary = payload.get("contract", {}).duplicate(true)
+	match str(contract.get("type", "")):
+		"HOLD_INTENT", "WEIGHTED_CONFIRM":
+			_runtime_audio.play_cue(&"SFX_IRON_CHAIN_GRIP")
+		"CHAIN_PULL":
+			_runtime_audio.play_cue(&"SFX_IRON_CHAIN_PULL")
+		"BLADE_RECALL":
+			_runtime_audio.play_cue(&"SFX_BLADE_RECALL")
 	var flags: Dictionary = get_runtime_snapshot().get("flags", {})
 	var route := str(flags.get("priority_choice", "")).to_upper()
 	var localized_points: Array = []
@@ -520,6 +613,35 @@ func _on_cinematic_completed(payload: Dictionary) -> void:
 	_story_screen.show()
 	var mode := "skip" if bool(payload.get("skipped", false)) else str(payload.get("mode", "full"))
 	_story_runtime.call("complete_cinematic", cinematic_id, mode)
+
+
+func _on_cinematic_camera_cue_requested(cue: Dictionary) -> void:
+	if _flow_state == "cinematic":
+		_cinematic_presenter.apply_camera_cue(cue)
+
+
+func _on_cinematic_animation_cue_requested(cue: Dictionary) -> void:
+	if _flow_state == "cinematic":
+		_cinematic_presenter.apply_animation_cue(cue)
+
+
+func _on_cinematic_audio_cue_requested(cue: Dictionary) -> void:
+	if _flow_state != "cinematic":
+		return
+	var cue_id := StringName(str(cue.get("id", cue.get("cue_id", ""))))
+	if cue_id.is_empty():
+		return
+	var options := {}
+	if cue.has("volume_db"):
+		options["volume_db"] = cue["volume_db"]
+	if cue.has("pitch_scale"):
+		options["pitch_scale"] = cue["pitch_scale"]
+	_runtime_audio.play_cue(cue_id, options)
+
+
+func _on_cinematic_vfx_cue_requested(cue: Dictionary) -> void:
+	if _flow_state == "cinematic":
+		_cinematic_presenter.apply_vfx_cue(cue)
 
 
 func _on_consequence_continued() -> void:

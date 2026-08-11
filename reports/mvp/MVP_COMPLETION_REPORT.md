@@ -1,5 +1,7 @@
 # CH01 MVP 완료 보고서
 
+> 최신 상태: CH01 V5 제한 레이어·검진 애니메이터·결정적 Hero CG 후보가 브랜치 `codex/ch01-redesign-v2`, 런타임 소스 `8df1feeba2642bc19599f97c74c67e71c83e33f7`에서 전체 자동 검증, Windows 패키징과 [GitHub Pages 배포](https://bluehige.github.io/onemanarmy/?build=8df1fee)를 통과했다. 최신 산출물은 `build/windows/onemanarmy-ch01-redesign-v2.zip`, 검증 기록은 `reports/mvp/CH01_REDESIGN_V2_VALIDATION.md`다. 실제 GPU 성능은 통과했지만 전체 draw calls는 목표 40보다 높은 49로 `PASS_WITH_WARNING`이며, E4 사람 평가는 `NOT_RUN`, 제품 `KEEP`은 `PENDING_E4`다. 아래 내용은 이전 V1 고정 빌드의 이력으로 보존한다.
+
 ## 결과
 
 - 상태: **`COMPLETE` — 자동화된 CH01 MVP 종료 게이트 기준**

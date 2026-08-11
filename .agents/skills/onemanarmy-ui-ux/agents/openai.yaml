@@ -1,0 +1,7 @@
+interface:
+  display_name: "One-Man Formation UI/UX"
+  short_description: "일인합격진 게임 UI·UX 수정과 PC·웹 시각 일치 검증"
+  default_prompt: "Use $onemanarmy-ui-ux to improve this game's UI while preserving PC and Web visual parity."
+
+policy:
+  allow_implicit_invocation: true

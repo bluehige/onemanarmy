@@ -22,6 +22,14 @@ func _run() -> void:
 		var text: String = screen.get_display_text()
 		_assert(route.to_lower() not in text.to_lower(), "Route result should use story language, not internal route IDs.")
 		_assert("검 회수 9 / 9" in text, "Every ending should show full nine-sword recall.")
+		match route:
+			"TRACK":
+				_assert("남은 빚: 다친 사람" in text, "Track ending should retain the people debt.")
+			"PROTECT":
+				_assert("남은 빚: 놓친 정보" in text, "Protect ending should retain the information debt.")
+				_assert("곽노삼과 복칠 무사" in text, "Protect ending must name the correct survivors.")
+			"LOCKDOWN":
+				_assert("남은 빚: 공개된 이름" in text, "Lockdown ending should retain the public-name debt.")
 		for forbidden in ["랭크", "경험치", "명성", "성공 등급"]:
 			_assert(forbidden not in text, "Chapter result should omit score language: %s" % forbidden)
 	screen.queue_free()

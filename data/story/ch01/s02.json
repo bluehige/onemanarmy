@@ -5,17 +5,35 @@
   "id": "S02",
   "route": "COMMON",
   "title_text_id": "CH01-UI-S02-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#s02--골목의-계약",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s02--지운-이름으로-산-계약",
   "steps": [
-    {"id": "S02-001", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-001"},
+    {
+      "id": "S02-001",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "cold_open_choice", "equals": "capture"},
+          "steps": [
+            {"id": "S02-001A", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-001A"}
+          ]
+        },
+        {
+          "when": {"flag": "cold_open_choice", "equals": "open_path"},
+          "steps": [
+            {"id": "S02-001B", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-001B"}
+          ]
+        }
+      ]
+    },
     {"id": "S02-002", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-002"},
     {"id": "S02-003", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-003"},
     {"id": "S02-004", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-004"},
     {"id": "S02-005", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-005"},
-    {"id": "S02-006", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-006"},
-    {"id": "S02-007", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-007"},
+    {"id": "S02-005A", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-005A"},
+    {"id": "S02-005B", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-005B"},
     {
-      "id": "S02-008",
+      "id": "S02-006",
       "type": "choice",
       "choice_id": "CH01-C02-QUESTION",
       "output_flag": "client_question",
@@ -26,45 +44,49 @@
       ]
     },
     {
-      "id": "S02-009",
+      "id": "S02-007",
       "type": "conditional",
       "mode": "first_match",
       "branches": [
         {
           "when": {"flag": "client_question", "equals": "faction"},
           "steps": [
-            {"id": "S02-009A-01", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-008A"},
-            {"id": "S02-009A-02", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-009A"},
-            {"id": "S02-009A-03", "type": "set_flag", "flag": "clue_faction_mark", "operation": "set", "value": true}
+            {"id": "S02-007A-01", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-008A"},
+            {"id": "S02-007A-02", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-009A"},
+            {"id": "S02-007A-03", "type": "set_flag", "flag": "clue_faction_mark", "operation": "set", "value": true}
           ]
         },
         {
           "when": {"flag": "client_question", "equals": "outside"},
           "steps": [
-            {"id": "S02-009B-01", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-008B"},
-            {"id": "S02-009B-02", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-009B"},
-            {"id": "S02-009B-03", "type": "set_flag", "flag": "clue_north_wagons", "operation": "set", "value": true}
+            {"id": "S02-007B-01", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-008B"},
+            {"id": "S02-007B-02", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-009B"},
+            {"id": "S02-007B-03", "type": "set_flag", "flag": "clue_north_wagons", "operation": "set", "value": true}
           ]
         },
         {
           "when": {"flag": "client_question", "equals": "why_lee_yeon"},
           "steps": [
-            {"id": "S02-009C-01", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-008C"},
-            {"id": "S02-009C-02", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-009C"},
-            {"id": "S02-009C-03", "type": "set_flag", "flag": "clue_lee_yeon_bait", "operation": "set", "value": true}
+            {"id": "S02-007C-01", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-008C"},
+            {"id": "S02-007C-02", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-009C"},
+            {"id": "S02-007C-03", "type": "set_flag", "flag": "clue_lee_yeon_bait", "operation": "set", "value": true}
           ]
         }
       ]
     },
-    {"id": "S02-010", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-010"},
-    {"id": "S02-011", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-011"},
-    {"id": "S02-012", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-012"},
-    {"id": "S02-013", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-013"},
-    {"id": "S02-014", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S02-014"},
-    {"id": "S02-015", "type": "set_flag", "flag": "north_gate_contract", "operation": "set", "value": true},
-    {"id": "S02-016", "type": "set_flag", "flag": "sealed_document_tube", "operation": "set", "value": true},
-    {"id": "S02-017", "type": "set_flag", "flag": "bronze_contract_token", "operation": "set", "value": true},
-    {"id": "S02-018", "type": "autosave", "save_id": "SAVE-CH01-002"},
-    {"id": "S02-019", "type": "jump", "target": "S03"}
+    {"id": "S02-008", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-010"},
+    {"id": "S02-009", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-011"},
+    {"id": "S02-010", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-012"},
+    {"id": "S02-010A", "type": "narrate", "text_id": "CH01-S02-013", "hero_cg_asset": "res://assets/art/ch01-v5/hero/CH01_CG_JO_MUNTAK_CONTRACT_v001.png"},
+    {"id": "S02-010B", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-014"},
+    {"id": "S02-011", "type": "set_flag", "flag": "north_gate_contract", "operation": "set", "value": true},
+    {"id": "S02-012", "type": "set_flag", "flag": "sealed_document_tube", "operation": "set", "value": true},
+    {"id": "S02-013", "type": "set_flag", "flag": "bronze_contract_token", "operation": "set", "value": true},
+    {"id": "S02-014", "type": "set_flag", "flag": "jo_complicity_revealed", "operation": "set", "value": true},
+    {"id": "S02-015", "type": "set_flag", "flag": "contract_payment", "operation": "set", "value": "correction_ledger_original"},
+    {"id": "S02-016", "type": "set_flag", "flag": "correction_ledger_intact", "operation": "set", "value": true},
+    {"id": "S02-016A", "type": "set_flag", "flag": "jo_muntak_dead", "operation": "set", "value": true},
+    {"id": "S02-017", "type": "autosave", "save_id": "SAVE-CH01-002"},
+    {"id": "S02-018", "type": "jump", "target": "S03"}
   ]
 }

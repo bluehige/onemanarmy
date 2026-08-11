@@ -423,12 +423,20 @@ func _execute_step(step: Dictionary) -> void:
 			_enter_scene(str(step.get("target", "")))
 		"end_chapter":
 			_ended = true
+			var next_title := _registry_text(str(step.get("next_title_text_id", "")))
+			var next_chapter := _registry_text(str(step.get("next_chapter_text_id", "")))
+			var next_label := next_title
+			if not next_chapter.is_empty():
+				next_label = "%s · %s" % [next_title, next_chapter] if not next_title.is_empty() else next_chapter
 			chapter_ended.emit(
 				{
 					"chapter_id": _chapter_id,
 					"scene_id": _scene_id,
 					"flags": _flags.duplicate(true),
 					"choices": _choices.duplicate(true),
+					"completion_title": _registry_text(str(step.get("completion_title_text_id", ""))),
+					"completion_subtitle": _registry_text(str(step.get("completion_subtitle_text_id", ""))),
+					"next_title": next_label,
 				}
 			)
 		_:

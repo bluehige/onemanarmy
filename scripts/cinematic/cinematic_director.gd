@@ -132,7 +132,9 @@ func switch_to_summary() -> bool:
 	if not _playing or _mode == MODE_SUMMARY or _mode == MODE_RESULT:
 		return false
 	_playback_serial += 1
-	_paused = false
+	if _paused:
+		_paused = false
+		pause_changed.emit(false)
 	_configure_mode(MODE_SUMMARY)
 	mode_changed.emit(_mode)
 	_emit_due_cues(0.0)
@@ -200,14 +202,22 @@ func _build_cues(mode_data: Dictionary) -> Array[Dictionary]:
 	if _duration_scale > 0.0:
 		unscaled_duration = _duration_sec / _duration_scale
 
+	var explicit_camera_cues: Variant = mode_data.get("camera_cues", [])
+	var has_explicit_camera_cues: bool = explicit_camera_cues is Array and not explicit_camera_cues.is_empty()
+	var authored_animation_cues: Variant = mode_data.get("animation_cues", [])
+	var animation_owns_visibility: bool = authored_animation_cues is Array and not authored_animation_cues.is_empty()
 	var shot_ids: Variant = mode_data.get("shot_ids", [])
-	if shot_ids is Array and not shot_ids.is_empty():
+	if not has_explicit_camera_cues and shot_ids is Array and not shot_ids.is_empty():
 		for shot_index in range(shot_ids.size()):
 			var shot_time := unscaled_duration * float(shot_index) / float(shot_ids.size())
 			built.append(
 				_prepare_cue(
 					&"camera",
-					{"shot_id": shot_ids[shot_index], "time_sec": shot_time}
+					{
+						"shot_id": shot_ids[shot_index],
+						"time_sec": shot_time,
+						"formation_animation_owned": animation_owns_visibility,
+					}
 				)
 			)
 
@@ -283,7 +293,26 @@ func _distributed_time(index: int, count: int, duration: float) -> float:
 
 
 func _cue_time_less(left: Dictionary, right: Dictionary) -> bool:
-	return float(left.get("time_sec", 0.0)) < float(right.get("time_sec", 0.0))
+	var left_time := float(left.get("time_sec", 0.0))
+	var right_time := float(right.get("time_sec", 0.0))
+	if not is_equal_approx(left_time, right_time):
+		return left_time < right_time
+	return _cue_kind_priority(StringName(left.get("kind", ""))) < _cue_kind_priority(
+		StringName(right.get("kind", ""))
+	)
+
+
+func _cue_kind_priority(kind: StringName) -> int:
+	match kind:
+		&"camera":
+			return 0
+		&"animation":
+			return 1
+		&"vfx":
+			return 2
+		&"audio":
+			return 3
+	return 4
 
 
 func _emit_due_cues(elapsed_sec: float) -> void:

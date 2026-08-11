@@ -11,6 +11,7 @@ var _registry: Node
 var _signal_counts: Dictionary = {}
 var _expected_error_code := ""
 var _observed_expected_error := false
+var _last_chapter_end_payload: Dictionary = {}
 
 
 func _init() -> void:
@@ -30,6 +31,7 @@ func _run() -> void:
 	_connect_signals()
 	_test_content_registry()
 	_test_all_ch01_paths()
+	_test_chapter_end_copy_contract()
 	_test_pending_snapshot_restore()
 	_test_cinematic_result_parity()
 	_test_infinite_loop_guard()
@@ -60,7 +62,7 @@ func _test_content_registry() -> void:
 	var scene_ids: Variant = _registry.call("get_scene_ids")
 	_assert(scene_ids is Array and scene_ids == EXPECTED_SCENES, "ContentRegistry should expose all 12 scenes.")
 	_assert(
-		str(_registry.call("get_ko_text", "CH01-S00-001", "")) == "비가 오면 쇠는 무거워진다.",
+		str(_registry.call("get_ko_text", "CH01-S00-001", "")) == "강호에는 백팔 자루의 검을 검관에 싣고 떠도는 사내가 있다는 소문이 있다.",
 		"Korean text lookup should preserve the canonical line."
 	)
 	_assert(
@@ -134,6 +136,27 @@ func _test_pending_snapshot_restore() -> void:
 	)
 	var final_state := _complete_active_path("OPEN_PATH", "OUTSIDE", "PROTECT", "full")
 	_assert_path_state(final_state, "OPEN_PATH", "OUTSIDE", "PROTECT")
+
+
+func _test_chapter_end_copy_contract() -> void:
+	_run_path("CAPTURE", "FACTION", "TRACK", "result")
+	_assert(
+		_last_chapter_end_payload.get("completion_title") == "제1장 완료",
+		"Chapter end should resolve the localized completion title."
+	)
+	_assert(
+		"강진오가 첫 번째로 돌아왔다" in str(_last_chapter_end_payload.get("completion_subtitle", "")),
+		"Chapter end should carry the first restored-name payoff."
+	)
+	_assert(
+		str(_last_chapter_end_payload.get("next_title", "")) == "다음 · 사라진 열두 번째 마차",
+		"Chapter end should resolve and combine the next-record labels."
+	)
+	var completion_flags: Dictionary = _last_chapter_end_payload.get("flags", {})
+	_assert(bool(completion_flags.get("fourth_bell_north_gate_blocked", false)), "S09 must fulfill the north-gate contract.")
+	_assert(bool(completion_flags.get("refugees_admitted_side_gate", false)), "S09 must admit refugees through the side gate.")
+	_assert(bool(completion_flags.get("sealed_wagons_inspected", false)), "S09 must begin individual wagon inspection.")
+	_assert(bool(completion_flags.get("kang_jino_record_restored", false)), "S09 must restore Kang Jino's official record.")
 
 
 func _test_cinematic_result_parity() -> void:
@@ -292,6 +315,45 @@ func _assert_path_state(state: Dictionary, cold_open: String, question: String, 
 		bool(flags.get("cold_open_commander_captured", false)) == (cold_open == "CAPTURE"),
 		"%s should match the S00 commander result." % label
 	)
+	_assert(flags.get("named_blade_owner_seen") == "kang_jino", "%s should remember Kang Jino's blade." % label)
+	_assert(
+		bool(flags.get("commander_dispatch_obtained", false)) == (cold_open == "CAPTURE"),
+		"%s should preserve the captured dispatch result." % label
+	)
+	_assert(
+		bool(flags.get("refugee_axle_broken", false)) == (cold_open == "CAPTURE"),
+		"%s should preserve the refugee axle cost." % label
+	)
+	_assert(
+		bool(flags.get("refugee_witness_present", false)) == (cold_open == "OPEN_PATH"),
+		"%s should preserve the refugee witness result." % label
+	)
+	_assert(
+		bool(flags.get("commander_warned_city", false)) == (cold_open == "OPEN_PATH"),
+		"%s should preserve the commander's warning result." % label
+	)
+	_assert(
+		flags.get("official_suspicion") == ("high" if cold_open == "CAPTURE" else "medium"),
+		"%s should preserve official suspicion severity." % label
+	)
+	_assert(
+		bool(flags.get("enemy_prepared_for_swords", false)) == (cold_open == "OPEN_PATH"),
+		"%s should preserve enemy preparation knowledge." % label
+	)
+	_assert(bool(flags.get("entry_record_created", false)), "%s should create Lee Yeon's entry record." % label)
+	_assert(bool(flags.get("jo_complicity_revealed", false)), "%s should reveal Jo Muntak's complicity." % label)
+	_assert(flags.get("contract_payment") == "correction_ledger_original", "%s should retain the real contract payment." % label)
+	_assert(bool(flags.get("correction_ledger_intact", false)), "%s should retain the correction original." % label)
+	_assert(bool(flags.get("inn_shelters_refugees", false)), "%s should preserve the inn's refugee shelter." % label)
+	_assert(bool(flags.get("gwak_accepts_known_risk", false)), "%s should preserve Gwak's accepted risk." % label)
+	_assert(bool(flags.get("bokchil_family_outside_north_gate", false)), "%s should preserve Bokchil's family stake." % label)
+	_assert(bool(flags.get("hongryeon_knows_ledger", false)), "%s should preserve the merchant's ledger knowledge." % label)
+	_assert(bool(flags.get("common_attack_suppressed", false)), "%s should suppress the common S05 attack." % label)
+	_assert(flags.get("evidence_integrity") == "threatened_but_intact", "%s should keep the original threatened but intact." % label)
+	_assert(bool(flags.get("people_debt_available", false)), "%s should retain the people debt." % label)
+	_assert(bool(flags.get("information_debt_available", false)), "%s should retain the information debt." % label)
+	_assert(bool(flags.get("public_name_debt_available", false)), "%s should retain the public-name debt." % label)
+	_assert(bool(flags.get("s06_priority_choice_unlocked", false)), "%s should unlock the S06 priority choice." % label)
 	_assert(
 		bool(flags.get("clue_faction_mark", false)) == (question == "FACTION"),
 		"%s should match the faction question clue." % label
@@ -328,6 +390,8 @@ func _assert_path_state(state: Dictionary, cold_open: String, question: String, 
 
 func _on_runtime_signal(_payload: Dictionary, signal_name: String) -> void:
 	_signal_counts[signal_name] = int(_signal_counts.get(signal_name, 0)) + 1
+	if signal_name == "chapter_ended":
+		_last_chapter_end_payload = _payload.duplicate(true)
 
 
 func _on_runtime_error(payload: Dictionary) -> void:

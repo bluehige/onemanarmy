@@ -27,6 +27,10 @@ window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
 
+[gui]
+
+theme/custom_font="res://assets/fonts/NotoSansKR-VF.ttf"
+
 [input]
 
 ui_confirm={
@@ -100,6 +104,13 @@ cinematic_skip={
 ]
 }
 
+[input_devices]
+
+pointing/emulate_mouse_from_touch=true
+pointing/emulate_touch_from_mouse=false
+
 [rendering]
 
 renderer/rendering_method="forward_plus"
+renderer/rendering_method.web="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

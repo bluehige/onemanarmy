@@ -5,11 +5,42 @@
   "id": "S05",
   "route": "COMMON",
   "title_text_id": "CH01-UI-S05-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#s05--객잔의-구검",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s05--이름을-회수하려는-자들",
   "steps": [
-    {"id": "S05-001", "type": "say", "speaker_id": "swordsman", "text_id": "CH01-S05-001"},
-    {"id": "S05-002", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S05-COMMON"},
+    {
+      "id": "S05-001",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
+          "when": {"flag": "cold_open_choice", "equals": "capture"},
+          "steps": [
+            {"id": "S05-001A", "type": "narrate", "text_id": "CH01-S05-001A"}
+          ]
+        },
+        {
+          "when": {"flag": "cold_open_choice", "equals": "open_path"},
+          "steps": [
+            {"id": "S05-001B", "type": "narrate", "text_id": "CH01-S05-001B"}
+          ]
+        }
+      ]
+    },
+    {"id": "S05-002", "type": "say", "speaker_id": "swordsman", "text_id": "CH01-S05-001"},
     {"id": "S05-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S05-002"},
-    {"id": "S05-004", "type": "jump", "target": "S06"}
+    {"id": "S05-004", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S05-COMMON"},
+    {"id": "S05-004A", "type": "narrate", "text_id": "CH01-S05-003A"},
+    {"id": "S05-004B", "type": "narrate", "text_id": "CH01-S05-003B"},
+    {"id": "S05-004C", "type": "narrate", "text_id": "CH01-S05-003C"},
+    {"id": "S05-004D", "type": "narrate", "text_id": "CH01-S05-004"},
+    {"id": "S05-004E", "type": "narrate", "text_id": "CH01-S05-005"},
+    {"id": "S05-005", "type": "narrate", "text_id": "CH01-S05-003"},
+    {"id": "S05-006", "type": "set_flag", "flag": "common_attack_suppressed", "operation": "set", "value": true},
+    {"id": "S05-007", "type": "set_flag", "flag": "evidence_integrity", "operation": "set", "value": "threatened_but_intact"},
+    {"id": "S05-008", "type": "set_flag", "flag": "people_debt_available", "operation": "set", "value": true},
+    {"id": "S05-009", "type": "set_flag", "flag": "information_debt_available", "operation": "set", "value": true},
+    {"id": "S05-010", "type": "set_flag", "flag": "public_name_debt_available", "operation": "set", "value": true},
+    {"id": "S05-011", "type": "set_flag", "flag": "s06_priority_choice_unlocked", "operation": "set", "value": true},
+    {"id": "S05-012", "type": "jump", "target": "S06"}
   ]
 }
