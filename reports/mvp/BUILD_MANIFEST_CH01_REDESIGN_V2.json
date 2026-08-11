@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "build_id": "onemanarmy-ch01-redesign-v2",
-  "generated_at": "2026-08-10T19:00:03+09:00",
+  "generated_at": "2026-08-11T17:36:31+09:00",
   "branch": "codex/ch01-redesign-v2",
-  "runtime_source_commit": "07b2fc92d09ebae1da413fb81a73aba947eab087",
+  "runtime_source_commit": "25f4d2148c7f4c299ae788dbc4f0fb75f01d80c5",
   "engine": "Godot 4.6.3.stable.official.7d41c59c4",
   "export_preset": "Windows Desktop",
   "platform": "Windows x86_64",
@@ -15,45 +15,43 @@
     },
     "pck": {
       "package_path": "onemanarmy_ch01_redesign_v2.pck",
-      "bytes": 29107508,
-      "sha256": "E92BEACA263D3A599FE7A52496237CAC9B7E3B3549CCE141CE778E066E820FD7"
+      "bytes": 40383624,
+      "sha256": "53F0274179DF144702F1639CA10700C5F78A46068F7B61FD847672B963F95A2E"
     },
     "playtest_guide": {
       "package_path": "PLAYTEST_GUIDE.md",
-      "bytes": 2425,
-      "sha256": "1F037D558B67280FE0D4CC6EF65128518E57D95EB11E6B8775BEEECA8EF671F5"
+      "bytes": 3136,
+      "sha256": "78E6933D85F5A880DF6FF7F0C9CAC77A457400F5C12A26AFC741246097989103"
     },
     "known_issues": {
       "package_path": "KNOWN_ISSUES.md",
-      "bytes": 1401,
-      "sha256": "83B09CD58619A94BBB3A94353A490A90C9CBF56D997FDED2C05BDE36E53FE4DD"
+      "bytes": 1571,
+      "sha256": "8A28233DD15BE8AECE8AA257539098203516994F51196C853C0F0D28EA035E9A"
     },
     "zip": {
       "repo_path": "build/windows/onemanarmy-ch01-redesign-v2.zip",
-      "bytes": 65018685,
-      "sha256": "C4C938A794005C03A5516171951643DE7898A40A4080EB13998C2995F54888CA",
+      "bytes": 76277684,
+      "sha256": "384C541D66575914D2F1F0893217D3F491AD240C51C6ED2F374A4AEA7EF2F2A2",
       "entry_count": 4
     },
     "sha256_sidecar": {
       "repo_path": "build/windows/onemanarmy-ch01-redesign-v2.zip.sha256",
-      "bytes": 98,
-      "sha256": "2232B119CCD0AFC7C80D956C3ED688313CB77BE77A0BCE0FCB0912DAF3986AAE"
+      "bytes": 99,
+      "sha256": "53A8CF0F04A3D82607401268D93D56D1903208F55EE1394E7D5642E880BAEACE"
     }
   },
   "verification": {
     "aggregate_validation": "PASS",
-    "windows_forward_plus_pck_check": "PASS (114 files)",
-    "windows_forward_plus_render_capture": "PASS",
+    "windows_forward_plus_pck_check": "PASS (102 export steps, V4 assets present)",
+    "windows_forward_plus_render_capture": "PASS (E2_CAPTURE_PASS: S00, north gate, three consequences)",
     "zip_entry_and_hash_check": "PASS",
     "windows_exported_exe_headless_smoke_exit_code": 0,
     "extracted_windows_exe_headless_smoke_exit_code": 0,
-    "pc_web_title_1280x720": "PASS (mean_error=0.00598663, visible=0.02357313)",
-    "pc_web_story_1280x720": "PASS (mean_error=0.00829525, visible=0.03226020)",
-    "web_desktop_canvas_1280x720": "PASS (browser overlays absent)",
-    "web_touch_844x390_title_to_story": "PASS",
-    "web_portrait_393x659_rotation_overlay": "PASS",
-    "github_pages_workflow": "PASS (run 31377062188)",
+    "pc_web_layout_font_baseline": "PASS (unchanged shared 1920x1080 logical canvas and Noto Sans KR source)",
+    "web_v4_release_export": "PASS (HTML, JS, WASM, PCK, WOFF2; V4 asset names present)",
+    "github_pages_workflow": "PASS (run 31473809822, source 25f4d2148c7f4c299ae788dbc4f0fb75f01d80c5)",
     "github_pages_public_http": "PASS (HTTP 200)",
+    "web_interactive_v4_human_session": "NOT_RUN",
     "human_e4_playtest": "NOT_RUN",
     "physical_gamepad": "NOT_RUN",
     "release_profiler_and_long_soak": "NOT_RUN",
