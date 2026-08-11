@@ -232,7 +232,7 @@ func _build_focus_points(context: Dictionary) -> void:
 		var point: Dictionary = points[index]
 		var button := FocusMarkerButton.new()
 		button.text = str(point.get("label", point.get("label_text", point.get("label_text_id", point.get("id", "")))))
-		button.custom_minimum_size = Vector2(238, 64)
+		button.custom_minimum_size = Vector2(238, InkTheme.TOUCH_ROW_MIN)
 		button.set_meta("focus_anchor", _point_anchor(point, index, points.size()))
 		_style_focus_marker(button)
 		button.pressed.connect(_complete.bind({"selection": str(point.get("id", "")), "mode": "focus"}))
@@ -248,19 +248,21 @@ func _build_hold_control() -> void:
 	_trace.name = "IntentTrace"
 	_trace.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	_trace.offset_left = -360
-	_trace.offset_top = -176
+	_trace.offset_top = -194
 	_trace.offset_right = 360
-	_trace.offset_bottom = -106
+	_trace.offset_bottom = -124
 	_trace.configure(str(_contract.get("type", "")))
 	_content.add_child(_trace)
 
 	_hold_button = Button.new()
+	_hold_button.name = "HoldControl"
 	_hold_button.text = "한 번 눌러 이어가기" if bool(_settings.get("hold_toggle", false)) else "누르고 있기"
 	_hold_button.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	_hold_button.offset_left = -220
-	_hold_button.offset_top = -102
+	_hold_button.offset_top = -120
 	_hold_button.offset_right = 220
 	_hold_button.offset_bottom = -38
+	_hold_button.custom_minimum_size = Vector2(440, InkTheme.TOUCH_ROW_MIN)
 	InkTheme.style_button(_hold_button, InkTheme.BLOOD if str(_contract.get("type", "")) == "WEIGHTED_CONFIRM" else InkTheme.FOCUS)
 	_hold_button.button_down.connect(_on_hold_down)
 	_hold_button.button_up.connect(_on_hold_up)
@@ -274,20 +276,22 @@ func _build_pull_control() -> void:
 	_trace.name = "ChainPullTrace"
 	_trace.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	_trace.offset_left = -360
-	_trace.offset_top = -176
+	_trace.offset_top = -190
 	_trace.offset_right = 360
-	_trace.offset_bottom = -106
+	_trace.offset_bottom = -120
 	_trace.configure("CHAIN_PULL")
 	_trace.set_ratio(0.72)
 	_content.add_child(_trace)
 
 	var pull := Button.new()
+	pull.name = "ChainPullControl"
 	pull.text = "쇠사슬을 당긴다  →"
 	pull.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	pull.offset_left = -260
-	pull.offset_top = -102
+	pull.offset_top = -116
 	pull.offset_right = 260
 	pull.offset_bottom = -34
+	pull.custom_minimum_size = Vector2(520, InkTheme.TOUCH_ROW_MIN)
 	InkTheme.style_button(pull)
 	pull.gui_input.connect(_on_pull_gui_input)
 	pull.pressed.connect(_complete.bind({"mode": "single_press"}))

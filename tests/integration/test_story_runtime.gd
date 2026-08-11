@@ -62,7 +62,7 @@ func _test_content_registry() -> void:
 	var scene_ids: Variant = _registry.call("get_scene_ids")
 	_assert(scene_ids is Array and scene_ids == EXPECTED_SCENES, "ContentRegistry should expose all 12 scenes.")
 	_assert(
-		str(_registry.call("get_ko_text", "CH01-S00-001", "")) == "검관 맨 뒤, 가장 낮은 잠금쇠에 한 자루가 비스듬히 고정돼 있었다. 금 간 황동 코등이에는 강진오 세 글자가 남아 있었다.",
+		str(_registry.call("get_ko_text", "CH01-S00-001", "")) == "강호에는 백팔 자루의 검을 검관에 싣고 떠도는 사내가 있다는 소문이 있다.",
 		"Korean text lookup should preserve the canonical line."
 	)
 	_assert(

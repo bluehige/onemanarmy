@@ -44,6 +44,7 @@ func _run() -> void:
 	await _test_all_eighteen_routes()
 	await _test_seen_skip_and_auto_timer()
 	await _test_continue_and_fatal_error()
+	await _test_s02_transient_hero()
 
 	_main.queue_free()
 	await process_frame
@@ -118,14 +119,52 @@ func _test_cinematic_controls() -> void:
 	var presenter := _main.get_node("UILayer/CinematicPresenter") as CinematicPresenter
 	presenter.pause_requested.emit()
 	_assert(_main.is_cinematic_paused(), "Cinematic pause intent should pause playback.")
-	presenter.pause_requested.emit()
-	_assert(not _main.is_cinematic_paused(), "A second pause intent should resume playback.")
 	presenter.summary_requested.emit()
 	_assert(_main.get_cinematic_mode() == "summary", "Summary intent should switch modes.")
+	_assert(not _main.is_cinematic_paused(), "Paused-to-summary transition must resume director playback.")
+	_assert(not presenter.is_paused(), "Paused-to-summary transition must synchronize presenter playback.")
+	await create_timer(0.42).timeout
+	_assert(
+		presenter.is_formation_motion_animating(),
+		"Paused-to-summary transition must resume formation animation."
+	)
+	presenter.call("_on_control_rail_hide_timeout")
+	await create_timer(0.25).timeout
+	_assert(not presenter.is_control_rail_visible(), "Resumed summary controls must be eligible to auto-hide.")
 	presenter.skip_requested.emit()
 	await process_frame
 	_assert(_main.get_flow_state() != "cinematic", "Skip intent should return narrative control.")
 	_assert(_global_values("seen_cinematic_ids").has("CIN-CH01-S00-CAPTURE"), "Completed cinematic should become globally seen.")
+
+
+func _test_s02_transient_hero() -> void:
+	_main.return_to_title()
+	_assert(_main.start_new_game(), "S02 Hero CG fixture should start CH01.")
+	var reached_hero := false
+	for _step in MAX_FLOW_STEPS:
+		if _main.get_flow_state() == "story" and _main.get_active_line_id() == "CH01-S02-013":
+			reached_hero = true
+			break
+		await _advance_current_flow("CAPTURE", "FACTION", "TRACK")
+	_assert(reached_hero, "Integrated flow must reach the S02 decisive-beat narration.")
+	if not reached_hero:
+		_main.return_to_title()
+		return
+	var story := _main.get_node("UILayer/StoryScreen") as StoryScreen
+	var compositor := story.get_node("ShotCompositor") as VNShotCompositor
+	var dialogue_panel := story.get_node("DialoguePanel") as PanelContainer
+	_assert(compositor.get_current_shot_id() == "SHOT-CH01-S02-CONTRACT", "S02 runtime must retain the layered contract shot.")
+	_assert(compositor.has_transient_hero(), "MainFlow must forward S02 hero_cg_asset to StoryScreen.")
+	var hero_layer := compositor.get_node("Layers/%s" % VNShotCompositor.TRANSIENT_HERO_LAYER_ID) as TextureRect
+	_assert(compositor.z_index + hero_layer.z_index < dialogue_panel.z_index, "Integrated S02 Hero CG must remain below dialogue UI.")
+
+	_main.advance_story()
+	await process_frame
+	_main.advance_story()
+	await process_frame
+	_assert(_main.get_active_line_id() == "CH01-S02-014", "S02 Hero narration must advance to Lee Yeon's next line.")
+	_assert(not compositor.has_transient_hero(), "The next non-Hero line must clear S02's transient CG in MainFlow.")
+	_main.return_to_title()
 
 
 func _test_pending_manual_save_restore() -> void:

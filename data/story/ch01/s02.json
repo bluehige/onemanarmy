@@ -77,7 +77,7 @@
     {"id": "S02-008", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-010"},
     {"id": "S02-009", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-011"},
     {"id": "S02-010", "type": "say", "speaker_id": "jo_muntak", "text_id": "CH01-S02-012"},
-    {"id": "S02-010A", "type": "narrate", "text_id": "CH01-S02-013"},
+    {"id": "S02-010A", "type": "narrate", "text_id": "CH01-S02-013", "hero_cg_asset": "res://assets/art/ch01-v5/hero/CH01_CG_JO_MUNTAK_CONTRACT_v001.png"},
     {"id": "S02-010B", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S02-014"},
     {"id": "S02-011", "type": "set_flag", "flag": "north_gate_contract", "operation": "set", "value": true},
     {"id": "S02-012", "type": "set_flag", "flag": "sealed_document_tube", "operation": "set", "value": true},

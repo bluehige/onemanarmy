@@ -11,8 +11,10 @@ signal load_requested
 signal settings_requested
 
 const VisualCatalog := preload("res://scripts/data/ch01_visual_catalog.gd")
+const ShotCompositor := preload("res://scripts/ui/vn_shot_compositor.gd")
+const SHOT_COMPOSITOR_Z := -10
 
-var _background: TextureRect
+var _shot_compositor: VNShotCompositor
 var _scene_wash: ColorRect
 var _location_label: Label
 var _chapter_label: Label
@@ -25,6 +27,8 @@ var _log_overlay: PanelContainer
 var _log_text: RichTextLabel
 var _auto_button: Button
 var _skip_button: Button
+var _more_button: Button
+var _utility_tray: PanelContainer
 var _typing := false
 var _characters_per_second := 42.0
 var _visible_characters_float := 0.0
@@ -42,6 +46,8 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	_build_interface()
+	resized.connect(_apply_responsive_layout)
+	_apply_responsive_layout()
 
 
 func _process(delta: float) -> void:
@@ -56,7 +62,10 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or _log_overlay.visible:
 		return
-	if event.is_action_pressed("open_log"):
+	if _utility_tray.visible and event.is_action_pressed("ui_cancel"):
+		_set_utility_tray_visible(false, true)
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("open_log"):
 		show_log()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("toggle_auto"):
@@ -96,11 +105,8 @@ func _handle_pointer_advance(event: InputEvent) -> void:
 func show_scene(scene_id: String, title: String = "", texture_path: String = "") -> void:
 	_current_scene_id = scene_id
 	var visual: Dictionary = _visual_catalog.scene_visual(scene_id)
-	var selected_path := texture_path
-	if selected_path.is_empty():
-		selected_path = str(visual.get("resolved_background", ""))
-	if ResourceLoader.exists(selected_path):
-		_background.texture = load(selected_path)
+	var shot: Dictionary = _visual_catalog.scene_shot(scene_id)
+	_shot_compositor.present_shot(shot, texture_path)
 	_location_label.text = title
 	_location_label.visible = not title.is_empty()
 	_scene_wash.color = _wash_for_visual(visual)
@@ -114,7 +120,14 @@ func set_chapter_label(text: String) -> void:
 
 
 func show_line(payload: Dictionary, instant: bool = false) -> void:
+	_set_utility_tray_visible(false)
 	clear_choices()
+	var hero_cg_asset := str(payload.get("hero_cg_asset", ""))
+	if hero_cg_asset.is_empty():
+		_shot_compositor.clear_transient_hero()
+	else:
+		_shot_compositor.show_transient_hero(hero_cg_asset)
+	_shot_compositor.set_active_speaker(str(payload.get("speaker_id", "")))
 	_current_text_id = str(payload.get("text_id", ""))
 	_current_text = str(payload.get("text", payload.get("localized_text", "")))
 	_speaker_label.text = str(payload.get("speaker_name", payload.get("speaker_id", "")))
@@ -129,6 +142,7 @@ func show_line(payload: Dictionary, instant: bool = false) -> void:
 
 
 func show_choices(payload: Dictionary) -> void:
+	_set_utility_tray_visible(false)
 	clear_choices()
 	_dialogue_panel.visible = false
 	_progress_label.modulate.a = 0.0
@@ -141,7 +155,7 @@ func show_choices(payload: Dictionary) -> void:
 		button.text = label if description.is_empty() else "%s\n%s" % [label, description]
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		button.custom_minimum_size = Vector2(590, 78)
+		button.custom_minimum_size = Vector2(590, InkTheme.TOUCH_ROW_MIN)
 		InkTheme.style_button(button)
 		var option_id := str(option.get("id", ""))
 		var value: Variant = option.get("value", option_id)
@@ -198,6 +212,7 @@ func set_skip_enabled(enabled: bool) -> void:
 
 
 func show_log() -> void:
+	_set_utility_tray_visible(false)
 	_log_text.text = "\n\n".join(_log_entries)
 	_log_overlay.visible = true
 	log_requested.emit()
@@ -205,6 +220,7 @@ func show_log() -> void:
 
 func hide_log() -> void:
 	_log_overlay.visible = false
+	_more_button.grab_focus()
 
 
 func get_log_entries() -> Array[String]:
@@ -223,18 +239,17 @@ func get_dialogue_height_ratio() -> float:
 
 func set_interaction_mode(enabled: bool) -> void:
 	if enabled:
+		_set_utility_tray_visible(false)
 		_dialogue_panel.hide()
 		clear_choices()
 
 
 func _build_interface() -> void:
-	_background = TextureRect.new()
-	_background.name = "Background"
-	_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-	_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_background)
+	_shot_compositor = ShotCompositor.new()
+	_shot_compositor.name = "ShotCompositor"
+	_shot_compositor.z_index = SHOT_COMPOSITOR_Z
+	_shot_compositor.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	add_child(_shot_compositor)
 
 	_scene_wash = ColorRect.new()
 	_scene_wash.name = "SceneWash"
@@ -284,7 +299,7 @@ func _build_interface() -> void:
 	_dialogue_panel.offset_top = -266
 	_dialogue_panel.offset_right = -54
 	_dialogue_panel.offset_bottom = -22
-	_dialogue_panel.add_theme_stylebox_override("panel", InkTheme.panel_style(0.92, InkTheme.INK))
+	_dialogue_panel.add_theme_stylebox_override("panel", InkTheme.dialogue_style())
 	_dialogue_panel.gui_input.connect(_handle_pointer_advance)
 	add_child(_dialogue_panel)
 
@@ -293,7 +308,7 @@ func _build_interface() -> void:
 	_dialogue_panel.add_child(dialogue_stack)
 	_speaker_label = Label.new()
 	_speaker_label.add_theme_font_size_override("font_size", 24)
-	_speaker_label.add_theme_color_override("font_color", InkTheme.BLOOD)
+	_speaker_label.add_theme_color_override("font_color", InkTheme.PAPER_LIGHT)
 	dialogue_stack.add_child(_speaker_label)
 	_body_label = RichTextLabel.new()
 	_body_label.name = "Body"
@@ -303,26 +318,60 @@ func _build_interface() -> void:
 	_body_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_body_label.custom_minimum_size.y = 86
 	_body_label.add_theme_font_size_override("normal_font_size", 28)
-	_body_label.add_theme_color_override("default_color", InkTheme.INK)
+	_body_label.add_theme_color_override("default_color", InkTheme.PAPER_LIGHT)
 	dialogue_stack.add_child(_body_label)
 
 	var toolbar := HBoxContainer.new()
+	toolbar.name = "UtilityRail"
 	toolbar.alignment = BoxContainer.ALIGNMENT_END
 	toolbar.add_theme_constant_override("separation", 8)
 	dialogue_stack.add_child(toolbar)
-	_add_toolbar_button(toolbar, "기록", show_log)
-	_auto_button = _add_toolbar_button(toolbar, "자동", func() -> void: set_auto_enabled(not _auto_enabled))
-	_skip_button = _add_toolbar_button(toolbar, "스킵", func() -> void: set_skip_enabled(not _skip_enabled))
-	_add_toolbar_button(toolbar, "저장", func() -> void: save_requested.emit())
-	_add_toolbar_button(toolbar, "불러오기", func() -> void: load_requested.emit())
-	_add_toolbar_button(toolbar, "설정", func() -> void: settings_requested.emit())
+	var toolbar_spacer := Control.new()
+	toolbar_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	toolbar.add_child(toolbar_spacer)
+	_more_button = Button.new()
+	_more_button.name = "MoreActions"
+	_more_button.text = "더보기"
+	_more_button.tooltip_text = "기록, 자동, 스킵, 저장, 불러오기, 설정"
+	_style_text_rail_button(_more_button)
+	_more_button.custom_minimum_size = Vector2(116, InkTheme.TOUCH_ROW_MIN)
+	_more_button.add_theme_font_size_override("font_size", 18)
+	_more_button.toggle_mode = true
+	_more_button.pressed.connect(_toggle_utility_tray)
+	toolbar.add_child(_more_button)
 	_progress_label = Label.new()
 	_progress_label.text = "  ◆"
-	_progress_label.add_theme_color_override("font_color", InkTheme.BLOOD)
+	_progress_label.add_theme_color_override("font_color", InkTheme.PAPER_LIGHT)
 	_progress_label.add_theme_font_size_override("font_size", 18)
 	toolbar.add_child(_progress_label)
 
+	_build_utility_tray()
 	_build_log_overlay()
+
+
+func _build_utility_tray() -> void:
+	_utility_tray = PanelContainer.new()
+	_utility_tray.name = "UtilityTray"
+	_utility_tray.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_utility_tray.offset_left = -720
+	_utility_tray.offset_top = -396
+	_utility_tray.offset_right = -54
+	_utility_tray.offset_bottom = -278
+	_utility_tray.add_theme_stylebox_override("panel", InkTheme.utility_tray_style())
+	_utility_tray.visible = false
+	add_child(_utility_tray)
+
+	var actions := HBoxContainer.new()
+	actions.name = "Actions"
+	actions.alignment = BoxContainer.ALIGNMENT_END
+	actions.add_theme_constant_override("separation", 4)
+	_utility_tray.add_child(actions)
+	_add_utility_button(actions, "기록", show_log)
+	_auto_button = _add_utility_button(actions, "자동", func() -> void: set_auto_enabled(not _auto_enabled))
+	_skip_button = _add_utility_button(actions, "스킵", func() -> void: set_skip_enabled(not _skip_enabled))
+	_add_utility_button(actions, "저장", func() -> void: save_requested.emit())
+	_add_utility_button(actions, "불러오기", func() -> void: load_requested.emit())
+	_add_utility_button(actions, "설정", func() -> void: settings_requested.emit())
 
 
 func _build_log_overlay() -> void:
@@ -351,20 +400,82 @@ func _build_log_overlay() -> void:
 	stack.add_child(_log_text)
 	var close := Button.new()
 	close.text = "돌아가기"
+	close.custom_minimum_size.y = InkTheme.TOUCH_ROW_MIN
 	InkTheme.style_button(close, InkTheme.BLOOD)
 	close.pressed.connect(hide_log)
 	stack.add_child(close)
 
 
-func _add_toolbar_button(parent: Control, text: String, callback: Callable) -> Button:
+func _apply_responsive_layout() -> void:
+	if _body_label == null or _log_text == null:
+		return
+	var compact := size.x <= 1280.5 and size.y <= 720.5
+	_body_label.custom_minimum_size.y = 58 if compact else 86
+	_log_text.custom_minimum_size.y = 300 if compact else 720
+	_log_overlay.offset_left = 54 if compact else 110
+	_log_overlay.offset_top = 30 if compact else 72
+	_log_overlay.offset_right = -54 if compact else -110
+	_log_overlay.offset_bottom = -30 if compact else -72
+
+
+func _add_utility_button(parent: Control, text: String, callback: Callable) -> Button:
 	var button := Button.new()
+	button.name = text
 	button.text = text
-	InkTheme.style_small_button(button)
-	button.custom_minimum_size = Vector2(72, 34)
-	button.add_theme_font_size_override("font_size", 15)
+	_style_text_rail_button(button)
+	button.custom_minimum_size = Vector2(102, InkTheme.TOUCH_ROW_MIN)
+	button.add_theme_font_size_override("font_size", 18)
 	button.pressed.connect(callback)
 	parent.add_child(button)
 	return button
+
+
+func _style_text_rail_button(button: Button) -> void:
+	button.add_theme_color_override("font_color", Color(InkTheme.PAPER_LIGHT, 0.88))
+	button.add_theme_color_override("font_hover_color", InkTheme.PAPER_LIGHT)
+	button.add_theme_color_override("font_pressed_color", InkTheme.PAPER_LIGHT)
+	button.add_theme_color_override("font_focus_color", InkTheme.INK)
+	button.add_theme_stylebox_override("normal", _text_rail_style(Color(InkTheme.PAPER, 0.0), Color(InkTheme.INK, 0.0), 0))
+	button.add_theme_stylebox_override("hover", _text_rail_style(Color(InkTheme.PAPER_LIGHT, 0.14), InkTheme.FOCUS, 1))
+	button.add_theme_stylebox_override("pressed", _text_rail_style(InkTheme.INK_SOFT, InkTheme.BLOOD, 2))
+	button.add_theme_stylebox_override("focus", _text_rail_style(Color(InkTheme.PAPER_LIGHT, 0.88), InkTheme.FOCUS, 2))
+
+
+func _text_rail_style(background: Color, border: Color, border_width: int) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.border_color = border
+	style.set_border_width_all(border_width)
+	style.corner_radius_top_left = 1
+	style.corner_radius_top_right = 1
+	style.corner_radius_bottom_left = 1
+	style.corner_radius_bottom_right = 1
+	style.content_margin_left = 14.0
+	style.content_margin_right = 14.0
+	style.content_margin_top = 10.0
+	style.content_margin_bottom = 10.0
+	return style
+
+
+func _toggle_utility_tray() -> void:
+	_set_utility_tray_visible(not _utility_tray.visible, true)
+
+
+func _set_utility_tray_visible(is_visible: bool, move_focus: bool = false) -> void:
+	if _utility_tray == null or _more_button == null:
+		return
+	_utility_tray.visible = is_visible
+	_more_button.text = "닫기" if is_visible else "더보기"
+	_more_button.set_pressed_no_signal(is_visible)
+	if not move_focus:
+		return
+	if is_visible:
+		var first_action := _utility_tray.get_node_or_null("Actions/기록") as Control
+		if first_action == null:
+			first_action = _utility_tray.get_node("Actions").get_child(0) as Control
+		first_action.grab_focus()
+	else:
+		_more_button.grab_focus()
 
 
 func _on_choice_pressed(option_id: String, value: Variant) -> void:

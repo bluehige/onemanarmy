@@ -13,6 +13,9 @@ var _completed_payloads: Array[Dictionary] = []
 var _camera_cue_count := 0
 var _audio_cue_count := 0
 var _vfx_cue_count := 0
+var _camera_cues: Array[Dictionary] = []
+var _animation_cues: Array[Dictionary] = []
+var _pause_states: Array[bool] = []
 
 
 func _ready() -> void:
@@ -23,6 +26,7 @@ func _run() -> void:
 	await get_tree().process_frame
 	_test_formation_counts_and_slots()
 	await _test_cinematic_modes_and_result_parity()
+	await _test_s09_authored_chronology()
 	_finish()
 
 
@@ -61,6 +65,12 @@ func _test_formation_counts_and_slots() -> void:
 			"Squad %d must contain exactly nine swords." % (squad_index + 1)
 		)
 	_assert_unique_slot_keys(formation.get_slot_records(), 108)
+	_assert(formation.get_body_batch_count() == 1, "All 108 sword bodies must use one render batch.")
+	_assert(
+		formation.get_batched_instance_count() == 108,
+		"The body MultiMesh must contain exactly 108 visible-capable instances."
+	)
+	_assert(formation.get_trail_pool_size() == 12, "Formation motion must reuse twelve authored trails.")
 
 	var roles: Array = formation.get_squad_roles()
 	var unique_roles: Dictionary = {}
@@ -86,6 +96,83 @@ func _test_formation_counts_and_slots() -> void:
 		snapshot.get("uses_physics_resolution") == false,
 		"Formation must not use physics to decide story results."
 	)
+	_assert(
+		snapshot.get("body_renderer") == "MultiMeshInstance2D",
+		"Formation snapshot must identify the Compatibility-safe body renderer."
+	)
+
+	formation.apply_settings({
+		"motion_reduction": false,
+		"flash_reduction": false,
+		"blade_trail_intensity": 1.0,
+	})
+	formation.play_motion_phase("anticipation", {"visible_blades": 108, "duration_sec": 0.0})
+	var anticipation_position: Vector2 = formation.get_rendered_instance_transform(0).origin
+	formation.play_motion_phase("curved_flight", {"visible_blades": 108, "duration_sec": 0.0})
+	var curved_position: Vector2 = formation.get_rendered_instance_transform(0).origin
+	_assert(formation.get_active_trail_count() == 12, "Full curved flight must activate twelve pooled trails.")
+	formation.trigger_local_impact({"id": "FX_INTERCEPT", "squad_index": 0})
+	_assert(
+		formation.get_last_local_effect_position().distance_to(curved_position) < 120.0,
+		"Local VFX must follow the squad's current flight position instead of its future lock point."
+	)
+	formation.play_motion_phase("acceleration", {"visible_blades": 108, "duration_sec": 0.0})
+	var accelerated_position: Vector2 = formation.get_rendered_instance_transform(0).origin
+	formation.play_motion_phase("impact", {"visible_blades": 108, "duration_sec": 0.0})
+	var impact_position: Vector2 = formation.get_rendered_instance_transform(0).origin
+	var normal_impact_alpha: float = formation.get_peak_local_effect_alpha()
+	formation.play_motion_phase("aftermath", {"visible_blades": 108, "duration_sec": 0.0})
+	var aftermath_position: Vector2 = formation.get_rendered_instance_transform(0).origin
+	var final_position: Vector2 = formation.get_slot_records()[0].get("position", Vector2.ZERO)
+	_assert(anticipation_position != curved_position, "Anticipation and curved flight must occupy different positions.")
+	_assert(
+		curved_position.distance_to(final_position) > accelerated_position.distance_to(final_position),
+		"Acceleration must move a sword closer to its authored lock point."
+	)
+	_assert(
+		impact_position.distance_to(final_position) <= 0.01 and aftermath_position.distance_to(final_position) <= 0.01,
+		"Impact and aftermath must settle on the authored final slot."
+	)
+	_assert(
+		formation.get_motion_phase_history() == [
+			&"anticipation", &"curved_flight", &"acceleration", &"impact", &"aftermath"
+		],
+		"A sword-action beat must expose the approved five-phase grammar."
+	)
+	formation.apply_settings({
+		"motion_reduction": false,
+		"flash_reduction": false,
+		"blade_trail_intensity": 0.0,
+	})
+	formation.play_motion_phase("curved_flight", {"visible_blades": 108, "duration_sec": 0.0})
+	_assert(formation.get_active_trail_count() == 0, "Zero trail intensity must remove trail output.")
+	formation.apply_settings({
+		"motion_reduction": true,
+		"flash_reduction": true,
+		"blade_trail_intensity": 1.0,
+	})
+	formation.play_motion_phase("acceleration", {"visible_blades": 108, "duration_sec": 0.4})
+	_assert(not formation.is_motion_animating(), "Motion reduction must avoid continuous formation animation.")
+	_assert(formation.get_active_trail_count() == 0, "Motion reduction must remove moving sword trails.")
+	formation.trigger_local_impact({"id": "FX_FINAL_STOP"})
+	_assert(
+		formation.get_peak_local_effect_alpha() < normal_impact_alpha,
+		"Flash reduction must lower the actual local impact peak."
+	)
+	formation.set_profile("canyon_capture")
+	formation.build_formation(12)
+	var capture_bounds := _horizontal_slot_bounds(formation.get_slot_records())
+	_assert(
+		capture_bounds.x >= -360.0 and capture_bounds.y <= 500.0,
+		"Canyon capture squads must stay in the road/air corridor instead of crossing human silhouettes."
+	)
+	formation.set_profile("north_gate_lock")
+	formation.build_formation(12)
+	var gate_bounds := _horizontal_slot_bounds(formation.get_slot_records())
+	_assert(
+		gate_bounds.x >= -360.0 and gate_bounds.y <= 360.0,
+		"North-gate lock squads must stay on the door frame and preserve the character-clear corridor."
+	)
 	formation.queue_free()
 
 
@@ -96,6 +183,7 @@ func _test_cinematic_modes_and_result_parity() -> void:
 	_cinematic_director.camera_cue_requested.connect(_on_camera_cue_requested)
 	_cinematic_director.audio_cue_requested.connect(_on_audio_cue_requested)
 	_cinematic_director.vfx_cue_requested.connect(_on_vfx_cue_requested)
+	_cinematic_director.pause_changed.connect(func(paused: bool) -> void: _pause_states.append(paused))
 
 	_assert(
 		_cinematic_director.resolve_initial_mode(&"auto", true) == &"full",
@@ -176,7 +264,14 @@ func _test_cinematic_modes_and_result_parity() -> void:
 		0.2
 	)
 	_assert(bool(switch_start.get("ok", false)), "Summary switch fixture should start.")
+	_assert(_cinematic_director.set_paused(true), "Summary switch fixture should pause first.")
+	var pause_events_before_switch := _pause_states.size()
 	_assert(_cinematic_director.switch_to_summary(), "Full playback should switch to summary.")
+	_assert(not _cinematic_director.is_paused(), "Summary switch must clear director pause state.")
+	_assert(
+		_pause_states.size() == pause_events_before_switch + 1 and not _pause_states.back(),
+		"Paused-to-summary switch must emit pause_changed(false)."
+	)
 	_assert(
 		_cinematic_director.get_current_mode() == &"summary",
 		"Summary switch should update current mode."
@@ -193,6 +288,66 @@ func _test_cinematic_modes_and_result_parity() -> void:
 		"Each of six playback paths should emit one completion signal."
 	)
 	_cinematic_director.queue_free()
+
+
+func _test_s09_authored_chronology() -> void:
+	var parsed: Variant = JSON.parse_string(
+		FileAccess.get_file_as_string("res://data/cinematics/ch01_manifest.json")
+	)
+	_assert(parsed is Dictionary, "CH01 cinematic manifest must parse for chronology validation.")
+	if not parsed is Dictionary:
+		return
+	var manifest: Dictionary = parsed
+	var expected_phases := ["anticipation", "curved_flight", "acceleration", "impact", "aftermath"]
+	for cinematic_variant in manifest.get("cinematics", []):
+		var cinematic: Dictionary = cinematic_variant
+		for mode in ["full", "summary"]:
+			var phase_names: Array[String] = []
+			for cue_variant in cinematic.get("playback", {}).get(mode, {}).get("animation_cues", []):
+				phase_names.append(str(cue_variant.get("phase", "")))
+			_assert(
+				phase_names == expected_phases,
+				"%s %s must author all five formation phases." % [cinematic.get("id", ""), mode]
+			)
+
+	_camera_cues.clear()
+	_animation_cues.clear()
+	var director: Node = CINEMATIC_DIRECTOR_SCRIPT.new()
+	add_child(director)
+	director.camera_cue_requested.connect(_on_camera_cue_requested)
+	director.animation_cue_requested.connect(_on_animation_cue_requested)
+	var start_result: Dictionary = director.play_from_manifest(
+		manifest,
+		&"CIN-CH01-S09-DEPARTURE",
+		&"full",
+		true,
+		0.01
+	)
+	_assert(bool(start_result.get("ok", false)), "S09 authored chronology must start.")
+	for _frame in range(120):
+		if not director.is_playing():
+			break
+		await get_tree().process_frame
+	_assert(not director.is_playing(), "S09 authored chronology should complete.")
+	var shot_ids: Array[String] = []
+	var first_final_index := -1
+	for cue in _camera_cues:
+		shot_ids.append(str(cue.get("shot_id", "")))
+		if bool(cue.get("show_final_art", false)) and first_final_index < 0:
+			first_final_index = shot_ids.size() - 1
+	_assert(_camera_cues.size() == 10, "Explicit S09 schedule must not duplicate distributed camera cues.")
+	var impact_index := shot_ids.find("S09-GATE-LOCK")
+	_assert(impact_index >= 0, "S09 must include the gate-lock execution shot.")
+	_assert(first_final_index > impact_index, "S09 Hero CG must appear only after gate-lock execution.")
+	_assert(
+		shot_ids[first_final_index] == "S09-NORTH-GATE-FINAL",
+		"S09 final-shot recognition must use the explicit completed north-gate ID."
+	)
+	var emitted_phases: Array[String] = []
+	for cue in _animation_cues:
+		emitted_phases.append(str(cue.get("phase", "")))
+	_assert(emitted_phases == expected_phases, "S09 runtime cues must preserve five-phase chronology.")
+	director.queue_free()
 
 
 func _play_and_wait(
@@ -260,12 +415,28 @@ func _assert_unique_slot_keys(records: Array, expected_count: int) -> void:
 	_assert(unique.size() == expected_count, "Every sword slot key must be unique.")
 
 
+func _horizontal_slot_bounds(records: Array) -> Vector2:
+	var minimum_x := INF
+	var maximum_x := -INF
+	for record_variant in records:
+		var record: Dictionary = record_variant
+		var position := Vector2(record.get("position", Vector2.ZERO))
+		minimum_x = minf(minimum_x, position.x)
+		maximum_x = maxf(maximum_x, position.x)
+	return Vector2(minimum_x, maximum_x)
+
+
 func _on_cinematic_completed(payload: Dictionary) -> void:
 	_completed_payloads.append(payload.duplicate(true))
 
 
 func _on_camera_cue_requested(_cue: Dictionary) -> void:
 	_camera_cue_count += 1
+	_camera_cues.append(_cue.duplicate(true))
+
+
+func _on_animation_cue_requested(cue: Dictionary) -> void:
+	_animation_cues.append(cue.duplicate(true))
 
 
 func _on_audio_cue_requested(_cue: Dictionary) -> void:

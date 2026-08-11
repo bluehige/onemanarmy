@@ -9,6 +9,8 @@
   "steps": [
     {"id": "S00-001", "type": "narrate", "text_id": "CH01-S00-001"},
     {"id": "S00-001A", "type": "narrate", "text_id": "CH01-S00-002"},
+    {"id": "S00-001B", "type": "narrate", "text_id": "CH01-S00-002A"},
+    {"id": "S00-001C", "type": "narrate", "text_id": "CH01-S00-002B"},
     {"id": "S00-002", "type": "say", "speaker_id": "refugee_man", "text_id": "CH01-S00-003"},
     {"id": "S00-003", "type": "say", "speaker_id": "child", "text_id": "CH01-S00-004"},
     {"id": "S00-003A", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S00-004A"},

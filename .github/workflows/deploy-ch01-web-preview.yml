@@ -97,6 +97,8 @@ jobs:
           test -s build/web/index.wasm
           test -s build/web/index.pck
           test -s build/web/NotoSansKR-Shell.woff2
+          godot --headless --path tools/pck_inspector --script inspect.gd -- \
+            "--pack=$GITHUB_WORKSPACE/build/web/index.pck"
           test -z "$(find build/web -type l -print -quit)"
           grep -q '<html lang="ko">' build/web/index.html
           grep -q '휴대폰을 가로로 돌려주세요' build/web/index.html

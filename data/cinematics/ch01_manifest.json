@@ -53,6 +53,13 @@
         "full": {
           "duration_sec": 10.5,
           "shot_ids": ["S00-EYE-CHAIN", "S00-LOCKS", "S00-FIRST-NINE", "S00-ARROW-36", "S00-REDIRECT-36", "S00-CUT-27", "S00-CAPTURE", "S00-FINAL"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "capture", "visible_blades": 9, "time_sec": 1.45},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "capture", "visible_blades": 45, "time_sec": 2.2},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "capture", "visible_blades": 81, "time_sec": 4.4},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "capture", "visible_blades": 108, "time_sec": 6.6},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "capture", "visible_blades": 108, "time_sec": 8.8}
+          ],
           "audio_cues": [
             {"id": "SFX_IRON_CHAIN_PULL", "time_sec": 0.0},
             {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.7},
@@ -72,6 +79,13 @@
         "summary": {
           "duration_sec": 5.5,
           "shot_ids": ["S00-LOCKS", "S00-FIRST-NINE", "S00-CUT-27", "S00-CAPTURE", "S00-FINAL"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "capture", "visible_blades": 9, "time_sec": 0.35},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "capture", "visible_blades": 45, "time_sec": 1.0},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "capture", "visible_blades": 81, "time_sec": 2.0},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "capture", "visible_blades": 108, "time_sec": 3.1},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "capture", "visible_blades": 108, "time_sec": 4.3}
+          ],
           "audio_cues": [
             {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.0},
             {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.1},
@@ -105,6 +119,13 @@
         "full": {
           "duration_sec": 10.5,
           "shot_ids": ["S00-EYE-CHAIN", "S00-LOCKS", "S00-FIRST-NINE", "S00-ARROW-36", "S00-REDIRECT-36", "S00-CUT-27", "S00-OPEN-PATH", "S00-FINAL"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "open_path", "visible_blades": 9, "time_sec": 1.45},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "open_path", "visible_blades": 45, "time_sec": 2.2},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "open_path", "visible_blades": 81, "time_sec": 4.4},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "open_path", "visible_blades": 108, "time_sec": 6.6},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "open_path", "visible_blades": 108, "time_sec": 8.8}
+          ],
           "audio_cues": [
             {"id": "SFX_IRON_CHAIN_PULL", "time_sec": 0.0},
             {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.7},
@@ -124,6 +145,13 @@
         "summary": {
           "duration_sec": 5.5,
           "shot_ids": ["S00-LOCKS", "S00-FIRST-NINE", "S00-CUT-27", "S00-OPEN-PATH", "S00-FINAL"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "open_path", "visible_blades": 9, "time_sec": 0.35},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "open_path", "visible_blades": 45, "time_sec": 1.0},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "open_path", "visible_blades": 81, "time_sec": 2.0},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "open_path", "visible_blades": 108, "time_sec": 3.1},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "open_path", "visible_blades": 108, "time_sec": 4.3}
+          ],
           "audio_cues": [
             {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.0},
             {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.1},
@@ -161,6 +189,13 @@
         "full": {
           "duration_sec": 8.5,
           "shot_ids": ["S05-LAMP", "S05-EYE-CUP", "S05-LOCK", "S05-INTERCEPT", "S05-PIN-STAIR", "S05-CIVILIAN", "S05-CONTROL", "S05-WIDE"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "intercept", "visible_blades": 1, "time_sec": 2.1},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "intercept", "visible_blades": 3, "time_sec": 2.8},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "intercept", "visible_blades": 5, "time_sec": 3.8},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "intercept", "visible_blades": 9, "time_sec": 5.2},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "intercept", "visible_blades": 9, "time_sec": 7.0}
+          ],
           "audio_cues": [
             {"id": "SFX_LAMP_OUT", "time_sec": 0.0},
             {"id": "SFX_CUP_DOWN", "time_sec": 0.8},
@@ -179,6 +214,13 @@
         "summary": {
           "duration_sec": 5.0,
           "shot_ids": ["S05-EYE-CUP", "S05-INTERCEPT", "S05-CIVILIAN", "S05-CONTROL", "S05-WIDE"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "intercept", "visible_blades": 1, "time_sec": 0.45},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "intercept", "visible_blades": 3, "time_sec": 1.0},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "intercept", "visible_blades": 5, "time_sec": 1.8},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "intercept", "visible_blades": 9, "time_sec": 2.8},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "intercept", "visible_blades": 9, "time_sec": 4.0}
+          ],
           "audio_cues": [
             {"id": "SFX_CUP_DOWN", "time_sec": 0.0},
             {"id": "SFX_SWORD_LAUNCH", "time_sec": 0.8},
@@ -200,8 +242,42 @@
       "lee_yeon_micro_action": "chain_hold",
       "visual_roles": ["route_cut", "sleeve_pin", "hostage_delay"],
       "playback": {
-        "full": {"duration_sec": 18, "shot_ids": ["A01", "A02", "A03", "A04", "A05", "A06"]},
-        "summary": {"duration_sec": 8, "shot_ids": ["A01", "A03", "A04", "A06"]},
+        "full": {
+          "duration_sec": 18,
+          "shot_ids": ["A01", "A02", "A03", "A04", "A05", "A06"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 1.0},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 3.0},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 6.0},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 10.0},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 14.0}
+          ],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 1.0, "pitch_scale": 0.76},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 3.0},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 10.0},
+            {"id": "SFX_SWORD_STOP", "time_sec": 14.0}
+          ],
+          "vfx_cues": [{"id": "FX_INTERCEPT", "time_sec": 10.0}]
+        },
+        "summary": {
+          "duration_sec": 8,
+          "shot_ids": ["A01", "A03", "A04", "A06"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 0.5},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 1.5},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 3.0},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 4.8},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "pursuit", "visible_blades": 9, "time_sec": 6.5}
+          ],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.5, "pitch_scale": 0.76},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.5},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 4.8},
+            {"id": "SFX_SWORD_STOP", "time_sec": 6.5}
+          ],
+          "vfx_cues": [{"id": "FX_INTERCEPT", "time_sec": 4.8}]
+        },
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": [
@@ -222,8 +298,42 @@
       "lee_yeon_micro_action": "chain_hold",
       "visual_roles": ["hostage_hand_stop", "fire_cut", "civilian_guard_line"],
       "playback": {
-        "full": {"duration_sec": 15, "shot_ids": ["B01", "B02", "B03", "B04", "B05"]},
-        "summary": {"duration_sec": 8, "shot_ids": ["B01", "B03", "B04", "B05"]},
+        "full": {
+          "duration_sec": 15,
+          "shot_ids": ["B01", "B02", "B03", "B04", "B05"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "guard", "visible_blades": 9, "time_sec": 1.0},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "guard", "visible_blades": 9, "time_sec": 3.0},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "guard", "visible_blades": 9, "time_sec": 5.5},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "guard", "visible_blades": 9, "time_sec": 8.5},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "guard", "visible_blades": 9, "time_sec": 12.0}
+          ],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 1.0, "pitch_scale": 0.72},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 3.0, "pitch_scale": 0.88},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 8.5, "pitch_scale": 0.92},
+            {"id": "SFX_SWORD_STOP", "time_sec": 12.0}
+          ],
+          "vfx_cues": [{"id": "FX_INTERCEPT", "time_sec": 8.5}]
+        },
+        "summary": {
+          "duration_sec": 8,
+          "shot_ids": ["B01", "B03", "B04", "B05"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "guard", "visible_blades": 9, "time_sec": 0.5},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "guard", "visible_blades": 9, "time_sec": 1.5},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "guard", "visible_blades": 9, "time_sec": 3.0},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "guard", "visible_blades": 9, "time_sec": 4.8},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "guard", "visible_blades": 9, "time_sec": 6.5}
+          ],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.5, "pitch_scale": 0.72},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.5, "pitch_scale": 0.88},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 4.8, "pitch_scale": 0.92},
+            {"id": "SFX_SWORD_STOP", "time_sec": 6.5}
+          ],
+          "vfx_cues": [{"id": "FX_INTERCEPT", "time_sec": 4.8}]
+        },
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": [
@@ -245,8 +355,42 @@
       "lee_yeon_micro_action": "chain_hold",
       "visual_roles": ["exit_link", "closed_formation", "non_hostile_lane"],
       "playback": {
-        "full": {"duration_sec": 15, "shot_ids": ["C01", "C02", "C03", "C04", "C05"]},
-        "summary": {"duration_sec": 8, "shot_ids": ["C01", "C03", "C04", "C05"]},
+        "full": {
+          "duration_sec": 15,
+          "shot_ids": ["C01", "C02", "C03", "C04", "C05"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "seal", "visible_blades": 9, "time_sec": 1.0},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "seal", "visible_blades": 9, "time_sec": 3.0},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "seal", "visible_blades": 9, "time_sec": 5.5},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "seal", "visible_blades": 9, "time_sec": 8.5},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "seal", "visible_blades": 9, "time_sec": 12.0}
+          ],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 1.0, "pitch_scale": 0.68},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 3.0, "pitch_scale": 0.78},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 8.5, "pitch_scale": 0.70},
+            {"id": "SFX_SWORD_STOP", "time_sec": 12.0, "pitch_scale": 0.74}
+          ],
+          "vfx_cues": [{"id": "FX_FINAL_STOP", "time_sec": 8.5}]
+        },
+        "summary": {
+          "duration_sec": 8,
+          "shot_ids": ["C01", "C03", "C04", "C05"],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "seal", "visible_blades": 9, "time_sec": 0.5},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "seal", "visible_blades": 9, "time_sec": 1.5},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "seal", "visible_blades": 9, "time_sec": 3.0},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "seal", "visible_blades": 9, "time_sec": 4.8},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "seal", "visible_blades": 9, "time_sec": 6.5}
+          ],
+          "audio_cues": [
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.5, "pitch_scale": 0.68},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.5, "pitch_scale": 0.78},
+            {"id": "SFX_SWORD_INTERCEPT", "time_sec": 4.8, "pitch_scale": 0.70},
+            {"id": "SFX_SWORD_STOP", "time_sec": 6.5, "pitch_scale": 0.74}
+          ],
+          "vfx_cues": [{"id": "FX_FINAL_STOP", "time_sec": 4.8}]
+        },
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": [
@@ -275,7 +419,26 @@
       "playback": {
         "full": {
           "duration_sec": 13.5,
-          "shot_ids": ["S09-BELL", "S09-PULLEY", "S09-CHAIN", "S09-SQUADS", "S09-GATE-LOCK", "S09-SIDE-GATE", "S09-LEDGER", "S09-ROGUE-WAGON"],
+          "shot_ids": ["S09-BELL", "S09-PULLEY", "S09-CHAIN", "S09-SQUADS", "S09-GATE-APPROACH", "S09-GATE-LOCK", "S09-NORTH-GATE-FINAL", "S09-SIDE-GATE", "S09-LEDGER", "S09-ROGUE-WAGON"],
+          "camera_cues": [
+            {"shot_id": "S09-BELL", "visible_blades": 0, "time_sec": 0.0},
+            {"shot_id": "S09-PULLEY", "visible_blades": 0, "time_sec": 1.1},
+            {"shot_id": "S09-CHAIN", "visible_blades": 0, "time_sec": 2.2},
+            {"shot_id": "S09-SQUADS", "visible_blades": 108, "time_sec": 2.9},
+            {"shot_id": "S09-GATE-APPROACH", "visible_blades": 108, "time_sec": 3.7},
+            {"shot_id": "S09-GATE-LOCK", "visible_blades": 108, "time_sec": 7.2},
+            {"shot_id": "S09-NORTH-GATE-FINAL", "visible_blades": 108, "show_final_art": true, "time_sec": 8.5},
+            {"shot_id": "S09-SIDE-GATE", "visible_blades": 108, "return_to_layers": true, "time_sec": 9.2},
+            {"shot_id": "S09-LEDGER", "visible_blades": 108, "time_sec": 10.2},
+            {"shot_id": "S09-ROGUE-WAGON", "visible_blades": 108, "time_sec": 11.7}
+          ],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 2.9},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 3.7},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 5.3},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 7.2},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 8.5}
+          ],
           "audio_cues": [
             {"id": "SFX_GATE_BELL_FOURTH", "time_sec": 0.0},
             {"id": "SFX_GATE_PULLEY", "time_sec": 1.1},
@@ -289,7 +452,34 @@
             {"id": "FX_FINAL_STOP", "time_sec": 7.2}
           ]
         },
-        "summary": {"duration_sec": 7, "shot_ids": ["S09-PULLEY", "S09-CHAIN", "S09-GATE-LOCK", "S09-LEDGER", "S09-ROGUE-WAGON"]},
+        "summary": {
+          "duration_sec": 7,
+          "shot_ids": ["S09-PULLEY", "S09-CHAIN", "S09-SQUADS", "S09-GATE-LOCK", "S09-NORTH-GATE-FINAL", "S09-SIDE-GATE", "S09-LEDGER", "S09-ROGUE-WAGON"],
+          "camera_cues": [
+            {"shot_id": "S09-PULLEY", "visible_blades": 0, "time_sec": 0.0},
+            {"shot_id": "S09-CHAIN", "visible_blades": 0, "time_sec": 0.6},
+            {"shot_id": "S09-SQUADS", "visible_blades": 108, "time_sec": 1.2},
+            {"shot_id": "S09-GATE-LOCK", "visible_blades": 108, "time_sec": 3.6},
+            {"shot_id": "S09-NORTH-GATE-FINAL", "visible_blades": 108, "show_final_art": true, "time_sec": 4.4},
+            {"shot_id": "S09-SIDE-GATE", "visible_blades": 108, "return_to_layers": true, "time_sec": 5.0},
+            {"shot_id": "S09-LEDGER", "visible_blades": 108, "time_sec": 5.5},
+            {"shot_id": "S09-ROGUE-WAGON", "visible_blades": 108, "time_sec": 6.1}
+          ],
+          "animation_cues": [
+            {"id": "FORM-ANTICIPATION", "phase": "anticipation", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 0.8},
+            {"id": "FORM-CURVED-FLIGHT", "phase": "curved_flight", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 1.4},
+            {"id": "FORM-ACCELERATION", "phase": "acceleration", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 2.4},
+            {"id": "FORM-IMPACT", "phase": "impact", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 3.6},
+            {"id": "FORM-AFTERMATH", "phase": "aftermath", "path_variant": "north_gate_lock", "visible_blades": 108, "time_sec": 4.4}
+          ],
+          "audio_cues": [
+            {"id": "SFX_IRON_CHAIN_PULL", "time_sec": 0.6},
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 0.8},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 1.4},
+            {"id": "SFX_SWORD_STOP", "time_sec": 3.6}
+          ],
+          "vfx_cues": [{"id": "FX_FINAL_STOP", "time_sec": 3.6}]
+        },
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": [

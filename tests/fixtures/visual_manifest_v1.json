@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "kind": "chapter_visual_manifest",
+  "chapter_id": "TEST-V1",
+  "title": {
+    "background": "res://assets/art/ch01-redesign-v2/CH01_TITLE_CLOSED_COFFIN_v001.png"
+  },
+  "scenes": {
+    "LEGACY": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_SIDEGATE_v001.png",
+      "fallback": "res://assets/art/ch01/kf-007-north-gate-road.png",
+      "wash": [0.025, 0.028, 0.032, 0.13]
+    }
+  },
+  "cinematics": {}
+}

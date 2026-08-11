@@ -1,0 +1,68 @@
+{
+  "schema_version": 2,
+  "kind": "chapter_visual_manifest",
+  "chapter_id": "TEST",
+  "title": {
+    "background": "res://assets/art/ch01-redesign-v2/CH01_TITLE_CLOSED_COFFIN_v001.png"
+  },
+  "scenes": {
+    "TEST_LAYERED": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_INN_INT_CALM_v001.png",
+      "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
+      "wash": [0.03, 0.027, 0.024, 0.12],
+      "shot": {
+        "id": "SHOT-TEST-LAYERED",
+        "layers": [
+          {
+            "id": "rear_crowd",
+            "type": "rear",
+            "asset": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v002.png",
+            "layout": "full_frame"
+          },
+          {
+            "id": "character_left",
+            "type": "character",
+            "slot": "left",
+            "character_id": "gwak_nosam",
+            "asset": "res://assets/art/ch01-redesign-v2/CH01_CG_CANYON_CAPTURE_v001.png"
+          },
+          {
+            "id": "character_center",
+            "type": "character",
+            "slot": "center",
+            "character_id": "lee_yeon",
+            "speaker_ids": ["lee_yeon", "lee_yeon_inner"],
+            "asset": "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v002.png"
+          },
+          {
+            "id": "character_right",
+            "type": "character",
+            "slot": "right",
+            "character_id": "bokchil",
+            "asset": "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_PROTECT_v002.png"
+          },
+          {
+            "id": "character_overflow",
+            "type": "character",
+            "slot": "left",
+            "character_id": "fugitive",
+            "asset": "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_TRACK_v002.png"
+          },
+          {
+            "id": "foreground_table",
+            "type": "foreground",
+            "asset": "res://assets/art/ch01-redesign-v2/CH01_ENV_INN_EXT_v001.png",
+            "layout": "full_frame"
+          }
+        ]
+      }
+    }
+  },
+  "cinematics": {
+    "TEST_CINEMATIC": {
+      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v002.png",
+      "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_CANYON_OPEN_PATH_v001.png",
+      "fallback": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png"
+    }
+  }
+}

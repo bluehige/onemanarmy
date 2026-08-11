@@ -3,7 +3,7 @@
   "kind": "chapter_manifest",
   "chapter_id": "CH-MVP-001",
   "chapter_title_text_id": "CH01-UI-CHAPTER-TITLE",
-  "script_version": "0.4.0",
+  "script_version": "0.5.0",
   "entry_scene": "S00",
   "scene_ids": [
     "S00",

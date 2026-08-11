@@ -29,8 +29,20 @@ function Invoke-ValidationStep {
     )
 
     Write-Host ("[RUN] {0}" -f $StepName)
+    $effectiveArguments = @($Arguments)
+    if ($Executable -eq $script:godotExecutable) {
+        # Godot otherwise writes under user://logs. Sandboxed and CI-style
+        # runners may not have a writable roaming profile, and Godot 4.6.3 can
+        # crash while rotating that log. Keep every validator log inside the
+        # ignored workspace output instead.
+        $validationLogRoot = Join-Path $script:repoRoot "output/validation-logs"
+        New-Item -ItemType Directory -Path $validationLogRoot -Force | Out-Null
+        $safeStepName = $StepName -replace '[^A-Za-z0-9._-]', '_'
+        $validationLogPath = Join-Path $validationLogRoot ("{0}.log" -f $safeStepName)
+        $effectiveArguments = @("--log-file", $validationLogPath) + $effectiveArguments
+    }
     try {
-        & $Executable @Arguments
+        & $Executable @effectiveArguments
     } catch {
         Stop-Validation -StepName $StepName -ExitCode 1 -Message $_.Exception.Message
     }

@@ -82,8 +82,9 @@ func _build_interface() -> void:
 	_recall_label.add_theme_color_override("font_color", InkTheme.FOCUS)
 	stack.add_child(_recall_label)
 	var continue_button := Button.new()
+	continue_button.name = "Continue"
 	continue_button.text = "북문으로 향한다"
-	continue_button.custom_minimum_size.y = 66
+	continue_button.custom_minimum_size.y = InkTheme.TOUCH_ROW_MIN
 	InkTheme.style_button(continue_button, InkTheme.BLOOD)
 	continue_button.pressed.connect(_on_continue)
 	stack.add_child(continue_button)

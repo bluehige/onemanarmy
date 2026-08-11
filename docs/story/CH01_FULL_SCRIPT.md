@@ -3,13 +3,13 @@
 ```yaml
 document_id: CH01-FULL-SCRIPT
 chapter_id: CH-MVP-001
-status: V4_IMPLEMENTING
-script_version: 0.4.0
+status: V5_IMPLEMENTING
+script_version: 0.5.0
 engine_target: Godot 4.6.3
 genre: hardboiled_wuxia_visual_novel
 manual_combat: false
 last_updated: 2026-08-11
-work_order: docs/production/WO-CH01-STORY-ART-REWRITE-V4.md
+work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 ```
 
 ## 장의 약속
@@ -24,9 +24,13 @@ work_order: docs/production/WO-CH01-STORY-ART-REWRITE-V4.md
 
 [BG] 비 내리는 관천협. 피난민 마차와 회맹 기병이 좁은 길에서 충돌한다. 이연은 낮고 긴 검관을 쇠사슬로 끌고 온다.
 
-`CH01-S00-001` 검관 맨 뒤, 가장 낮은 잠금쇠에 한 자루가 비스듬히 고정돼 있었다. 금 간 황동 코등이에는 강진오 세 글자가 남아 있었다.
+`CH01-S00-001` 강호에는 백팔 자루의 검을 검관에 싣고 떠도는 사내가 있다는 소문이 있다.
 
-`CH01-S00-002` 그 앞의 백일곱 자루에도 이름이 있었다. 살아 돌아오지 못한 천류문 문도들의 이름이었다.
+`CH01-S00-002` 그가 한번 받은 계약은, 의뢰인이 죽은 뒤에도 끝난다고 했다.
+
+`CH01-S00-002A` 검에는 저마다 이름이 새겨져 있었다.
+
+`CH01-S00-002B` 죽은 동료의 이름이라는 자도, 가족의 이름이라는 자도 있었으나―그의 입으로 들었다는 사람은 없었다.
 
 피난민 남자: “아이 탄 마차부터 보내 주시오! 저 차축은 다음 웅덩이를 못 넘소!”
 
@@ -297,10 +301,16 @@ work_order: docs/production/WO-CH01-STORY-ART-REWRITE-V4.md
 아래 블록은 런타임 JSON과 한국어 CSV의 정확한 대조용 정본이다. 사람이 읽는 연출 설명은 위 본문을 따르고, 빌드 검증은 이 ID와 인용문을 사용한다.
 
 CH01-S00-001 / S00 서술
-> 검관 맨 뒤, 가장 낮은 잠금쇠에 한 자루가 비스듬히 고정돼 있었다. 금 간 황동 코등이에는 강진오 세 글자가 남아 있었다.
+> 강호에는 백팔 자루의 검을 검관에 싣고 떠도는 사내가 있다는 소문이 있다.
 
 CH01-S00-002 / S00 서술
-> 그 앞의 백일곱 자루에도 이름이 있었다. 살아 돌아오지 못한 천류문 문도들의 이름이었다.
+> 그가 한번 받은 계약은, 의뢰인이 죽은 뒤에도 끝난다고 했다.
+
+CH01-S00-002A / S00 서술
+> 검에는 저마다 이름이 새겨져 있었다.
+
+CH01-S00-002B / S00 서술
+> 죽은 동료의 이름이라는 자도, 가족의 이름이라는 자도 있었으나―그의 입으로 들었다는 사람은 없었다.
 
 CH01-S00-003 / S00 피난민 남자
 > 아이 탄 마차부터 보내 주시오! 저 차축은 다음 웅덩이를 못 넘소!
