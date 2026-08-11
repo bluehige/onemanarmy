@@ -5,7 +5,7 @@
   "id": "S03",
   "route": "COMMON",
   "title_text_id": "CH01-UI-S03-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#v03-s03--죽은-자를-들이는-객잔",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s03--죽은-자를-들이는-객잔",
   "steps": [
     {
       "id": "S03-001",
@@ -29,11 +29,15 @@
     {"id": "S03-002", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S03-002"},
     {"id": "S03-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S03-003"},
     {"id": "S03-004", "type": "say", "speaker_id": "bokchil", "text_id": "CH01-S03-004"},
+    {"id": "S03-004A", "type": "say", "speaker_id": "gwak_nosam", "text_id": "CH01-S03-005"},
+    {"id": "S03-004B", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S03-006"},
+    {"id": "S03-004C", "type": "narrate", "text_id": "CH01-S03-007"},
     {"id": "S03-005", "type": "set_flag", "flag": "sword_coffin_parked", "operation": "set", "value": true},
     {"id": "S03-006", "type": "set_flag", "flag": "inn_shelters_refugees", "operation": "set", "value": true},
     {"id": "S03-007", "type": "set_flag", "flag": "gwak_accepts_known_risk", "operation": "set", "value": true},
     {"id": "S03-008", "type": "set_flag", "flag": "bokchil_family_outside_north_gate", "operation": "set", "value": true},
     {"id": "S03-009", "type": "set_flag", "flag": "people_debt_seeded", "operation": "set", "value": true},
+    {"id": "S03-009A", "type": "set_flag", "flag": "nine_sword_rack_inside", "operation": "set", "value": true},
     {"id": "S03-010", "type": "jump", "target": "S04"}
   ]
 }

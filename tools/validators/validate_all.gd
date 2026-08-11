@@ -138,7 +138,7 @@ func _validate_content_registry() -> void:
 	scene_ids.sort()
 	_expect(scene_ids == EXPECTED_SCENES, "ContentRegistry must expose the complete S00-S09 scene set.")
 	_expect(
-		str(registry.call("get_ko_text", "CH01-S00-001", "")) == "금이 간 황동 코등이에 강진오 세 글자가 빗물 아래 드러났다.",
+		str(registry.call("get_ko_text", "CH01-S00-001", "")) == "검관 맨 뒤, 가장 낮은 잠금쇠에 한 자루가 비스듬히 고정돼 있었다. 금 간 황동 코등이에는 강진오 세 글자가 남아 있었다.",
 		"Canonical Korean localization lookup failed."
 	)
 

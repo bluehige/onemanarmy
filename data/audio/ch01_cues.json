@@ -7,7 +7,13 @@
     "S02": "AMB_RAIN_GORGE",
     "S03": "AMB_RAIN_INN",
     "S04": "AMB_RAIN_INN",
-    "S05": "AMB_RAIN_INN"
+    "S05": "AMB_RAIN_INN",
+    "S06": "AMB_RAIN_INN",
+    "S07A": "AMB_RAIN_INN",
+    "S07B": "AMB_RAIN_INN",
+    "S07C": "AMB_RAIN_INN",
+    "S08": "AMB_RAIN_INN",
+    "S09": "AMB_RAIN_GORGE"
   },
   "cues": {
     "AMB_RAIN_GORGE": {
@@ -113,6 +119,21 @@
       "duration": 0.92,
       "gain": 0.53,
       "seed": 1009
+    },
+    "SFX_GATE_BELL_FOURTH": {
+      "kind": "impact",
+      "duration": 1.8,
+      "frequency": 118.0,
+      "decay": 2.8,
+      "gain": 0.76,
+      "seed": 1109
+    },
+    "SFX_GATE_PULLEY": {
+      "kind": "wagon",
+      "duration": 1.5,
+      "gain": 0.62,
+      "seed": 1117,
+      "volume_db": -4.0
     }
   }
 }

@@ -4,6 +4,7 @@ const TITLE_SCENE := preload("res://scenes/ui/title_screen.tscn")
 const STORY_SCENE := preload("res://scenes/story/story_screen.tscn")
 const INTERACTION_SCENE := preload("res://scenes/story/interaction_director.tscn")
 const CINEMATIC_SCENE := preload("res://scenes/ui/cinematic_presenter.tscn")
+const CONSEQUENCE_SCENE := preload("res://scenes/ui/consequence_screen.tscn")
 const CHAPTER_END_SCENE := preload("res://scenes/ui/chapter_end_screen.tscn")
 
 const OUTPUT_DIR := "res://reports/mvp/evidence"
@@ -45,6 +46,10 @@ func _run() -> void:
 		"e2_cinematic_108_1920x1080.png"
 	)
 	await _capture_cinematic_9()
+	await _capture_cinematic_north_gate()
+	await _capture_consequence("TRACK", "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_TRACK_v002.png", "e2_consequence_track_v4_1280x720.png")
+	await _capture_consequence("PROTECT", "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_PROTECT_v002.png", "e2_consequence_protect_v4_1280x720.png")
+	await _capture_consequence("LOCKDOWN", "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_LOCKDOWN_v002.png", "e2_consequence_lockdown_v4_1280x720.png")
 	await _capture_chapter_end("TRACK", "e2_chapter_end_track_1280x720.png")
 	await _capture_chapter_end("PROTECT", "e2_chapter_end_protect_1280x720.png")
 	await _capture_chapter_end("LOCKDOWN", "e2_chapter_end_lockdown_1280x720.png")
@@ -71,7 +76,7 @@ func _capture_story_s00() -> void:
 	screen.show_line({
 		"text_id": "CH01-S00-001",
 		"speaker_name": "",
-		"text": "금이 간 황동 코등이에 강진오 세 글자가 빗물 아래 드러났다.",
+		"text": "검관 맨 뒤, 가장 낮은 잠금쇠에 한 자루가 비스듬히 고정돼 있었다. 금 간 황동 코등이에는 강진오 세 글자가 남아 있었다.",
 	}, true)
 	await create_timer(0.40, true, false, true).timeout
 	await _save_capture(viewport, "e2_story_s00_1920x1080.png", LOGICAL_SIZE)
@@ -251,6 +256,49 @@ func _capture_cinematic_9() -> void:
 	await _release_viewport(viewport)
 
 
+func _capture_cinematic_north_gate() -> void:
+	var viewport := _make_viewport()
+	var presenter: Control = CINEMATIC_SCENE.instantiate()
+	viewport.add_child(presenter)
+	await process_frame
+	presenter.present({
+		"scene_id": "S09",
+		"purpose": "네 번째 종에 북문을 멈추고 사람은 측문으로 들인다.",
+		"settings": {"motion_reduction": true},
+		"cinematic": {
+			"id": "CIN-CH01-S09-DEPARTURE",
+			"source_scene": "S09",
+			"formation_template": "FULL_108",
+			"sword_count": 108,
+		},
+	}, "full")
+	presenter.show_final_state()
+	_expect(presenter.get_sword_count() == 108, "S09 north-gate lock must contain exactly 108 swords.")
+	_expect(presenter.get_squad_count() == 12, "S09 north-gate lock must contain exactly 12 squads.")
+	_expect(presenter.get_duplicate_slot_count() == 0, "S09 north-gate lock must not duplicate sword slots.")
+	_expect(presenter.get_formation_overlay_opacity() <= 0.01, "S09 final CG must own its sword silhouettes without procedural duplicates.")
+	await _save_capture(viewport, "e2_cinematic_north_gate_lock_v4_1920x1080.png", LOGICAL_SIZE)
+	await _save_capture(viewport, "e2_cinematic_north_gate_lock_v4_1280x720.png", HD_SIZE)
+	await _release_viewport(viewport)
+
+
+func _capture_consequence(route: String, image_path: String, filename: String) -> void:
+	var viewport := _make_viewport()
+	var screen: ConsequenceScreen = CONSEQUENCE_SCENE.instantiate()
+	viewport.add_child(screen)
+	await process_frame
+	screen.show_result({
+		"title": route.capitalize(),
+		"image_path": image_path,
+		"lines": ["사람", "정보", "공간", "검 회수 9/9"],
+		"recall_text": "검 회수  9 / 9",
+	})
+	await create_timer(0.40, true, false, true).timeout
+	_expect(screen.visible, "%s consequence screen must be visible." % route)
+	await _save_capture(viewport, filename, HD_SIZE)
+	await _release_viewport(viewport)
+
+
 func _capture_chapter_end(route: String, filename: String) -> void:
 	var viewport := _make_viewport()
 	var screen: Control = CHAPTER_END_SCENE.instantiate()
@@ -258,10 +306,10 @@ func _capture_chapter_end(route: String, filename: String) -> void:
 	await process_frame
 	screen.show_completion({
 		"completion_title": "제1장 완료",
-		"completion_subtitle": "아홉 검은 돌아왔다. 백여덟 이름은 아직 돌아오지 않았다.",
+		"completion_subtitle": "북문은 멎었다. 강진오가 첫 번째로 돌아왔다.",
 		"choices": {"CH01-C06-PRIORITY": route},
 		"flags": {"priority_choice": route, "swords_recalled": 9},
-		"next_title": "다음 · 해 뜨기 전의 북문",
+		"next_title": "다음 · 사라진 열두 번째 마차",
 	})
 	await create_timer(0.38, true, false, true).timeout
 	await _save_capture(viewport, filename, HD_SIZE)

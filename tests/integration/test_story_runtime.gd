@@ -62,7 +62,7 @@ func _test_content_registry() -> void:
 	var scene_ids: Variant = _registry.call("get_scene_ids")
 	_assert(scene_ids is Array and scene_ids == EXPECTED_SCENES, "ContentRegistry should expose all 12 scenes.")
 	_assert(
-		str(_registry.call("get_ko_text", "CH01-S00-001", "")) == "금이 간 황동 코등이에 강진오 세 글자가 빗물 아래 드러났다.",
+		str(_registry.call("get_ko_text", "CH01-S00-001", "")) == "검관 맨 뒤, 가장 낮은 잠금쇠에 한 자루가 비스듬히 고정돼 있었다. 금 간 황동 코등이에는 강진오 세 글자가 남아 있었다.",
 		"Korean text lookup should preserve the canonical line."
 	)
 	_assert(
@@ -145,13 +145,18 @@ func _test_chapter_end_copy_contract() -> void:
 		"Chapter end should resolve the localized completion title."
 	)
 	_assert(
-		"백여덟 이름은 아직 돌아오지 않았다" in str(_last_chapter_end_payload.get("completion_subtitle", "")),
-		"Chapter end should carry the unresolved 108-name dramatic hook."
+		"강진오가 첫 번째로 돌아왔다" in str(_last_chapter_end_payload.get("completion_subtitle", "")),
+		"Chapter end should carry the first restored-name payoff."
 	)
 	_assert(
-		str(_last_chapter_end_payload.get("next_title", "")) == "다음 · 해 뜨기 전의 북문",
+		str(_last_chapter_end_payload.get("next_title", "")) == "다음 · 사라진 열두 번째 마차",
 		"Chapter end should resolve and combine the next-record labels."
 	)
+	var completion_flags: Dictionary = _last_chapter_end_payload.get("flags", {})
+	_assert(bool(completion_flags.get("fourth_bell_north_gate_blocked", false)), "S09 must fulfill the north-gate contract.")
+	_assert(bool(completion_flags.get("refugees_admitted_side_gate", false)), "S09 must admit refugees through the side gate.")
+	_assert(bool(completion_flags.get("sealed_wagons_inspected", false)), "S09 must begin individual wagon inspection.")
+	_assert(bool(completion_flags.get("kang_jino_record_restored", false)), "S09 must restore Kang Jino's official record.")
 
 
 func _test_cinematic_result_parity() -> void:

@@ -263,15 +263,42 @@
       "source_scene": "S09",
       "source_choice": null,
       "purpose_text_id": "CH01-CIN-S09-DEPARTURE-PURPOSE",
-      "formation_template": null,
-      "sword_count": 0,
-      "lee_yeon_micro_action": "wrap_chain_around_wrist",
+      "formation_template": "FULL_108",
+      "sword_count": 108,
+      "lee_yeon_micro_action": "chain_pull",
+      "squad_roles": [
+        {"squads": ["SQ01", "SQ02", "SQ03"], "role": "left_gate_frame_lock"},
+        {"squads": ["SQ04", "SQ05", "SQ06"], "role": "right_gate_frame_lock"},
+        {"squads": ["SQ07", "SQ08", "SQ09"], "role": "upper_pulley_lock"},
+        {"squads": ["SQ10", "SQ11", "SQ12"], "role": "lower_pulley_and_threshold_lock"}
+      ],
       "playback": {
-        "full": {"duration_sec": 8, "shot_ids": ["S09-END-01", "S09-END-02"]},
-        "summary": {"duration_sec": 5, "shot_ids": ["S09-END-02"]},
+        "full": {
+          "duration_sec": 13.5,
+          "shot_ids": ["S09-BELL", "S09-PULLEY", "S09-CHAIN", "S09-SQUADS", "S09-GATE-LOCK", "S09-SIDE-GATE", "S09-LEDGER", "S09-ROGUE-WAGON"],
+          "audio_cues": [
+            {"id": "SFX_GATE_BELL_FOURTH", "time_sec": 0.0},
+            {"id": "SFX_GATE_PULLEY", "time_sec": 1.1},
+            {"id": "SFX_IRON_CHAIN_PULL", "time_sec": 2.2},
+            {"id": "SFX_SWORD_COFFIN_LOCKS_12", "time_sec": 2.9},
+            {"id": "SFX_SWORD_LAUNCH", "time_sec": 3.7},
+            {"id": "SFX_SWORD_STOP", "time_sec": 7.2}
+          ],
+          "vfx_cues": [
+            {"id": "FX_LOCK_WASH", "time_sec": 2.9},
+            {"id": "FX_FINAL_STOP", "time_sec": 7.2}
+          ]
+        },
+        "summary": {"duration_sec": 7, "shot_ids": ["S09-PULLEY", "S09-CHAIN", "S09-GATE-LOCK", "S09-LEDGER", "S09-ROGUE-WAGON"]},
         "result": {"duration_sec": 0, "apply_result_events": true}
       },
       "result_events": [
+        {"flag": "fourth_bell_north_gate_blocked", "operation": "set", "value": true},
+        {"flag": "refugees_admitted_side_gate", "operation": "set", "value": true},
+        {"flag": "sealed_wagons_inspected", "operation": "set", "value": true},
+        {"flag": "correction_ledger_officially_received", "operation": "set", "value": true},
+        {"flag": "kang_jino_record_restored", "operation": "set", "value": true},
+        {"flag": "rogue_wagon_escaped", "operation": "set", "value": true},
         {"flag": "chapter_01_completed", "operation": "set", "value": true}
       ]
     }

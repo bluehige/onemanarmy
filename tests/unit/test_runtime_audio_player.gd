@@ -15,7 +15,7 @@ func _run() -> void:
 	root.add_child(audio_player)
 	await process_frame
 
-	_expect(audio_player.get_cue_ids().size() == 14, "catalog should expose all 14 chapter cues")
+	_expect(audio_player.get_cue_ids().size() == 16, "catalog should expose all 16 chapter cues")
 	var required_cues := PackedStringArray([
 		"AMB_RAIN_GORGE",
 		"SFX_SWORD_COFFIN_WHEEL",

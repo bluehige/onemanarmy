@@ -6,7 +6,7 @@
   "route": "COMMON",
   "title_text_id": "CH01-UI-S01-TITLE",
   "location_text_id": "CH01-UI-S01-LOCATION",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#v03-s01--이름이-먼저-들어오는-성",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s01--이름이-먼저-들어오는-성",
   "steps": [
     {
       "id": "S01-001",
@@ -33,6 +33,8 @@
     },
     {"id": "S01-002", "type": "say", "speaker_id": "child", "text_id": "CH01-S01-004"},
     {"id": "S01-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-005"},
+    {"id": "S01-003A", "type": "say", "speaker_id": "gatekeeper", "text_id": "CH01-S01-005A"},
+    {"id": "S01-003B", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S01-005B"},
     {"id": "S01-004", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S01-006"},
     {"id": "S01-005", "type": "set_flag", "flag": "entered_baekya_city", "operation": "set", "value": true},
     {"id": "S01-006", "type": "set_flag", "flag": "entry_record_created", "operation": "set", "value": true},

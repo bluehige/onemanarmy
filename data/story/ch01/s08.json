@@ -20,21 +20,82 @@
       "mode": "first_match",
       "branches": [
         {
+          "when": {"flag": "aftermath_first_focus", "equals": "injured_innkeeper"},
+          "steps": [
+            {"id": "S08-003A1", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-005"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "bound_fugitive"},
+          "steps": [
+            {"id": "S08-003A2", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-006"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "burned_waiter"},
+          "steps": [
+            {"id": "S08-003A3", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-007"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "open_window"},
+          "steps": [
+            {"id": "S08-003B1", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-008"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "intact_beam"},
+          "steps": [
+            {"id": "S08-003B2", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-009"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "medicine_case_trace"},
+          "steps": [
+            {"id": "S08-003B3", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-010"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "burned_beam"},
+          "steps": [
+            {"id": "S08-003C1", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-011"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "exit_blade_marks"},
+          "steps": [
+            {"id": "S08-003C2", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-012"}
+          ]
+        },
+        {
+          "when": {"flag": "aftermath_first_focus", "equals": "onlookers"},
+          "steps": [
+            {"id": "S08-003C3", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-013"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "S08-003R",
+      "type": "conditional",
+      "mode": "first_match",
+      "branches": [
+        {
           "when": {"flag": "priority_choice", "equals": "track"},
           "steps": [
-            {"id": "S08-003A", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002A"}
+            {"id": "S08-003RA", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002A"}
           ]
         },
         {
           "when": {"flag": "priority_choice", "equals": "protect"},
           "steps": [
-            {"id": "S08-003B", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002B"}
+            {"id": "S08-003RB", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002B"}
           ]
         },
         {
           "when": {"flag": "priority_choice", "equals": "lockdown"},
           "steps": [
-            {"id": "S08-003C", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002C"}
+            {"id": "S08-003RC", "type": "narrate", "voice_id": "lee_yeon_inner", "text_id": "CH01-S08-002C"}
           ]
         }
       ]
@@ -63,6 +124,7 @@
               "type": "show_consequence",
               "consequence_id": "CON-CH01-TRACK",
               "image_id": "CH01-AFTERMATH-TRACK",
+              "image_path": "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_TRACK_v002.png",
               "line_text_ids": [
                 "CH01-CON-TRACK-01",
                 "CH01-CON-TRACK-02",
@@ -80,6 +142,7 @@
               "type": "show_consequence",
               "consequence_id": "CON-CH01-PROTECT",
               "image_id": "CH01-AFTERMATH-PROTECT",
+              "image_path": "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_PROTECT_v002.png",
               "line_text_ids": [
                 "CH01-CON-PROTECT-01",
                 "CH01-CON-PROTECT-02",
@@ -97,6 +160,7 @@
               "type": "show_consequence",
               "consequence_id": "CON-CH01-LOCKDOWN",
               "image_id": "CH01-AFTERMATH-LOCKDOWN",
+              "image_path": "res://assets/art/ch01-redesign-v2/CH01_AFTERMATH_LOCKDOWN_v002.png",
               "line_text_ids": [
                 "CH01-CON-LOCKDOWN-01",
                 "CH01-CON-LOCKDOWN-02",

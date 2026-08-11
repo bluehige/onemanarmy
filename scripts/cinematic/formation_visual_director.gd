@@ -56,6 +56,13 @@ const OPEN_PATH_SQUAD_CENTERS: Array[Vector2] = [
 	Vector2(420.0, 175.0), Vector2(420.0, 290.0),
 ]
 
+const NORTH_GATE_LOCK_SQUAD_CENTERS: Array[Vector2] = [
+	Vector2(-560.0, -190.0), Vector2(-560.0, 0.0), Vector2(-560.0, 190.0),
+	Vector2(560.0, -190.0), Vector2(560.0, 0.0), Vector2(560.0, 190.0),
+	Vector2(-260.0, -285.0), Vector2(0.0, -305.0), Vector2(260.0, -285.0),
+	Vector2(-260.0, 265.0), Vector2(0.0, 295.0), Vector2(260.0, 265.0),
+]
+
 const INN_NINE_SLOTS: Array[Vector2] = [
 	Vector2(-650.0, -165.0),
 	Vector2(-405.0, -35.0),
@@ -327,6 +334,8 @@ func _center_for_squad(squad_count: int, squad_index: int) -> Vector2:
 		return CAPTURE_SQUAD_CENTERS[squad_index]
 	if _profile == "canyon_open_path":
 		return OPEN_PATH_SQUAD_CENTERS[squad_index]
+	if _profile == "north_gate_lock":
+		return NORTH_GATE_LOCK_SQUAD_CENTERS[squad_index]
 	return FULL_SQUAD_CENTERS[squad_index]
 
 

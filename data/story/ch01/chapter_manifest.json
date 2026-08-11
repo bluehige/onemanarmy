@@ -3,7 +3,7 @@
   "kind": "chapter_manifest",
   "chapter_id": "CH-MVP-001",
   "chapter_title_text_id": "CH01-UI-CHAPTER-TITLE",
-  "script_version": "0.3.0",
+  "script_version": "0.4.0",
   "entry_scene": "S00",
   "scene_ids": [
     "S00",
@@ -58,9 +58,11 @@
     "sealed_document_tube": {"type": "boolean", "default": false},
     "bronze_contract_token": {"type": "boolean", "default": false},
     "jo_complicity_revealed": {"type": "boolean", "default": false},
+    "jo_muntak_dead": {"type": "boolean", "default": false},
     "contract_payment": {"type": "enum", "values": ["none", "correction_ledger_original"], "default": "none"},
     "correction_ledger_intact": {"type": "boolean", "default": false},
     "sword_coffin_parked": {"type": "boolean", "default": false},
+    "nine_sword_rack_inside": {"type": "boolean", "default": false},
     "inn_shelters_refugees": {"type": "boolean", "default": false},
     "gwak_accepts_known_risk": {"type": "boolean", "default": false},
     "bokchil_family_outside_north_gate": {"type": "boolean", "default": false},
@@ -101,6 +103,12 @@
       "default": null
     },
     "swords_recalled": {"type": "integer", "minimum": 0, "maximum": 9, "default": 0},
+    "fourth_bell_north_gate_blocked": {"type": "boolean", "default": false},
+    "refugees_admitted_side_gate": {"type": "boolean", "default": false},
+    "sealed_wagons_inspected": {"type": "boolean", "default": false},
+    "correction_ledger_officially_received": {"type": "boolean", "default": false},
+    "kang_jino_record_restored": {"type": "boolean", "default": false},
+    "rogue_wagon_escaped": {"type": "boolean", "default": false},
     "chapter_01_completed": {"type": "boolean", "default": false}
   }
 }

@@ -2,14 +2,14 @@
   "schema_version": 1,
   "kind": "chapter_visual_manifest",
   "chapter_id": "CH-MVP-001",
-  "source": "docs/production/WO-CH01-REDESIGN-V2.md",
+  "source": "docs/production/WO-CH01-STORY-ART-REWRITE-V4.md",
   "title": {
     "background": "res://assets/art/ch01-redesign-v2/CH01_TITLE_CLOSED_COFFIN_v001.png",
     "fallback": "res://assets/art/ch01/kf-007-north-gate-road.png"
   },
   "scenes": {
     "S00": {
-      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v001.png",
+      "background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v002.png",
       "fallback": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png",
       "wash": [0.025, 0.028, 0.032, 0.10]
     },
@@ -39,7 +39,7 @@
       "wash": [0.030, 0.027, 0.024, 0.18]
     },
     "S06": {
-      "background": "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v001.png",
+      "background": "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v002.png",
       "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
       "wash": [0.030, 0.027, 0.024, 0.15]
     },
@@ -47,30 +47,39 @@
     "S07B": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "wash": [0.030, 0.035, 0.032, 0.16]},
     "S07C": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "wash": [0.045, 0.025, 0.020, 0.22]},
     "S08": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "wash": [0.030, 0.027, 0.024, 0.17]},
-    "S09": {"fallback": "res://assets/art/ch01/kf-007-north-gate-road.png", "wash": [0.030, 0.032, 0.035, 0.10]}
+    "S09": {
+      "background": "res://assets/art/ch01-redesign-v2/CH01_CG_NORTH_GATE_LOCK_v002.png",
+      "fallback": "res://assets/art/ch01/kf-007-north-gate-road.png",
+      "wash": [0.030, 0.032, 0.035, 0.10]
+    }
   },
   "cinematics": {
     "CIN-CH01-S00-CAPTURE": {
-      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v001.png",
+      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v002.png",
       "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_CANYON_CAPTURE_v001.png",
       "fallback": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png",
       "formation_profile": "canyon_capture"
     },
     "CIN-CH01-S00-OPEN-PATH": {
-      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v001.png",
+      "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_CANYON_PREDEPLOY_v002.png",
       "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_CANYON_OPEN_PATH_v001.png",
       "fallback": "res://assets/art/ch01/kf-001-gwancheon-108-swords.png",
       "formation_profile": "canyon_open_path"
     },
     "CIN-CH01-S05-COMMON": {
       "opening_background": "res://assets/art/ch01-redesign-v2/CH01_ENV_INN_INT_CALM_v001.png",
-      "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v001.png",
+      "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_INN_NINE_SWORDS_v002.png",
       "fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png",
       "formation_profile": "inn_nine"
     },
     "CIN-CH01-S07-TRACK": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "formation_profile": "inn_nine"},
     "CIN-CH01-S07-PROTECT": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "formation_profile": "inn_nine"},
     "CIN-CH01-S07-LOCKDOWN": {"fallback": "res://assets/art/ch01/kf-002-cheongu-inn-nine-swords.png", "formation_profile": "inn_nine"},
-    "CIN-CH01-S09-DEPARTURE": {"fallback": "res://assets/art/ch01/kf-007-north-gate-road.png", "formation_profile": "none"}
+    "CIN-CH01-S09-DEPARTURE": {
+      "opening_background": "res://assets/art/ch01/kf-007-north-gate-road.png",
+      "final_background": "res://assets/art/ch01-redesign-v2/CH01_CG_NORTH_GATE_LOCK_v002.png",
+      "fallback": "res://assets/art/ch01/kf-007-north-gate-road.png",
+      "formation_profile": "north_gate_lock"
+    }
   }
 }

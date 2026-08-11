@@ -5,10 +5,13 @@
   "id": "S04",
   "route": "COMMON",
   "title_text_id": "CH01-UI-S04-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#v03-s04--눈이-먼저-값을-매긴다",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s04--눈이-먼저-값을-매긴다",
   "steps": [
     {"id": "S04-001", "type": "say", "speaker_id": "bokchil", "text_id": "CH01-S04-001"},
     {"id": "S04-002", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S04-002"},
+    {"id": "S04-002A", "type": "say", "speaker_id": "bokchil", "text_id": "CH01-S04-002A"},
+    {"id": "S04-002B", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S04-002B"},
+    {"id": "S04-002C", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S04-002C"},
     {
       "id": "S04-003",
       "type": "conditional",

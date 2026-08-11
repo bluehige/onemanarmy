@@ -5,7 +5,7 @@
   "id": "S05",
   "route": "COMMON",
   "title_text_id": "CH01-UI-S05-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#v03-s05--이름을-회수하려는-자들",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s05--이름을-회수하려는-자들",
   "steps": [
     {
       "id": "S05-001",
@@ -29,6 +29,11 @@
     {"id": "S05-002", "type": "say", "speaker_id": "swordsman", "text_id": "CH01-S05-001"},
     {"id": "S05-003", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S05-002"},
     {"id": "S05-004", "type": "play_cinematic", "cinematic_id": "CIN-CH01-S05-COMMON"},
+    {"id": "S05-004A", "type": "narrate", "text_id": "CH01-S05-003A"},
+    {"id": "S05-004B", "type": "narrate", "text_id": "CH01-S05-003B"},
+    {"id": "S05-004C", "type": "narrate", "text_id": "CH01-S05-003C"},
+    {"id": "S05-004D", "type": "narrate", "text_id": "CH01-S05-004"},
+    {"id": "S05-004E", "type": "narrate", "text_id": "CH01-S05-005"},
     {"id": "S05-005", "type": "narrate", "text_id": "CH01-S05-003"},
     {"id": "S05-006", "type": "set_flag", "flag": "common_attack_suppressed", "operation": "set", "value": true},
     {"id": "S05-007", "type": "set_flag", "flag": "evidence_integrity", "operation": "set", "value": "threatened_but_intact"},

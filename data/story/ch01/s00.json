@@ -5,11 +5,14 @@
   "id": "S00",
   "route": "COMMON",
   "title_text_id": "CH01-UI-S00-TITLE",
-  "source": "docs/story/CH01_FULL_SCRIPT.md#v03-s00--관천협의-백여덟-이름",
+  "source": "docs/story/CH01_FULL_SCRIPT.md#s00--관천협의-백여덟-이름",
   "steps": [
     {"id": "S00-001", "type": "narrate", "text_id": "CH01-S00-001"},
+    {"id": "S00-001A", "type": "narrate", "text_id": "CH01-S00-002"},
     {"id": "S00-002", "type": "say", "speaker_id": "refugee_man", "text_id": "CH01-S00-003"},
     {"id": "S00-003", "type": "say", "speaker_id": "child", "text_id": "CH01-S00-004"},
+    {"id": "S00-003A", "type": "say", "speaker_id": "lee_yeon", "text_id": "CH01-S00-004A"},
+    {"id": "S00-003B", "type": "narrate", "text_id": "CH01-S00-004B"},
     {
       "id": "S00-004",
       "type": "focus_interaction",

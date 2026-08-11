@@ -24,7 +24,7 @@ func _run() -> void:
 		unique_backgrounds[background] = true
 	_expect(unique_backgrounds.size() >= 5, "S00-S05 must not collapse back to one repeated background.")
 
-	for cinematic_id in ["CIN-CH01-S00-CAPTURE", "CIN-CH01-S00-OPEN-PATH", "CIN-CH01-S05-COMMON"]:
+	for cinematic_id in ["CIN-CH01-S00-CAPTURE", "CIN-CH01-S00-OPEN-PATH", "CIN-CH01-S05-COMMON", "CIN-CH01-S09-DEPARTURE"]:
 		var visual: Dictionary = catalog.cinematic_visual(cinematic_id)
 		_expect(not str(visual.get("resolved_opening_background", "")).is_empty(), "%s needs opening art." % cinematic_id)
 		_expect(not str(visual.get("resolved_final_background", "")).is_empty(), "%s needs final art." % cinematic_id)
