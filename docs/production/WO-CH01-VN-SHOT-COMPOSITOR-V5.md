@@ -1,7 +1,7 @@
 # WO-CH01-VN-SHOT-COMPOSITOR-V5
 
 ```yaml
-status: OWNER_APPROVED_IMPLEMENTING
+status: IMPLEMENTED_VALIDATED_DEPLOYED_E4_PENDING
 approved_at: 2026-08-11
 branch: codex/ch01-redesign-v2
 base_commit: 696e4dc067723e90c3706f7aad798548571a8821
@@ -15,6 +15,15 @@ owner_decision: "Godot 유지. 표준 VN 제한 레이어 + 검진 전용 군집
 ## Player-facing outcome
 
 CH01은 완성 일러스트 한 장 위에서 카메라만 흔드는 슬라이드쇼가 아니라, 인물 없는 배경과 독립 캐릭터·전경·검진·효과를 샷 단위로 조합하는 하드보일드 무협 비주얼노블이 된다. 일반 대화에서는 화자와 감정 변화가 화면에 반영되고, 이기어검은 예비동작부터 충돌 이후의 잔향까지 공간 안에서 실제로 이동한다. 결정적이고 되돌릴 수 없는 순간만 완성형 Hero CG로 남긴다.
+
+## Implemented candidate
+
+- V5 런타임 미술 27장은 clean background 7장, 독립 알파 plate 18장, 신규 Hero CG 2장으로 구성했다. 반복 대화 배경에 이름 있는 인물을 합치지 않는다.
+- 공유 `VNShotCompositor`가 배경, rear plate, 최대 3명의 캐릭터, 전경, 임시 Hero CG를 스토리와 시네마틱에서 같은 데이터로 합성한다.
+- 검진 전용 애니메이터가 108검을 하나의 배치 렌더러에 `12조 × 9검`으로 유지한다. 각 조는 사전 저작된 경로를 따라 다섯 단계 `anticipation → curved_flight → acceleration → impact → aftermath`를 거치며, 최대 12개의 풀링된 조별 궤적과 국소 충돌 효과를 사용한다.
+- S09는 봉쇄 전 12대, 봉쇄 후 11대 대기 + 1대 이탈을 별도 plate와 후속 샷으로 반영한다. 북문 봉쇄 Hero CG는 실행 이후에만 나오고, 즉시 post-lock 레이어 샷으로 돌아간다.
+- Windows와 데스크톱 Web은 같은 Noto Sans KR 폰트, 문구, UI, 미술, 샷 데이터, `1920×1080` 논리 캔버스를 공유한다. 작은 Windows/Web 가로 화면은 44px 물리 터치 표적을 지키기 위해 같은 구성을 `1280×720` 논리 밀도로 보여 준다. 세로형 Web은 가로 회전 안내를 표시한다.
+- 구현·자동 검증 완료와 사람이 판정하는 재미는 별개다. 실제 사람 E4는 `NOT_RUN`, 제품 판정은 `PENDING_E4`다.
 
 ## Screen contract
 
@@ -84,6 +93,8 @@ clean background
 
 일반 대화, 감정 변화 또는 같은 공간의 연속 샷을 위해 full-screen CG를 연속 양산하지 않는다. 기존 aftermath CG는 결과 장면으로 유지할 수 있다.
 
+현재 후보의 신규 V5 Hero CG는 S00 강진오 귀환과 S02 조문탁 계약 이양의 2장이다. S05 구검 완성과 S09 북문 봉쇄는 기존 V2 이미지를 이 게이트 안의 짧은 결정적 insert로만 유지한다. S07 세 분기 이미지는 행동 뒤의 `result_still`이며 Hero CG로 취급하지 않는다.
+
 ## Opening narration decision
 
 S00은 천류문 설명을 먼저 꺼내지 않고 강호의 소문으로 이연을 소개한다. 한국어 런타임 정본은 다음 네 문장을 기준으로 다듬는다.
@@ -112,7 +123,7 @@ ZIP 자체는 수정하지 않았다.
 이 대조는 공유 개정안의 반영 여부만 증명하며 대사의 재미나 E4 승인을
 대신하지 않는다.
 
-## In scope
+## Implemented scope
 
 - data-driven shot/layer catalog and shared Godot 2D compositor
 - clean background, character, crowd/foreground, Hero CG and VFX layer types
@@ -124,7 +135,7 @@ ZIP 자체는 수정하지 않았다.
 - S09 pre-event/final-image chronology repair and final-shot ID repair
 - shared PC/Web font, canvas, strings, shot data, art and UI code
 - real visible-108 performance fixture and motion evidence
-- Windows release, Web export, paired captures and deployment after acceptance
+- Windows release, Web export, paired captures and deployment workflow
 
 ## Out of scope
 
@@ -159,10 +170,12 @@ ZIP 자체는 수정하지 않았다.
 - 108-sword performance is measured while all 108 swords are visible and trails/VFX are active.
 - The heaviest cinematic targets art/VFX draw submissions at 24 or fewer and total Canvas draw calls at 40 or fewer; any miss is reported with profiler evidence rather than hidden.
 - Chromium 1280×720 targets p95 frame time at or below 16.7 ms; 844×390 mobile Web targets p95 at or below 33.3 ms.
-- Windows Forward+ and Chromium WebGL 2 Compatibility use the same 1920×1080 logical canvas, font, strings, shot data, assets and UI scripts.
-- Same-state PC/Web pairs keep geometry within 2 physical pixels and font baseline within 1 physical pixel, with identical line wrapping and no browser overlay over gameplay.
+- Windows Forward+ and desktop Chromium WebGL 2 Compatibility use the same 1920×1080 logical canvas, Noto Sans KR font, strings, shot data, assets and UI scripts.
+- The canonical 1280×720 same-state PC/Web pair keeps identical line wrapping and shared geometry. Renderer-specific antialiasing differences are not mistaken for a layout fork.
+- Small landscape on Windows or Web selects the shared 1280×720 density mode only when 1920×1080 scaling would make an 82-unit control smaller than 44 physical pixels. It does not fork strings, art, shot data or UI behavior.
+- Portrait Web shows the Korean rotate-device overlay instead of shrinking gameplay below the readable contract.
 - Full, summary, result and skip reach the same authored result state.
-- Automated evidence never claims fun, premium quality or owner approval. Final product verdict remains E4 until the owner plays the candidate.
+- Automated evidence never claims fun, premium quality or owner approval. Final product verdict remains `PENDING_E4` until the owner plays the candidate.
 
 ## Verification
 
@@ -173,6 +186,8 @@ ZIP 자체는 수정하지 않았다.
 5. Visible-108 performance capture with CPU/GPU frame time, draw calls, texture memory, active swords, trails and VFX.
 6. Windows/Web paired comparison from the same source SHA.
 7. Human E4 playtest after the candidate is deployed.
+
+Machine verification can close implementation criteria, but it cannot close the final product gate. Human E4 remains `NOT_RUN`; the product verdict remains `PENDING_E4`.
 
 ## Rollback boundary
 

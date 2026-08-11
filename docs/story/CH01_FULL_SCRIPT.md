@@ -3,7 +3,7 @@
 ```yaml
 document_id: CH01-FULL-SCRIPT
 chapter_id: CH-MVP-001
-status: V5_IMPLEMENTING
+status: V5_IMPLEMENTED_PENDING_E4
 script_version: 0.5.0
 engine_target: Godot 4.6.3
 genre: hardboiled_wuxia_visual_novel
@@ -18,11 +18,19 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 
 분기는 성공과 실패를 고르는 전투 판정이 아니다. 추적·수호·봉쇄는 모두 성공하지만 사람, 정보, 공간, 정체 노출 가운데 서로 다른 값을 남긴다.
 
+## V5 연출 정본
+
+- 일반 대사는 `clean background → rear/crowd plate → 독립 캐릭터 → 전경 → 국소 효과 → UI`의 제한 레이어 샷으로 연출한다. 이름 있는 인물을 반복 배경에 합치지 않는다.
+- 이기어검은 108검을 `12조 × 9검`으로 배치하고, `예비 → 곡선 비행 → 가속 → 충돌/잠금 → 잔향`의 다섯 단계와 12개의 풀링된 조별 궤적을 사용한다. 국소 먼지·종이·충격 효과는 실제 검진 위치에서만 나온다.
+- Hero CG는 S00 강진오의 마지막 귀환, S02 조문탁의 계약 이양, S05 객잔 구검의 완성, S09 북문 봉쇄 성립에서만 짧게 사용한다. S07의 세 이미지는 분기 결과 still이지 Hero CG가 아니다.
+- Windows와 데스크톱 Web은 Noto Sans KR, 문구, 샷 데이터, 미술, UI, `1920×1080` 논리 캔버스를 공유한다. 작은 Windows/Web 가로 화면은 같은 구성을 `1280×720` 논리 밀도로 보여 44px 물리 터치 표적을 지키고, 세로 Web 화면은 가로 회전 안내를 보여 준다.
+- 런타임 스크립트와 연출은 V5 후보로 구현했으나, 실제 사람 E4는 `NOT_RUN`, 제품 판정은 `PENDING_E4`다.
+
 ---
 
 ## S00 — 관천협의 백여덟 이름
 
-[BG] 비 내리는 관천협. 피난민 마차와 회맹 기병이 좁은 길에서 충돌한다. 이연은 낮고 긴 검관을 쇠사슬로 끌고 온다.
+[LAYER SHOT] 비 내리는 관천협 clean background. 피난민 마차, 회맹 기병, 이연, 낮고 긴 검관을 독립 레이어로 배치한다. 오프닝 네 문장이 지나는 동안 비와 안개만 미세하게 움직이고, 천류문 정보는 아직 드러내지 않는다.
 
 `CH01-S00-001` 강호에는 백팔 자루의 검을 검관에 싣고 떠도는 사내가 있다는 소문이 있다.
 
@@ -55,6 +63,8 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 2. `open_path` — 피난민을 모두 통과시킨다. 지휘관이 이연과 백여덟 검을 북문에 알린다.
 
 [INTERACTION] 결의를 굳히고 쇠사슬을 당긴다. `12 × 9 = 108` 검이 분기 목적에 맞게 전개된다.
+
+[FORMATION] 두 분기 모두 다섯 단계와 12개 조별 궤적을 끝까지 거친다. 전체화면 플래시 대신 화살 차단, 기병 진로, 피난민 통로, 지휘관 포박 위치에 국소 충돌을 남긴다.
 
 - 생포: “문서는 얻었다. 부러진 차축은 내 빚이다.”
 - 길 개방: “가서 전해. 백여덟 이름이 간다고.”
@@ -112,6 +122,8 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 
 `CH01-S02-013` 조문탁은 청동패를 이연의 손바닥에 눌러 넣었다. 세 번 숨을 더 쉬고 죽었다.
 
+[HERO CG] `CH01_CG_JO_MUNTAK_CONTRACT_v001.png`. 조문탁의 죽음과 정정 원본의 이양이 계약을 바꾸는 순간에만 짧게 등장한 뒤 골목 레이어 샷으로 돌아간다.
+
 이연: “네 번째 종 전에는 북문이 열리지 않는다.”
 
 [AUTOSAVE] `SAVE-CH01-002`
@@ -164,7 +176,7 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 
 이연: “죽은 사람 이름엔 손대지 마라.”
 
-[CINEMATIC] `CIN-CH01-S05-COMMON`, 8.5초. 이연은 물잔 곁에 앉아 쇠사슬로 아홉 검을 통제한다.
+[CINEMATIC] `CIN-CH01-S05-COMMON`, 8.5초. 객잔 clean background, 독립 습격자·이연·검관 plate 위에 런타임 구검을 합성한다. 이연은 물잔 곁에 앉아 쇠사슬로 아홉 검을 통제하며, 구검은 다섯 단계 동작과 한 개의 조별 궤적을 거친다.
 
 1. 첫째 검이 화살을 자른다.
 2. 둘째 검이 뽑히던 칼집을 기둥에 고정한다.
@@ -176,6 +188,8 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 8. 아홉째, 강진오의 검은 이연의 물잔 곁에서 사용되지 않은 예비로 남는다.
 
 `CH01-S05-003` 이연은 자리에 앉은 채 아홉 곳을 끝냈다. 검이 아니라 그의 시선이 객잔을 장악했다.
+
+[HERO CG] 아홉 역할이 한 화면에 완성된 마지막 순간에만 `CH01_CG_INN_NINE_SWORDS_v002.png`를 보여 준다.
 
 ---
 
@@ -265,9 +279,12 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 
 [CINEMATIC] 기존 ID `CIN-CH01-S09-DEPARTURE`를 유지하되 내용은 북문 봉쇄 완수다.
 
+- pre-lock clean background, 12대 봉인 마차 plate, 이연·문지기·검관 레이어 위에서 집행을 시작한다.
 - 쇠사슬이 팽팽해지고 열두 잠금쇠가 열린다.
 - 12개 조가 아홉 자루씩 문틀 좌·우, 위 도르래, 아래 도르래와 문턱을 고정한다.
 - 북문은 한 뼘 열린 채 멎는다.
+- 봉쇄가 실제로 성립한 이후에만 북문 Hero CG를 짧게 보여 준다.
+- post-lock clean background으로 돌아가 측문, 장부, 마차 후속 상태를 이어 간다.
 - 피난민은 측문으로 들어오며 복칠의 누이도 줄 끝을 통과한다.
 - 봉인 마차는 한 대씩 검문된다.
 - 청동패와 정정 원본이 공식 접수된다.
@@ -276,7 +293,7 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 
 이연: “한 명 돌아왔다.”
 
-강진오의 검이 낮게 울린다. 열두 번째 봉인 마차 한 대가 줄을 이탈해 빗속 골목으로 사라진다. 북문은 막혔고, 음모는 달아났다.
+강진오의 검이 낮게 울린다. 봉인 마차 열한 대는 검문 줄에 남고, 열두 번째 한 대가 줄을 이탈해 빗속 골목으로 사라진다. 북문은 막혔고, 음모는 달아났다.
 
 [END CHAPTER]
 
@@ -293,8 +310,13 @@ work_order: docs/production/WO-CH01-VN-SHOT-COMPOSITOR-V5.md
 - consequences: 3
 - cinematic IDs: 7
 - sword structure: `1 × 9 = 9`, `12 × 9 = 108`, duplicate slot 0
+- sword motion: five authored phases, twelve pooled squad trails, local impact/VFX
+- S09 wagon continuity: `12 before → 11 waiting + 1 departing`
+- PC/Web parity: shared Noto Sans KR, strings, art, shot data and UI; 1920×1080 desktop logical canvas, 1280×720 small-landscape density mode on both runtimes, Web portrait rotate overlay
 - 모든 인터랙션은 실패·점수·전투 숙련 판정이 없다.
 - 수동 전투, 전술 배치, 검대 직접 조작은 없다.
+
+자동 대조와 경로 검증은 스크립트 정본의 일관성만 보장한다. 실제 사람 E4 대사·감정·재미 판정은 `NOT_RUN`, 최종 제품 판정은 `PENDING_E4`다.
 
 ## 런타임 대사 기계 정본
 
