@@ -1,7 +1,7 @@
 # WO-CH01-STORY-ART-REWRITE-V4
 
 ```yaml
-status: IMPLEMENTED_VALIDATED
+status: IMPLEMENTED_VALIDATED_DEPLOYED
 approved_at: 2026-08-11
 branch: codex/ch01-redesign-v2
 base_commit: 8b6d03120f55edb5bc6ff159c9ae4f64bcb207d9
